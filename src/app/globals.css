@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-stone-50 text-neutral-900 font-sans antialiased;
+  }
+
+  ::selection {
+    @apply bg-gold text-black;
+  }
+
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-stone-100;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-stone-300 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-gold;
+  }
+}
+
+@layer components {
+  /* Gold CTA — primary purchase action */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 bg-gold text-black font-bold text-xs uppercase tracking-[0.2em] px-8 py-4 transition-all duration-300 hover:bg-gold-light active:scale-95;
+  }
+
+  /* Dark filled — secondary CTA on light backgrounds */
+  .btn-dark {
+    @apply inline-flex items-center justify-center gap-2 bg-neutral-900 text-white font-bold text-xs uppercase tracking-[0.2em] px-8 py-4 transition-all duration-300 hover:bg-neutral-800 active:scale-95;
+  }
+
+  /* White bordered — for use on dark/image backgrounds */
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 border border-white text-white font-bold text-xs uppercase tracking-[0.2em] px-8 py-4 transition-all duration-300 hover:bg-white hover:text-black active:scale-95;
+  }
+
+  /* Subtle bordered — adapts to light backgrounds */
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 border border-stone-300 text-neutral-700 font-bold text-xs uppercase tracking-[0.2em] px-8 py-4 transition-all duration-300 hover:border-neutral-900 hover:text-neutral-900 active:scale-95;
+  }
+
+  .section-title {
+    @apply font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-neutral-900 leading-tight;
+  }
+
+  .section-subtitle {
+    @apply text-neutral-500 text-sm uppercase tracking-[0.2em] mb-4;
+  }
+
+  .card {
+    @apply bg-white border border-stone-200 shadow-luxury transition-all duration-300 hover:shadow-luxury-lg hover:border-stone-300;
+  }
+
+  .badge {
+    @apply text-[10px] font-bold uppercase tracking-widest px-2 py-1;
+  }
+
+  .badge-gold {
+    @apply badge bg-gold text-black;
+  }
+
+  .badge-dark {
+    @apply badge bg-neutral-900 text-neutral-200;
+  }
+
+  .badge-red {
+    @apply badge bg-red-600 text-white;
+  }
+
+  .input-field {
+    @apply w-full bg-white border border-stone-300 text-neutral-900 placeholder-stone-400 px-4 py-3 text-sm focus:outline-none focus:border-gold transition-colors duration-200;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    background: linear-gradient(135deg, #C9A84C 0%, #E8C875 50%, #C9A84C 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .gold-shimmer {
+    background: linear-gradient(90deg, #C9A84C 0%, #E8C875 50%, #C9A84C 100%);
+    background-size: 200% 100%;
+    animation: shimmer 3s infinite linear;
+  }
+}

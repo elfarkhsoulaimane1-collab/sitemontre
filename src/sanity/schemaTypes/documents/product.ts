@@ -1,0 +1,168 @@
+import { defineField, defineType } from 'sanity'
+
+export const productType = defineType({
+  name: 'product',
+  title: 'Produits',
+  type: 'document',
+  groups: [
+    { name: 'info',     title: 'Infos générales', default: true },
+    { name: 'pricing',  title: 'Prix & stock' },
+    { name: 'media',    title: 'Images' },
+    { name: 'seo',      title: 'SEO' },
+  ],
+  fields: [
+    defineField({
+      name: 'name',
+      title: 'Nom du produit',
+      type: 'string',
+      group: 'info',
+      validation: (R) => R.required(),
+    }),
+    defineField({
+      name: 'slug',
+      title: 'Slug (URL)',
+      type: 'slug',
+      group: 'info',
+      options: { source: 'name', maxLength: 96 },
+      validation: (R) => R.required(),
+    }),
+    defineField({
+      name: 'brand',
+      title: 'Marque',
+      type: 'string',
+      group: 'info',
+      initialValue: 'Maison du Prestige',
+    }),
+    defineField({
+      name: 'description',
+      title: 'Accroche courte',
+      type: 'string',
+      group: 'info',
+      description: 'Tagline affiché sous le nom dans les cartes produit.',
+      validation: (R) => R.max(120),
+    }),
+    defineField({
+      name: 'longDescription',
+      title: 'Description complète',
+      type: 'text',
+      rows: 5,
+      group: 'info',
+    }),
+    defineField({
+      name: 'features',
+      title: 'Caractéristiques techniques',
+      type: 'array',
+      of: [{ type: 'string' }],
+      group: 'info',
+      options: { layout: 'tags' },
+    }),
+    defineField({
+      name: 'collection',
+      title: 'Collection',
+      type: 'reference',
+      to: [{ type: 'collection' }],
+      group: 'info',
+      description: 'Collection à laquelle appartient ce produit.',
+    }),
+    defineField({
+      name: 'category',
+      title: 'Catégorie',
+      type: 'string',
+      group: 'info',
+      options: {
+        list: [
+          { title: 'Luxe',         value: 'luxury' },
+          { title: 'Classique',    value: 'classic' },
+          { title: 'Sport',        value: 'sport' },
+          { title: 'Minimaliste',  value: 'minimalist' },
+        ],
+        layout: 'radio',
+      },
+      validation: (R) => R.required(),
+    }),
+    defineField({
+      name: 'badge',
+      title: 'Badge',
+      type: 'string',
+      group: 'info',
+      options: {
+        list: [
+          { title: 'Bestseller', value: 'Bestseller' },
+          { title: 'Nouveau',    value: 'New' },
+          { title: 'Soldes',     value: 'Sale' },
+          { title: 'Limité',     value: 'Limited' },
+        ],
+        layout: 'radio',
+      },
+    }),
+    defineField({
+      name: 'price',
+      title: 'Prix (MAD)',
+      type: 'number',
+      group: 'pricing',
+      validation: (R) => R.required().positive(),
+    }),
+    defineField({
+      name: 'originalPrice',
+      title: 'Prix barré (MAD)',
+      type: 'number',
+      group: 'pricing',
+      description: 'Laissez vide s\'il n\'y a pas de remise.',
+    }),
+    defineField({
+      name: 'inStock',
+      title: 'En stock',
+      type: 'boolean',
+      group: 'pricing',
+      initialValue: true,
+    }),
+    defineField({
+      name: 'rating',
+      title: 'Note moyenne (ex: 4.9)',
+      type: 'number',
+      group: 'info',
+      initialValue: 4.9,
+    }),
+    defineField({
+      name: 'reviews',
+      title: 'Nombre d\'avis',
+      type: 'number',
+      group: 'info',
+      initialValue: 0,
+    }),
+    defineField({
+      name: 'images',
+      title: 'Photos du produit',
+      type: 'array',
+      of: [{ type: 'image', options: { hotspot: true } }],
+      group: 'media',
+      validation: (R) => R.required().min(1),
+      description: 'La première image est utilisée comme photo principale.',
+    }),
+    defineField({
+      name: 'seo',
+      title: 'SEO',
+      type: 'seo',
+      group: 'seo',
+    }),
+  ],
+  preview: {
+    select: {
+      title:    'name',
+      subtitle: 'price',
+      media:    'images.0',
+    },
+    prepare({ title, subtitle, media }) {
+      return {
+        title,
+        subtitle: subtitle ? `${subtitle.toLocaleString('fr-MA')} MAD` : '',
+        media,
+      }
+    },
+  },
+  orderings: [
+    { title: 'Nom A–Z',        name: 'nameAsc',    by: [{ field: 'name',  direction: 'asc'  }] },
+    { title: 'Prix croissant', name: 'priceAsc',   by: [{ field: 'price', direction: 'asc'  }] },
+    { title: 'Prix décroissant',name: 'priceDesc',  by: [{ field: 'price', direction: 'desc' }] },
+  ],
+})
