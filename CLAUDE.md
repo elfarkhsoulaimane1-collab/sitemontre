@@ -14,7 +14,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 - **Framework:** Next.js (App Router, `next@^16`)
 - **Language:** TypeScript
-- **Styling:** Tailwind CSS — dark luxury theme: `neutral-950` background, `amber-500` gold accent; custom `gold` color palette (DEFAULT/light/dark) + `fadeIn`/`shimmer` animations defined in `tailwind.config.ts`
+- **Styling:** Tailwind CSS — dark luxury theme: `neutral-950` background, `amber-500` gold accent; custom `gold` color palette (DEFAULT/light/dark/muted) + `fadeIn`/`fadeInLeft`/`scaleIn`/`shimmer` animations + `shadow-luxury`/`shadow-luxury-lg`/`shadow-luxury-xl` box shadows defined in `tailwind.config.ts`
 - **CMS:** Sanity v4 — content is fetched at render time with ISR (60s in dev, 300s in production)
 - **Fonts:** Playfair Display (headings, `font-serif`) + Inter (body) via `next/font`
 - **State:** React Context API (`CartContext`) + `localStorage` persistence
@@ -50,7 +50,7 @@ sanityFetch(QUERY)  →  cms?.field ?? FALLBACK_VALUE
 - **`src/sanity/env.ts`** — reads env vars (`NEXT_PUBLIC_SANITY_PROJECT_ID`, `NEXT_PUBLIC_SANITY_DATASET`, etc.)
 - **`src/sanity/lib/client.ts`** — lazy singleton Sanity client; uses CDN in production
 - **`src/sanity/lib/fetch.ts`** — `sanityFetch<T>()` wrapper with ISR revalidation; returns `null` if Sanity is not configured (so the app works without a connected CMS)
-- **`src/sanity/lib/queries.ts`** — all GROQ queries in one file; defines two product field fragments: `PRODUCT_FIELDS` (full detail, used on PDP) and `PRODUCT_CARD_FIELDS` (lighter, excludes `longDescription`, `features`, `seo` — used on listings). Also exports `RELATED_PRODUCTS_QUERY` (same category, up to 4, used on PDP), `ALL_COLLECTIONS_QUERY` (used for category filter UI), `ALL_POSTS_QUERY`, `POST_BY_SLUG_QUERY`, `POST_SLUGS_QUERY` (blog).
+- **`src/sanity/lib/queries.ts`** — all GROQ queries in one file; defines two product field fragments: `PRODUCT_FIELDS` (full detail, used on PDP) and `PRODUCT_CARD_FIELDS` (lighter, excludes `longDescription`, `features`, `seo` — used on listings). Also exports: `ALL_PRODUCTS_QUERY`, `RELATED_PRODUCTS_QUERY` (same category, up to 4, used on PDP), `ALL_COLLECTIONS_QUERY` (category filter UI), `SITE_SETTINGS_QUERY` (root layout), `HOME_PAGE_QUERY` (homepage), `HOMEPAGE_TESTIMONIALS_QUERY` (up to 3 testimonials, ordered by `order` field), `REVIEWS_BY_PRODUCT_QUERY` (approved reviews for a product), `ORDERS_QUERY` (admin dashboard, last 500), `ALL_POSTS_QUERY`, `POST_BY_SLUG_QUERY`, `POST_SLUGS_QUERY`, `PAGE_BY_SLUG_QUERY`, `PAGE_SLUGS_QUERY`.
 - **`src/sanity/schemaTypes/`** — Sanity document schemas (`product`, `collection`, `homePage`, `siteSettings`, `page`, `review`, `order`, `post`, `homepageTestimonial`) and object schemas (`seo`, `testimonial`, `trustItem`, `navLink`, `stat`)
 - **`src/data/products.ts`** — local fallback product list (8 Morocco-inspired watches) + `MOROCCAN_CITIES` array used by the checkout city dropdown
 - **`src/types/index.ts`** — single source of truth for all TypeScript interfaces (`Product`, `CartItem`, `CartContextType`, `CheckoutForm`, `SiteSettings`, `HomePageData`, etc.)
@@ -69,8 +69,12 @@ Dynamic pages use a two-file pattern to keep data-fetching on the server and int
 
 | Server (RSC) | Client |
 |---|---|
+| `src/app/page.tsx` | `src/app/HomeClient.tsx` |
 | `src/app/collection/page.tsx` | `src/app/collection/CollectionClient.tsx` |
 | `src/app/product/[slug]/page.tsx` | `src/app/product/[slug]/ProductDetailClient.tsx` |
+| `src/app/admin/orders/page.tsx` | `src/app/admin/orders/OrdersDashboardClient.tsx` (loaded via `dynamic()` with `ssr: false`) |
+
+**Exception:** `src/app/checkout/page.tsx` is a pure `'use client'` component — it reads cart state via `useCart()` and has no server-side Sanity fetch.
 
 The server `page.tsx` fetches from Sanity and passes data as props to the `*Client.tsx` component marked `'use client'`. When adding new interactive pages follow this same split — never call `sanityFetch` from a client component.
 
@@ -172,7 +176,7 @@ Reviews are stored with `approved: false` and must be approved in Sanity Studio 
 
 `/admin/orders` — server-rendered orders dashboard (`force-dynamic`). Fetches all `order` documents from Sanity using `ORDERS_QUERY`. The page component is a RSC; interactive UI is in `OrdersDashboardClient.tsx` (client component), following the same server/client split as other pages.
 
-`OrdersDashboardClient.tsx` is loaded via `dynamic()` with `ssr: false` (wrapped in `OrdersDashboardWrapper.tsx`) — it uses browser APIs for filtering/sorting.
+`OrdersDashboardClient.tsx` uses browser APIs for filtering/sorting and is wrapped in `OrdersDashboardWrapper.tsx`.
 
 ---
 

@@ -172,7 +172,7 @@ export interface PostCard {
   slug:        string
   publishedAt: string
   excerpt?:    string
-  mainImage?:  { asset: unknown; hotspot?: unknown; crop?: unknown; alt?: string }
+  mainImage?:  { asset?: { _ref?: string; _id?: string; url?: string }; hotspot?: unknown; crop?: unknown; alt?: string }
 }
 
 export interface Post extends PostCard {
