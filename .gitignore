@@ -42,3 +42,8 @@ yarn-error.log*
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
+agent-skills/
+bencium-claude-code-design-skill/
+claude-marketplace/
+skills/
+ui-ux-pro-max-skill/
