@@ -136,7 +136,7 @@ const portableComponents = {
     ),
   },
   types: {
-    image: ({ value }: { value?: { asset?: unknown; alt?: string; caption?: string; hotspot?: unknown; crop?: unknown } }) => {
+    image: ({ value }: { value?: { asset?: { _ref?: string; _id?: string; url?: string }; alt?: string; caption?: string; hotspot?: unknown; crop?: unknown } }) => {
       const src = imageUrl(value, 900)
       if (!src) return null
       return (
