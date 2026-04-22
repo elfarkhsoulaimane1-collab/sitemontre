@@ -155,7 +155,7 @@ Pixel IDs are resolved with a two-level priority: **Sanity `siteSettings`** fiel
 - Admin routes (`/admin/*`): unauthenticated requests redirected to `/admin/login`; session tokens are HMAC-SHA-256 signed (`src/lib/session.ts`) and verified with a constant-time compare
 
 **API routes:**
-- `POST /api/chat` — Groq AI chat endpoint; calls `llama3-8b-8192` via Groq's OpenAI-compatible API. Requires `GROQ_API_KEY`.
+- `POST /api/chat` — Groq AI chat endpoint; calls `llama-3.1-8b-instant` via Groq's OpenAI-compatible API. Requires `GROQ_API_KEY`.
 - `POST /api/orders` — saves order to Sanity (`order` doc) + fires Google Sheets webhook (URL from `siteSettings.googleSheetsWebhookUrl`). Requires `SANITY_API_WRITE_TOKEN`.
 - `GET /api/orders` — lists all orders (admin-only, requires `atlas_admin` cookie).
 - `PATCH /api/orders/[id]` — updates order `status` field. Requires `atlas_admin` cookie. Valid statuses: `new` | `confirmed` | `shipped` | `delivered` | `cancelled`.

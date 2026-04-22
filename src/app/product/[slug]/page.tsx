@@ -108,7 +108,7 @@ export default async function ProductPage({ params }: Props) {
     '@type': 'Product',
     name: product.name,
     description: product.longDescription ?? product.description,
-    image: product.images.map((img: unknown) => imageUrl(img, 800)).filter(Boolean),
+    image: product.images.map((img) => imageUrl(img, 800)).filter(Boolean),
     brand: { '@type': 'Brand', name: product.brand },
     offers: {
       '@type': 'Offer',
