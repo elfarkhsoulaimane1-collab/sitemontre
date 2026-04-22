@@ -103,12 +103,12 @@ export default function CollectionClient({ products, collections }: Props) {
 
         {/* Grid */}
         {filtered.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {filtered.map((product, i) => (
               <ProductCard
                 key={product.id}
                 product={product}
-                sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, (max-width: 1279px) 33vw, 25vw"
+                sizes="(max-width: 767px) 50vw, (max-width: 1023px) 33vw, 25vw"
                 priority={i < 4}
               />
             ))}
