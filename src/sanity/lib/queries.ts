@@ -41,7 +41,7 @@ const PRODUCT_CARD_FIELDS = /* groq */ `
 `
 
 export const ALL_PRODUCTS_QUERY = /* groq */ `
-  *[_type == "product"] | order(_createdAt asc) { ${PRODUCT_CARD_FIELDS} }
+  *[_type == "product"] | order(position asc, _createdAt desc) { ${PRODUCT_CARD_FIELDS} }
 `
 
 export const PRODUCT_BY_SLUG_QUERY = /* groq */ `
@@ -53,7 +53,7 @@ export const PRODUCT_SLUGS_QUERY = /* groq */ `
 `
 
 export const RELATED_PRODUCTS_QUERY = /* groq */ `
-  *[_type == "product" && category == $category && _id != $id] | order(_createdAt asc) [0...4] {
+  *[_type == "product" && category == $category && _id != $id] | order(position asc, _createdAt desc) [0...4] {
     ${PRODUCT_CARD_FIELDS}
   }
 `

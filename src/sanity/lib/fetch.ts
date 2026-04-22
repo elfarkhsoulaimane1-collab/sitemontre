@@ -5,8 +5,7 @@ export function isSanityConfigured(): boolean {
   return !!(env.NEXT_PUBLIC_SANITY_PROJECT_ID && env.NEXT_PUBLIC_SANITY_DATASET)
 }
 
-// 5 minutes in production; 60 s in development for faster iteration.
-const REVALIDATE = process.env.NODE_ENV === 'production' ? 300 : 60
+const REVALIDATE = 60
 
 export async function sanityFetch<T>(
   query: string,

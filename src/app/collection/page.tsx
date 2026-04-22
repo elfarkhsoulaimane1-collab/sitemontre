@@ -6,6 +6,8 @@ import { ALL_PRODUCTS_QUERY, ALL_COLLECTIONS_QUERY } from '@/sanity/lib/queries'
 import { Product, CollectionData } from '@/types'
 import CollectionClient from './CollectionClient'
 
+export const revalidate = 60
+
 export const metadata: Metadata = {
   title: 'Collection',
   description: 'Toute la collection de montres premium Maison du Prestige. Livraison gratuite partout au Maroc, paiement à la livraison.',

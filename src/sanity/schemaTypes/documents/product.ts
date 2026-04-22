@@ -6,6 +6,7 @@ export const productType = defineType({
   type: 'document',
   groups: [
     { name: 'info',     title: 'Infos générales', default: true },
+    { name: 'ordering', title: 'Ordre d\'affichage' },
     { name: 'pricing',  title: 'Prix & stock' },
     { name: 'media',    title: 'Images' },
     { name: 'seo',      title: 'SEO' },
@@ -140,6 +141,13 @@ export const productType = defineType({
       description: 'La première image est utilisée comme photo principale.',
     }),
     defineField({
+      name: 'position',
+      title: 'Position dans la collection',
+      type: 'number',
+      group: 'ordering',
+      description: 'Numéro d\'ordre d\'affichage (1 = premier). Laissez vide pour trier par date de création.',
+    }),
+    defineField({
       name: 'seo',
       title: 'SEO',
       type: 'seo',
@@ -151,16 +159,21 @@ export const productType = defineType({
       title:    'name',
       subtitle: 'price',
       media:    'images.0',
+      position: 'position',
     },
-    prepare({ title, subtitle, media }) {
+    prepare({ title, subtitle, media, position }) {
       return {
         title,
-        subtitle: subtitle ? `${subtitle.toLocaleString('fr-MA')} MAD` : '',
+        subtitle: [
+          position != null ? `#${position}` : null,
+          subtitle ? `${subtitle.toLocaleString('fr-MA')} MAD` : '',
+        ].filter(Boolean).join(' · '),
         media,
       }
     },
   },
   orderings: [
+    { title: 'Position manuelle', name: 'positionAsc', by: [{ field: 'position', direction: 'asc' }, { field: '_createdAt', direction: 'desc' }] },
     { title: 'Nom A–Z',        name: 'nameAsc',    by: [{ field: 'name',  direction: 'asc'  }] },
     { title: 'Prix croissant', name: 'priceAsc',   by: [{ field: 'price', direction: 'asc'  }] },
     { title: 'Prix décroissant',name: 'priceDesc',  by: [{ field: 'price', direction: 'desc' }] },

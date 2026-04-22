@@ -14,6 +14,9 @@ import { Product, Review, SiteSettings } from '@/types'
 import JsonLd from '@/components/JsonLd'
 import ProductDetailClient from './ProductDetailClient'
 
+export const revalidate = 60
+export const dynamicParams = true
+
 interface Props {
   params: Promise<{ slug: string }>
 }
