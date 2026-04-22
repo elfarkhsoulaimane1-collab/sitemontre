@@ -171,10 +171,10 @@ function OrderForm({ product, formRef, onSuccess }: {
         Remplissez ce formulaire pour confirmer votre commande rapidement
       </p>
 
-      <div ref={formRef} className="overflow-hidden border border-neutral-700">
+      <div ref={formRef} className="overflow-hidden border border-neutral-700 w-full">
 
         {/* Form header */}
-        <div className="bg-neutral-900 px-6 py-5 border-b border-neutral-800 flex items-center justify-between gap-4">
+        <div className="bg-neutral-900 px-4 sm:px-6 py-5 border-b border-neutral-800 flex items-center justify-between gap-4">
           <div>
             <h2 className="font-serif text-xl text-white font-bold leading-tight">
               Commander maintenant
@@ -190,12 +190,12 @@ function OrderForm({ product, formRef, onSuccess }: {
         </div>
 
         {/* Form body */}
-        <form onSubmit={handleSubmit} onFocus={handleFormFocus} noValidate className="bg-[#0d0d0d] p-7 space-y-6">
-          <div className="grid grid-cols-2 gap-4">
+        <form onSubmit={handleSubmit} onFocus={handleFormFocus} noValidate className="bg-[#0d0d0d] p-4 sm:p-7 space-y-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <Field label="Prénom" error={errors.firstName}>
               <input type="text" name="firstName" value={form.firstName} onChange={handleChange}
                 placeholder="Mohammed" autoComplete="given-name"
-                className={`w-full bg-neutral-900 border text-neutral-100 placeholder-neutral-600 px-4 py-4 text-sm focus:outline-none focus:border-amber-400 focus:bg-neutral-800 transition-colors duration-150 ${
+                className={`w-full min-w-0 bg-neutral-900 border text-neutral-100 placeholder-neutral-600 px-4 py-4 text-sm focus:outline-none focus:border-amber-400 focus:bg-neutral-800 transition-colors duration-150 ${
                   errors.firstName ? 'border-red-500' : 'border-neutral-700 hover:border-neutral-500'
                 }`}
               />
@@ -203,7 +203,7 @@ function OrderForm({ product, formRef, onSuccess }: {
             <Field label="Nom" error={errors.lastName}>
               <input type="text" name="lastName" value={form.lastName} onChange={handleChange}
                 placeholder="El Fassi" autoComplete="family-name"
-                className={`w-full bg-neutral-900 border text-neutral-100 placeholder-neutral-600 px-4 py-4 text-sm focus:outline-none focus:border-amber-400 focus:bg-neutral-800 transition-colors duration-150 ${
+                className={`w-full min-w-0 bg-neutral-900 border text-neutral-100 placeholder-neutral-600 px-4 py-4 text-sm focus:outline-none focus:border-amber-400 focus:bg-neutral-800 transition-colors duration-150 ${
                   errors.lastName ? 'border-red-500' : 'border-neutral-700 hover:border-neutral-500'
                 }`}
               />
@@ -915,7 +915,7 @@ function Field({ label, error, hint, children }: {
   label: string; error?: string; hint?: string; children: React.ReactNode
 }) {
   return (
-    <div className="space-y-2.5">
+    <div className="space-y-2.5 min-w-0">
       <label className="block text-xs font-semibold text-neutral-300 tracking-wide">{label}</label>
       {children}
       {error ? (
