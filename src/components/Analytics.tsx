@@ -12,13 +12,16 @@ interface Props {
   googleAdsId?:       string
 }
 
-// Re-fire page view on every client-side navigation, skipping the initial
-// mount because the pixel init scripts already fire PageView on load.
+// Re-fire PageView on every client-side navigation.
+// Uses lastTracked ref (initialized to current pathname) instead of a simple
+// mounted flag so that if Analytics unmounts and remounts due to a Suspense
+// refetch the next real navigation is never silently dropped.
 function RouteChangeTracker() {
-  const pathname = usePathname()
-  const mounted  = useRef(false)
+  const pathname    = usePathname()
+  const lastTracked = useRef(pathname)
   useEffect(() => {
-    if (!mounted.current) { mounted.current = true; return }
+    if (lastTracked.current === pathname) return
+    lastTracked.current = pathname
     trackPageView()
   }, [pathname])
   return null

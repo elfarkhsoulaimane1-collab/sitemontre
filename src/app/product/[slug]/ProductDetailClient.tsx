@@ -83,7 +83,9 @@ function OrderForm({ product, formRef, onSuccess }: {
   const [apiError,   setApiError]   = useState('')
   const [orderRef]                  = useState(() => `ATL-${Date.now().toString(36).toUpperCase()}`)
 
-  const checkoutFired = useRef(false)
+  const checkoutFired  = useRef(false)
+  const submittingRef  = useRef(false)
+
   function handleFormFocus() {
     if (checkoutFired.current) return
     checkoutFired.current = true
@@ -115,11 +117,13 @@ function OrderForm({ product, formRef, onSuccess }: {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
+    if (submittingRef.current) return
     if (!validate()) return
 
     const shipping = product.price >= 500 ? 0 : 50
     const total    = product.price + shipping
 
+    submittingRef.current = true
     setSubmitting(true)
     setApiError('')
 
@@ -151,6 +155,7 @@ function OrderForm({ product, formRef, onSuccess }: {
     } catch {
       setApiError('Erreur réseau — vérifiez votre connexion et réessayez.')
     } finally {
+      if (!saved) submittingRef.current = false
       setSubmitting(false)
     }
 
@@ -327,8 +332,7 @@ export default function ProductDetailClient({
 
   useEffect(() => {
     trackViewContent({ productId: product.id, productName: product.name, value: product.price })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [product.id, product.name, product.price])
 
   const stockLeft = (seedFrom(product.id) % 5) + 3
 
