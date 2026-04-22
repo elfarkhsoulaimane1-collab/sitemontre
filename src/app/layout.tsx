@@ -132,8 +132,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="fr" className={`${playfair.variable} ${inter.variable}`}>
-      <body>
+    <html lang="fr" className={`${playfair.variable} ${inter.variable} overflow-x-hidden`}>
+      <body className="overflow-x-hidden">
         <JsonLd data={organizationSchema} />
         <JsonLd data={websiteSchema} />
         <CartProvider>

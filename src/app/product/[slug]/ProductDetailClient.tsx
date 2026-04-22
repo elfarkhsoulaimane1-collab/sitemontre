@@ -601,14 +601,14 @@ export default function ProductDetailClient({
               {/* ── PRICE — large, dominant, clear hierarchy ───────────────── */}
               <div>
                 <div className="h-[2px] bg-gradient-to-r from-gold via-gold/50 to-transparent" />
-                <div className="bg-neutral-900 border border-neutral-800 border-t-0 px-6 py-6">
+                <div className="bg-neutral-900 border border-neutral-800 border-t-0 px-4 sm:px-6 py-6 overflow-hidden">
                   {/* Price row */}
                   <div className="mb-3">
                     <div className="flex items-baseline gap-3">
-                      <span className="font-serif text-[4.5rem] leading-none text-amber-400 font-black tracking-tight">
+                      <span className="font-serif text-[2.5rem] sm:text-[4.5rem] leading-none text-amber-400 font-black tracking-tight">
                         {product.price.toLocaleString('fr-MA')}
                       </span>
-                      <span className="text-amber-400/70 text-2xl font-bold">MAD</span>
+                      <span className="text-amber-400/70 text-xl sm:text-2xl font-bold">MAD</span>
                     </div>
                     {product.originalPrice && (
                       <div className="flex items-center gap-2 mt-1.5">
@@ -622,7 +622,7 @@ export default function ProductDetailClient({
                     )}
                   </div>
                   {/* Urgency — stock warning */}
-                  <p className={`inline-flex items-center text-[13px] font-semibold mt-2 mb-1 px-3 py-1.5 rounded-md ${stockLeft <= 4 ? 'bg-red-500/10 text-red-300' : 'bg-amber-500/10 !text-amber-300'}`}>
+                  <p className={`flex items-center text-[13px] font-semibold mt-2 mb-1 px-3 py-1.5 rounded-md ${stockLeft <= 4 ? 'bg-red-500/10 text-red-300' : 'bg-amber-500/10 !text-amber-300'}`}>
                     ⚠️ Stock limité — plus que {stockLeft} pièce{stockLeft > 1 ? 's' : ''} disponible{stockLeft > 1 ? 's' : ''}
                   </p>
 
@@ -750,7 +750,7 @@ export default function ProductDetailClient({
               { icon: <TruckIcon className="w-5 h-5" />,   title: 'Livraison 2–4 jours',     sub: 'Partout au Maroc, port offert' },
               { icon: <ReturnIcon className="w-5 h-5" />,  title: 'Retours 7 jours',         sub: 'Pas satisfait ? Remboursé.' },
             ].map(({ icon, title, sub }) => (
-              <div key={title} className="flex items-start gap-4 px-6 py-8">
+              <div key={title} className="flex items-start gap-3 px-4 sm:px-6 py-6 sm:py-8">
                 <div className="w-10 h-10 border border-gold/20 bg-gold/5 flex items-center justify-center flex-shrink-0 text-gold">
                   {icon}
                 </div>
@@ -813,7 +813,7 @@ export default function ProductDetailClient({
             ))}
           </div>
 
-          <div className="bg-neutral-900 border border-neutral-800 flex flex-col sm:flex-row items-center gap-5 justify-between px-7 py-6">
+          <div className="bg-neutral-900 border border-neutral-800 flex flex-col sm:flex-row items-center gap-5 justify-between px-4 sm:px-7 py-6">
             <div>
               <p className="text-white font-semibold">Une question avant de commander ?</p>
               <p className="text-neutral-400 text-sm mt-0.5">Notre équipe vous répond rapidement et vous aide à choisir en toute confiance.</p>
@@ -821,7 +821,7 @@ export default function ProductDetailClient({
             <a
               href={`https://wa.me/${whatsappNumber}?text=${waDirect}`}
               target="_blank" rel="noopener noreferrer"
-              className="flex-shrink-0 flex items-center gap-2.5 bg-[#25D366] text-white font-bold text-[11px] uppercase tracking-[0.2em] px-6 py-3.5 hover:bg-[#1ebe5b] transition-colors whitespace-nowrap"
+              className="w-full sm:w-auto flex items-center justify-center gap-2.5 bg-[#25D366] text-white font-bold text-[11px] uppercase tracking-[0.2em] px-6 py-3.5 hover:bg-[#1ebe5b] transition-colors"
             >
               <WhatsAppIcon /> Contacter sur WhatsApp
             </a>
