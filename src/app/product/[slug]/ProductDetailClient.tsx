@@ -460,7 +460,7 @@ export default function ProductDetailClient({
 
   /* ── MAIN PAGE ────────────────────────────────────────────────────────────── */
   return (
-    <>
+    <div className="w-full max-w-[100vw] overflow-x-hidden">
       {/* ── Breadcrumb ──────────────────────────────────────────────────────── */}
       <div className="bg-neutral-950 border-b border-neutral-800/60 px-4 sm:px-6 lg:px-8 py-3.5">
         <nav className="max-w-7xl mx-auto flex items-center gap-2 text-[11px] text-neutral-500">
@@ -480,7 +480,7 @@ export default function ProductDetailClient({
           <div className="grid md:grid-cols-2 gap-6 lg:gap-16 xl:gap-24">
 
             {/* ── GALLERY ───────────────────────────────────────────────────── */}
-            <div className="md:sticky md:top-6 md:self-start">
+            <div className="md:sticky md:top-6 md:self-start w-full overflow-hidden">
 
               {/* Main image */}
               <div className="relative aspect-[4/5] bg-neutral-900 overflow-hidden">
@@ -540,7 +540,7 @@ export default function ProductDetailClient({
 
               {/* Thumbnails */}
               {product.images.length > 1 && (
-                <div className="flex gap-1.5 mt-1.5">
+                <div className="flex gap-1.5 mt-1.5 overflow-x-auto max-w-full">
                   {product.images.map((img, i) => {
                     const thumbSrc = imageUrl(img, 200)
                     return (
@@ -904,7 +904,7 @@ export default function ProductDetailClient({
           </a>
         </div>
       </div>
-    </>
+    </div>
   )
 }
 
