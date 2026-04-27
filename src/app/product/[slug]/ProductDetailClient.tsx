@@ -623,9 +623,9 @@ export default function ProductDetailClient({
               {/* ── 3 TRUST PILLS — close to price ────────────────────────── */}
               <div className="grid grid-cols-3 gap-px bg-neutral-800">
                 {[
-                  { icon: <CodIcon className="w-5 h-5" />,       label: 'Paiement à\nla livraison' },
-                  { icon: <TruckIcon className="w-5 h-5" />,     label: 'Livraison\n2–4 jours' },
-                  { icon: <CheckCircleIcon className="w-5 h-5" />, label: 'Confirmation\nrapide' },
+                  { icon: <CodIcon className="w-5 h-5" />,         label: 'Vérifier et payer\nà la livraison' },
+                  { icon: <ShieldIcon className="w-5 h-5" />,     label: 'Garantie\n2 ans' },
+                  { icon: <TruckIcon className="w-5 h-5" />,      label: 'Livraison gratuite\net paiement à la réception' },
                 ].map(({ icon, label }) => (
                   <div key={label} className="flex flex-col items-center gap-2 py-4 px-2 bg-neutral-900 text-center">
                     <span className="text-gold">{icon}</span>
