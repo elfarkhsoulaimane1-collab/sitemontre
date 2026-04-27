@@ -277,35 +277,8 @@ function OrderForm({ product, formRef, onSuccess }: {
               )}
             </button>
 
-            {/* Trust badges */}
-            <div className="grid grid-cols-3 gap-2">
-              {[
-                { icon: '💵', label: 'Paiement à la livraison' },
-                { icon: '🚚', label: 'Livraison rapide au Maroc' },
-                { icon: '⚡', label: 'Confirmation rapide' },
-              ].map(({ icon, label }) => (
-                <div key={label} className="flex flex-col items-center gap-1.5 bg-neutral-900 border border-neutral-800 py-3 px-2 text-center">
-                  <span className="text-xl">{icon}</span>
-                  <span className="text-[10px] text-neutral-400 leading-tight">{label}</span>
-                </div>
-              ))}
-            </div>
           </div>
         </form>
-
-        {/* Form footer */}
-        <div className="grid grid-cols-3 bg-neutral-900 border-t border-neutral-800 divide-x divide-neutral-800">
-          {[
-            { icon: <TruckIcon />,  text: 'Livraison\ngratuite' },
-            { icon: <CodIcon />,    text: 'Cash à\nla réception' },
-            { icon: <ShieldIcon />, text: 'Retours\n7 jours' },
-          ].map(({ icon, text }) => (
-            <div key={text} className="flex flex-col items-center gap-1.5 py-3.5 px-2 text-center">
-              <span className="text-gold">{icon}</span>
-              <span className="text-neutral-500 text-[10px] leading-tight whitespace-pre-line">{text}</span>
-            </div>
-          ))}
-        </div>
       </div>
     </>
   )
@@ -746,9 +719,9 @@ export default function ProductDetailClient({
           <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:divide-y-0 divide-neutral-800">
             {[
               { icon: <AwardIcon />,                        title: 'Qualité certifiée',       sub: 'Chaque pièce inspectée avant envoi' },
-              { icon: <CodIcon className="w-5 h-5" />,     title: 'Paiement à la livraison', sub: 'Zéro risque — payez en cash' },
-              { icon: <TruckIcon className="w-5 h-5" />,   title: 'Livraison 2–4 jours',     sub: 'Partout au Maroc, port offert' },
-              { icon: <ReturnIcon className="w-5 h-5" />,  title: 'Retours 7 jours',         sub: 'Pas satisfait ? Remboursé.' },
+              { icon: <CodIcon className="w-5 h-5" />,     title: 'Vérifier et payer à la livraison', sub: 'Paiement uniquement après vérification' },
+              { icon: <TruckIcon className="w-5 h-5" />,   title: 'Garantie 2 ans',     sub: 'Produit original avec garantie' },
+              { icon: <ReturnIcon className="w-5 h-5" />,  title: 'Livraison gratuite et paiement à la réception',         sub: 'Sans frais supplémentaires' },
             ].map(({ icon, title, sub }) => (
               <div key={title} className="flex items-start gap-3 px-4 sm:px-6 py-6 sm:py-8">
                 <div className="w-10 h-10 border border-gold/20 bg-gold/5 flex items-center justify-center flex-shrink-0 text-gold">

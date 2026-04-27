@@ -74,7 +74,9 @@ Dynamic pages use a two-file pattern to keep data-fetching on the server and int
 | `src/app/product/[slug]/page.tsx` | `src/app/product/[slug]/ProductDetailClient.tsx` |
 | `src/app/admin/orders/page.tsx` | `src/app/admin/orders/OrdersDashboardClient.tsx` (loaded via `dynamic()` with `ssr: false`) |
 
-**Exception:** `src/app/checkout/page.tsx` is a pure `'use client'` component — it reads cart state via `useCart()` and has no server-side Sanity fetch.
+**Exceptions (pure client components):**
+- `src/app/checkout/page.tsx` — reads cart state via `useCart()`, no server-side Sanity fetch
+- `src/app/cart/page.tsx` — reads cart state via `useCart()`, no server-side Sanity fetch
 
 The server `page.tsx` fetches from Sanity and passes data as props to the `*Client.tsx` component marked `'use client'`. When adding new interactive pages follow this same split — never call `sanityFetch` from a client component.
 
@@ -134,12 +136,13 @@ Pixel IDs are resolved with a two-level priority: **Sanity `siteSettings`** fiel
 
 | Class | Usage |
 |-------|-------|
-| `.btn-primary` | Filled amber CTA button |
-| `.btn-outline` | White-bordered button |
-| `.btn-ghost` | Subtle bordered button, amber on hover |
+| `.btn-primary` | Filled gold CTA button (`bg-gold text-black`) |
+| `.btn-dark` | Dark filled button — secondary CTA on light backgrounds (`bg-neutral-900 text-white`) |
+| `.btn-outline` | White-bordered button — for dark/image backgrounds |
+| `.btn-ghost` | Subtle bordered button, darkens on hover — for light backgrounds |
 | `.section-title` | Large serif section headings |
 | `.section-subtitle` | Small all-caps label above a title |
-| `.card` | Dark card container (`bg-neutral-900` + border) |
+| `.card` | Light card container (`bg-white border-stone-200 shadow-luxury`) |
 | `.badge`, `.badge-gold`, `.badge-dark`, `.badge-red` | Product badges |
 | `.input-field` | Form inputs and selects |
 | `.text-gradient` | Gold shimmer gradient text (headings) |
