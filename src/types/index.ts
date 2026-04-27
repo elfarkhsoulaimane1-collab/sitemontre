@@ -133,6 +133,12 @@ export interface HomePageData {
   heroTitleAccent?: string
   heroSubtitle?: string
   heroImage?: string
+  heroVideo?: {
+    asset?: {
+      url: string
+      mimeType?: string
+    }
+  }
   heroCtaPrimary?: string
   heroCtaSecondary?: string
   heroTrustSignals?: string[]
