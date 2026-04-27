@@ -46,6 +46,13 @@ export const homePageType = defineType({
       group: 'hero',
     }),
     defineField({
+      name: 'heroVideo',
+      title: 'Vidéo de fond (MP4)',
+      type: 'file',
+      options: { accept: 'video/mp4' },
+      group: 'hero',
+    }),
+    defineField({
       name: 'heroCtaPrimary',
       title: 'CTA principal (texte)',
       type: 'string',

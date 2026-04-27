@@ -100,6 +100,7 @@ export const HOME_PAGE_QUERY = /* groq */ `
     heroTitleAccent,
     heroSubtitle,
     "heroImage": heroImage.asset->url,
+    "heroVideo": heroVideo.asset->url,
     heroCtaPrimary,
     heroCtaSecondary,
     heroTrustSignals,

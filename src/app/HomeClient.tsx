@@ -288,7 +288,7 @@ interface Testimonial   { name: string; city: string; rating: number; product: s
 interface StatItem      { value: string; label: string }
 
 export interface HomeData {
-  heroTitle: string; heroTitleAccent: string; heroSubtitle: string; heroImage: string
+  heroTitle: string; heroTitleAccent: string; heroSubtitle: string; heroImage: string; heroVideo?: string
   heroCtaPrimary: string; heroCtaSecondary: string; heroTrustSignals: string[]
   trustItems: TrustItem[]
   featuredSectionSubtitle: string; featuredSectionTitle: string; featuredProducts: Product[]
@@ -316,7 +316,7 @@ const GRAIN_URL = "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='
 /* ════════════════════════════════════════════════════════════════════════ */
 export default function HomeClient({ data }: { data: HomeData }) {
   const {
-    heroTitle, heroTitleAccent, heroSubtitle, heroImage,
+    heroTitle, heroTitleAccent, heroSubtitle, heroImage, heroVideo,
     heroCtaPrimary, heroCtaSecondary, heroTrustSignals,
     featuredSectionSubtitle, featuredSectionTitle, featuredProducts,
     categoriesSubtitle, categoriesTitle, featuredCollections,
@@ -344,9 +344,11 @@ export default function HomeClient({ data }: { data: HomeData }) {
 
         {/* Parallax background */}
         <motion.div style={{ y: bgY }} className="absolute inset-0 scale-[1.12] will-change-transform">
-          {heroSrc
-            ? <Image src={heroSrc} alt="" fill priority unoptimized sizes="100vw" className="object-cover" />
-            : <Placeholder className="absolute inset-0" />
+          {heroVideo
+            ? <video src={heroVideo} autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover" />
+            : heroSrc
+              ? <Image src={heroSrc} alt="" fill priority unoptimized sizes="100vw" className="object-cover" />
+              : <Placeholder className="absolute inset-0" />
           }
         </motion.div>
 
