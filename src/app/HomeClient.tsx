@@ -530,7 +530,63 @@ export default function HomeClient({ data }: { data: HomeData }) {
       </div>
 
       {/* ══════════════════════════════════════════════════════
-          § 3  EDITORIAL SHOWCASE
+          § 3  COLLECTION UNIVERSES
+      ══════════════════════════════════════════════════════ */}
+      <section className="bg-neutral-950 py-28 lg:py-40 border-t border-neutral-800/40" aria-label="Collections">
+        <div className="max-w-[1520px] mx-auto px-6 sm:px-10 lg:px-16">
+
+          <div className="flex items-end justify-between mb-14 gap-8">
+            <Reveal>
+              <p className="text-[9px] uppercase tracking-[0.55em] text-gold/70 mb-3">{categoriesSubtitle}</p>
+              <h2 className="font-serif text-[clamp(36px,5.5vw,72px)] font-bold text-white leading-none tracking-[-0.025em]">
+                {categoriesTitle}
+              </h2>
+            </Reveal>
+            <GoldRule className="flex-1 mb-[6px] hidden sm:block" />
+          </div>
+
+          <Grid className="grid grid-cols-2 md:grid-cols-4 gap-[3px]">
+            {featuredCollections.map(({ value, label, subLabel, image }, idx) => {
+              const catSrc = safeImg(image, 700)
+              const num = String(idx + 1).padStart(2, '0')
+              return (
+                <Cell key={value}>
+                  <Link
+                    href={`/collection?category=${value}`}
+                    className="group relative flex flex-col aspect-[2/3] lg:aspect-[1/1.6] overflow-hidden bg-neutral-900"
+                    aria-label={`Collection ${label}`}
+                  >
+                    {catSrc
+                      ? <Image src={catSrc} alt={label} fill unoptimized
+                          className="object-cover transition-transform duration-[1.8s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.07]"
+                          sizes="(max-width:639px) 50vw, 25vw" />
+                      : <Placeholder className="absolute inset-0" />
+                    }
+                    <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/90 via-neutral-950/20 to-neutral-950/45 group-hover:from-neutral-950/80 transition-all duration-700" />
+
+                    <span className="absolute top-5 right-5 font-serif text-[9px] text-neutral-600/60 tracking-[0.3em] group-hover:text-gold/50 transition-colors duration-700">
+                      {num}
+                    </span>
+
+                    <div className="absolute bottom-0 inset-x-0 p-5 sm:p-7">
+                      <div className="h-px bg-gold w-0 group-hover:w-full transition-[width] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] mb-4" />
+                      <p className="font-serif text-xl sm:text-2xl text-white font-bold leading-tight">
+                        {label}
+                      </p>
+                      <p className="text-neutral-500 text-[10px] uppercase tracking-widest mt-2">
+                        {subLabel}
+                      </p>
+                    </div>
+                  </Link>
+                </Cell>
+              )
+            })}
+          </Grid>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════
+          § 5  EDITORIAL SHOWCASE
       ══════════════════════════════════════════════════════ */}
       <section id="showcase" className="bg-white pt-24 pb-32 lg:pt-32 lg:pb-44">
         <div className="max-w-[1520px] mx-auto px-6 sm:px-10 lg:px-16">
@@ -589,62 +645,6 @@ export default function HomeClient({ data }: { data: HomeData }) {
               ))}
             </Grid>
           )}
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════════════
-          § 5  COLLECTION UNIVERSES
-      ══════════════════════════════════════════════════════ */}
-      <section className="bg-neutral-950 py-28 lg:py-40 border-t border-neutral-800/40" aria-label="Collections">
-        <div className="max-w-[1520px] mx-auto px-6 sm:px-10 lg:px-16">
-
-          <div className="flex items-end justify-between mb-14 gap-8">
-            <Reveal>
-              <p className="text-[9px] uppercase tracking-[0.55em] text-gold/70 mb-3">{categoriesSubtitle}</p>
-              <h2 className="font-serif text-[clamp(36px,5.5vw,72px)] font-bold text-white leading-none tracking-[-0.025em]">
-                {categoriesTitle}
-              </h2>
-            </Reveal>
-            <GoldRule className="flex-1 mb-[6px] hidden sm:block" />
-          </div>
-
-          <Grid className="grid grid-cols-2 md:grid-cols-4 gap-[3px]">
-            {featuredCollections.map(({ value, label, subLabel, image }, idx) => {
-              const catSrc = safeImg(image, 700)
-              const num = String(idx + 1).padStart(2, '0')
-              return (
-                <Cell key={value}>
-                  <Link
-                    href={`/collection?category=${value}`}
-                    className="group relative flex flex-col aspect-[2/3] lg:aspect-[1/1.6] overflow-hidden bg-neutral-900"
-                    aria-label={`Collection ${label}`}
-                  >
-                    {catSrc
-                      ? <Image src={catSrc} alt={label} fill unoptimized
-                          className="object-cover transition-transform duration-[1.8s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.07]"
-                          sizes="(max-width:639px) 50vw, 25vw" />
-                      : <Placeholder className="absolute inset-0" />
-                    }
-                    <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/90 via-neutral-950/20 to-neutral-950/45 group-hover:from-neutral-950/80 transition-all duration-700" />
-
-                    <span className="absolute top-5 right-5 font-serif text-[9px] text-neutral-600/60 tracking-[0.3em] group-hover:text-gold/50 transition-colors duration-700">
-                      {num}
-                    </span>
-
-                    <div className="absolute bottom-0 inset-x-0 p-5 sm:p-7">
-                      <div className="h-px bg-gold w-0 group-hover:w-full transition-[width] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] mb-4" />
-                      <p className="font-serif text-xl sm:text-2xl text-white font-bold leading-tight">
-                        {label}
-                      </p>
-                      <p className="text-neutral-500 text-[10px] uppercase tracking-widest mt-2">
-                        {subLabel}
-                      </p>
-                    </div>
-                  </Link>
-                </Cell>
-              )
-            })}
-          </Grid>
         </div>
       </section>
 
