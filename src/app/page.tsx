@@ -49,7 +49,9 @@ export default async function HomePage() {
   const heroTitleAccent  = cms?.heroTitleAccent  ?? 'avec Intention'
   const heroSubtitle     = cms?.heroSubtitle     ?? 'Montres premium inspirées des terres et cultures du Maroc. Chaque pièce est une déclaration.'
   const heroImage        = cms?.heroImage        ?? 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=80'
-  const heroVideo        = cms?.heroVideo ?? undefined
+  const heroVideo        = typeof cms?.heroVideo === 'string'
+    ? cms.heroVideo
+    : cms?.heroVideo?.asset?.url
   const heroCtaPrimary   = cms?.heroCtaPrimary   ?? 'Voir la Collection'
   const heroCtaSecondary = cms?.heroCtaSecondary ?? 'Nos Bestsellers'
   const heroTrustSignals = cms?.heroTrustSignals ?? ['🚚 Livraison Gratuite', '💳 Paiement à la Livraison', '↩ Retours 7 Jours']
