@@ -175,10 +175,10 @@ function OverlayCard({
 
       {/* Badges */}
       {product.badge && (
-        <span className="absolute top-5 left-5 badge-gold z-10">{product.badge}</span>
+        <span className="absolute top-2 left-2 sm:top-5 sm:left-5 badge-gold z-10 text-[8px] sm:text-[10px]">{product.badge}</span>
       )}
       {discount && !product.badge && (
-        <span className="absolute top-5 left-5 badge badge-red z-10">−{discount}%</span>
+        <span className="absolute top-2 left-2 sm:top-5 sm:left-5 badge badge-red z-10 text-[8px] sm:text-[10px]">−{discount}%</span>
       )}
 
       {/* Index */}
@@ -189,31 +189,31 @@ function OverlayCard({
       )}
 
       {/* Bottom panel */}
-      <div className="absolute bottom-0 inset-x-0 p-7 sm:p-9 z-10">
-        <div className="overflow-hidden h-px mb-6">
+      <div className="absolute bottom-0 inset-x-0 p-3 sm:p-7 md:p-9 z-10">
+        <div className="overflow-hidden h-px mb-2 sm:mb-6">
           <div className="h-full bg-gold origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]" />
         </div>
 
-        <p className="text-[9px] uppercase tracking-[0.5em] text-gold/75 mb-2.5 group-hover:text-gold transition-colors duration-500">
+        <p className="text-[8px] sm:text-[9px] uppercase tracking-[0.5em] text-gold/75 mb-1 sm:mb-2.5 group-hover:text-gold transition-colors duration-500">
           {product.brand}
         </p>
-        <h3 className="font-serif text-2xl sm:text-3xl lg:text-[clamp(26px,2.6vw,42px)] text-white font-bold leading-[1.05] mb-5">
+        <h3 className="font-serif text-sm sm:text-2xl lg:text-[clamp(26px,2.6vw,42px)] text-white font-bold leading-tight sm:leading-[1.05] mb-2 sm:mb-5 line-clamp-3 sm:line-clamp-none">
           {product.name}
         </h3>
 
-        <div className="flex items-end justify-between gap-4">
+        <div className="flex items-end justify-between gap-2 sm:gap-4">
           <div>
-            <p className="text-white font-bold text-2xl leading-none">
+            <p className="text-white font-bold text-base sm:text-2xl leading-none">
               {product.price.toLocaleString('fr-MA')}
-              <span className="text-gold text-sm font-semibold ml-2">MAD</span>
+              <span className="text-gold text-xs sm:text-sm font-semibold ml-1 sm:ml-2">MAD</span>
             </p>
             {product.originalPrice && (
-              <p className="text-neutral-500 text-xs mt-1 line-through">
+              <p className="text-neutral-500 text-[10px] sm:text-xs mt-0.5 sm:mt-1 line-through">
                 {product.originalPrice.toLocaleString('fr-MA')} MAD
               </p>
             )}
           </div>
-          <span className="text-[9px] uppercase tracking-[0.4em] text-neutral-600 group-hover:text-gold transition-colors duration-500 flex items-center gap-2 flex-shrink-0">
+          <span className="hidden sm:flex text-[9px] uppercase tracking-[0.4em] text-neutral-600 group-hover:text-gold transition-colors duration-500 items-center gap-2 flex-shrink-0">
             Voir
             <motion.span animate={{ x: [0, 4, 0] }} transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}>→</motion.span>
           </span>
@@ -224,11 +224,16 @@ function OverlayCard({
 }
 
 /* ─── Blog post cards ────────────────────────────────────────────────── */
+const FR_MONTHS = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre']
+function formatPostDate(iso: string) {
+  const [y, m, d] = (iso ?? '').slice(0, 10).split('-')
+  return `${d} ${FR_MONTHS[parseInt(m, 10) - 1] ?? ''} ${y}`
+}
 function BlogHeroCard({ post, sizes, minH, tall }: {
   post: PostCard; sizes: string; minH: string; tall?: boolean
 }) {
   const img = safeImg(post.mainImage, 1200)
-  const date = new Date(post.publishedAt).toLocaleDateString('fr-MA', { day: '2-digit', month: 'long', year: 'numeric' })
+  const date = formatPostDate(post.publishedAt)
   return (
     <Link href={`/blog/${post.slug}`}
       className={`group relative block overflow-hidden bg-neutral-900 h-[360px] sm:h-[500px] ${tall ? 'lg:h-full' : ''} ${minH}`}>
@@ -257,7 +262,7 @@ function BlogHeroCard({ post, sizes, minH, tall }: {
 
 function BlogSmallCard({ post }: { post: PostCard }) {
   const img = safeImg(post.mainImage, 700)
-  const date = new Date(post.publishedAt).toLocaleDateString('fr-MA', { day: '2-digit', month: 'long', year: 'numeric' })
+  const date = formatPostDate(post.publishedAt)
   return (
     <Link href={`/blog/${post.slug}`}
       className="group relative block h-full min-h-[255px] overflow-hidden bg-neutral-900">
@@ -611,7 +616,7 @@ export default function HomeClient({ data }: { data: HomeData }) {
 
           {featuredProducts.length >= 4 ? (
             <>
-              <div className="grid lg:grid-cols-5 gap-[3px] mb-[3px]">
+              <div className="grid grid-cols-2 lg:grid-cols-5 gap-[3px] mb-[3px]">
                 <motion.div initial={{ opacity: 0, y: 32 }} whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: '-60px' }} transition={{ duration: 1, ease: EXPO }}
                   className="lg:col-span-3">
@@ -625,7 +630,7 @@ export default function HomeClient({ data }: { data: HomeData }) {
                     sizes="(max-width:1023px) 100vw, 40vw" index={1} />
                 </motion.div>
               </div>
-              <div className="grid lg:grid-cols-5 gap-[3px]">
+              <div className="grid grid-cols-2 lg:grid-cols-5 gap-[3px]">
                 <motion.div initial={{ opacity: 0, y: 32 }} whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: '-60px' }} transition={{ duration: 1, ease: EXPO }}
                   className="lg:col-span-2">
@@ -641,7 +646,7 @@ export default function HomeClient({ data }: { data: HomeData }) {
               </div>
             </>
           ) : (
-            <Grid className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <Grid className="grid grid-cols-2 lg:grid-cols-4 gap-6">
               {featuredProducts.map((p) => (
                 <Cell key={p.id}><ProductCard product={p} /></Cell>
               ))}
