@@ -3,6 +3,25 @@ export type SanityImageRef = {
 }
 export type ImageSource = string | SanityImageRef
 
+export interface RichDescriptionTextBlock {
+  _type: 'block'
+  _key: string
+  style?: 'normal' | 'h2' | 'h3'
+  children: { _key: string; _type: 'span'; text: string; marks?: string[] }[]
+  markDefs?: { _key: string; _type: string }[]
+}
+
+export interface RichDescriptionImageBlock {
+  _type: 'imageBlock'
+  _key: string
+  asset?: { _id: string; url: string }
+  alt?: string
+  size?: 'small' | 'medium' | 'large' | 'full'
+  alignment?: 'left' | 'center' | 'right'
+}
+
+export type RichDescriptionBlock = RichDescriptionTextBlock | RichDescriptionImageBlock
+
 export interface Product {
   id: string
   slug: string
@@ -12,6 +31,7 @@ export interface Product {
   originalPrice?: number
   description: string
   longDescription: string
+  richDescription?: RichDescriptionBlock[]
   features: string[]
   images: ImageSource[]
   category: 'classic' | 'sport' | 'luxury' | 'minimalist'

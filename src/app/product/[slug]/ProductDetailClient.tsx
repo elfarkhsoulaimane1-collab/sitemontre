@@ -4,7 +4,8 @@ import { useState, useEffect, useRef, memo } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
-import { Product, Review } from '@/types'
+import { PortableText } from '@portabletext/react'
+import { Product, Review, RichDescriptionBlock, RichDescriptionImageBlock } from '@/types'
 import { trackPurchase, trackViewContent, trackInitiateCheckout } from '@/lib/tracking'
 import { imageUrl } from '@/sanity/lib/image'
 import ProductImageWatermark from '@/components/ProductImageWatermark'
@@ -43,6 +44,55 @@ const EMPTY: OrderFormValues = { firstName: '', lastName: '', phone: '', city: '
 // Too long  0[67][0-9]{8}      067123456789   ✗   06123456789     ✗
 // Bad prefix                   0812345678     ✗   +33612345678    ✗
 const PHONE_RE = /^(?:\+?212[67][0-9]{8}|0[67][0-9]{8}|[67][0-9]{8})$/
+
+const SIZE_CLASS: Record<string, string> = {
+  small:  'max-w-xs',
+  medium: 'max-w-md',
+  large:  'max-w-2xl',
+  full:   'w-full',
+}
+const ALIGN_CLASS: Record<string, string> = {
+  left:   'mr-auto',
+  center: 'mx-auto',
+  right:  'ml-auto',
+}
+
+function RichDescription({ blocks }: { blocks: RichDescriptionBlock[] }) {
+  return (
+    <div className="space-y-4">
+      <PortableText
+        value={blocks}
+        components={{
+          block: {
+            normal: ({ children }) => (
+              <p className="text-neutral-400 text-[14px] leading-[1.9]">{children}</p>
+            ),
+            h2: ({ children }) => (
+              <h2 className="font-serif text-xl text-white font-bold mt-6 mb-2">{children}</h2>
+            ),
+            h3: ({ children }) => (
+              <h3 className="font-serif text-base text-white font-semibold mt-5 mb-1">{children}</h3>
+            ),
+          },
+          types: {
+            imageBlock: ({ value }: { value: RichDescriptionImageBlock }) => {
+              const url = value.asset?.url
+              if (!url) return null
+              const sizeClass  = SIZE_CLASS[value.size  ?? 'medium'] ?? SIZE_CLASS.medium
+              const alignClass = ALIGN_CLASS[value.alignment ?? 'center'] ?? ALIGN_CLASS.center
+              return (
+                <div className={`my-6 ${sizeClass} ${alignClass}`}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={url} alt={value.alt ?? ''} className="w-full object-cover" />
+                </div>
+              )
+            },
+          },
+        }}
+      />
+    </div>
+  )
+}
 
 function seedFrom(id: string) {
   let h = 0
@@ -702,11 +752,14 @@ export default function ProductDetailClient({
                 </div>
               )}
 
-              {/* Long description */}
-              {product.longDescription && (
+              {/* Long description — richDescription takes priority, falls back to plain text */}
+              {(product.richDescription?.length || product.longDescription) && (
                 <div className="pt-1 border-t border-neutral-800">
                   <h3 className="text-[10px] uppercase tracking-[0.35em] text-neutral-500 mb-4 pt-5">Description</h3>
-                  <p className="text-neutral-400 text-[14px] leading-[1.9]">{product.longDescription}</p>
+                  {product.richDescription?.length
+                    ? <RichDescription blocks={product.richDescription} />
+                    : <p className="text-neutral-400 text-[14px] leading-[1.9]">{product.longDescription}</p>
+                  }
                 </div>
               )}
             </div>

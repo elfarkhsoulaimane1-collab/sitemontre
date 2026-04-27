@@ -7,6 +7,13 @@ const PRODUCT_FIELDS = /* groq */ `
   originalPrice,
   description,
   longDescription,
+  "richDescription": richDescription[] {
+    ...,
+    _type == "imageBlock" => {
+      ...,
+      "asset": asset->{ _id, url }
+    }
+  },
   features,
   "images": images[]{ _key, _type, "asset": asset->{ _id, _ref, url }, hotspot, crop },
   category,

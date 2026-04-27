@@ -44,10 +44,76 @@ export const productType = defineType({
     }),
     defineField({
       name: 'longDescription',
-      title: 'Description complète',
+      title: 'Description complète (texte simple)',
       type: 'text',
       rows: 5,
       group: 'info',
+      description: 'Utilisé uniquement si la description enrichie est vide.',
+    }),
+    defineField({
+      name: 'richDescription',
+      title: 'Description enrichie (texte + images)',
+      type: 'array',
+      group: 'info',
+      description: 'Remplace la description complète si remplie. Insérez des images n\'importe où.',
+      of: [
+        {
+          type: 'block',
+          styles: [
+            { title: 'Normal', value: 'normal' },
+            { title: 'Titre H2', value: 'h2' },
+            { title: 'Titre H3', value: 'h3' },
+          ],
+          marks: {
+            decorators: [
+              { title: 'Gras', value: 'strong' },
+              { title: 'Italique', value: 'em' },
+            ],
+          },
+        },
+        {
+          type: 'image',
+          name: 'imageBlock',
+          title: 'Image',
+          options: { hotspot: true },
+          fields: [
+            defineField({
+              name: 'alt',
+              title: 'Texte alternatif',
+              type: 'string',
+            }),
+            defineField({
+              name: 'size',
+              title: 'Taille',
+              type: 'string',
+              options: {
+                list: [
+                  { title: 'Petite', value: 'small' },
+                  { title: 'Moyenne', value: 'medium' },
+                  { title: 'Grande', value: 'large' },
+                  { title: 'Pleine largeur', value: 'full' },
+                ],
+                layout: 'radio',
+              },
+              initialValue: 'medium',
+            }),
+            defineField({
+              name: 'alignment',
+              title: 'Alignement',
+              type: 'string',
+              options: {
+                list: [
+                  { title: 'Gauche', value: 'left' },
+                  { title: 'Centre', value: 'center' },
+                  { title: 'Droite', value: 'right' },
+                ],
+                layout: 'radio',
+              },
+              initialValue: 'center',
+            }),
+          ],
+        },
+      ],
     }),
     defineField({
       name: 'features',
