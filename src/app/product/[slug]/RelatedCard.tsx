@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Product } from '@/types'
 import { imageUrl } from '@/sanity/lib/image'
+import ProductImageWatermark from '@/components/ProductImageWatermark'
 
 export default function RelatedCard({ product }: { product: Product }) {
   const img      = imageUrl(product.images?.[0], 400)
@@ -22,6 +23,7 @@ export default function RelatedCard({ product }: { product: Product }) {
         />
       )}
       <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/95 via-neutral-950/20 to-transparent group-hover:from-neutral-950/80 transition-all duration-700" />
+      <ProductImageWatermark />
 
       {product.badge && (
         <span className="absolute top-3 left-3 text-[9px] font-bold uppercase tracking-widest bg-gold text-black px-2 py-0.5 z-10">

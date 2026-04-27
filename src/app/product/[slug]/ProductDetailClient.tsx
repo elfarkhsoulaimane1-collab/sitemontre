@@ -7,6 +7,7 @@ import dynamic from 'next/dynamic'
 import { Product, Review } from '@/types'
 import { trackPurchase, trackViewContent, trackInitiateCheckout } from '@/lib/tracking'
 import { imageUrl } from '@/sanity/lib/image'
+import ProductImageWatermark from '@/components/ProductImageWatermark'
 
 const RelatedCard    = dynamic(() => import('./RelatedCard'),    { ssr: false })
 const ReviewsSection = dynamic(() => import('./ReviewsSection'), { ssr: false })
@@ -473,6 +474,7 @@ export default function ProductDetailClient({
                 )}
 
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+                <ProductImageWatermark />
 
                 {/* Badge */}
                 {product.badge && (
@@ -532,6 +534,7 @@ export default function ProductDetailClient({
                         ) : (
                           <div className="w-full h-full bg-neutral-800" />
                         )}
+                        <ProductImageWatermark />
                       </button>
                     )
                   })}

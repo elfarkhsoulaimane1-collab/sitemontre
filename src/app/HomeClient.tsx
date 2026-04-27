@@ -6,6 +6,7 @@ import { useRef } from 'react'
 import dynamic from 'next/dynamic'
 import { motion, useScroll, useTransform, useReducedMotion } from 'motion/react'
 import ProductCard from '@/components/ProductCard'
+import ProductImageWatermark from '@/components/ProductImageWatermark'
 const NewsletterForm = dynamic(() => import('@/components/NewsletterForm'), { ssr: false })
 import { imageUrl } from '@/sanity/lib/image'
 import type { Product, PostCard, HomepageTestimonial } from '@/types'
@@ -172,6 +173,8 @@ function OverlayCard({
       {/* Gradient layers */}
       <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/20 to-transparent" />
       <div className="absolute inset-0 bg-gradient-to-b from-neutral-950/45 via-transparent to-transparent" />
+
+      <ProductImageWatermark />
 
       {/* Badges */}
       {product.badge && (

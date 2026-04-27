@@ -3,6 +3,7 @@ import { Playfair_Display, Inter } from 'next/font/google'
 import { Suspense } from 'react'
 import './globals.css'
 import { CartProvider } from '@/context/CartContext'
+import { WatermarkProvider } from '@/context/WatermarkContext'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import Analytics from '@/components/Analytics'
@@ -99,7 +100,7 @@ const websiteSchema = {
 async function SiteShell({ children }: { children: React.ReactNode }) {
   const settings = await sanityFetch<SiteSettings>(SITE_SETTINGS_QUERY) ?? undefined
   return (
-    <>
+    <WatermarkProvider logoSrc={settings?.logo ?? null}>
       <Analytics
         metaPixelId={settings?.metaPixelId}
         tiktokPixelId={settings?.tiktokPixelId}
@@ -109,7 +110,7 @@ async function SiteShell({ children }: { children: React.ReactNode }) {
       <Navbar settings={settings} />
       <main>{children}</main>
       <Footer settings={settings} />
-    </>
+    </WatermarkProvider>
   )
 }
 
