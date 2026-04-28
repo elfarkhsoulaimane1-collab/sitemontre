@@ -183,6 +183,12 @@ Reviews are stored with `approved: false` and must be approved in Sanity Studio 
 
 ---
 
+## Domain & Redirects
+
+`next.config.js` includes a permanent redirect: `maisonduprestige.com` → `www.maisonduprestige.com` (apex-to-www canonicalization). The root layout's `metadataBase` is set to `https://www.atlas-watches.ma` (the dev/staging domain) — update this when the production domain is finalised.
+
+---
+
 ## Security Headers
 
 `next.config.js` applies these headers globally: `X-Content-Type-Options`, `X-Frame-Options: SAMEORIGIN`, `X-XSS-Protection: 1; mode=block`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy` (camera/mic/geo/payment blocked), `Strict-Transport-Security` (2yr, includeSubDomains), and a partial CSP (`base-uri`, `form-action`, `frame-ancestors` only — `script-src` is intentionally omitted because ad pixel SDKs require `unsafe-inline`; a nonce-based policy is planned once pixels are server-rendered).
@@ -194,6 +200,8 @@ Reviews are stored with `approved: false` and must be approved in Sanity Studio 
 - **`<JsonLd>`** — renders `<script type="application/ld+json">` for structured data; used in root layout for Organization and WebSite schemas.
 - **`<NewsletterForm>`** — client-side only, no backend. Submitting toggles a success state without sending data anywhere.
 - **`<AnimateIn>` / `<StaggerIn>`** — `motion/react` wrappers for fade-up entrance animations. Use these instead of raw `motion.div` — they handle `prefers-reduced-motion` automatically.
+- **`WatermarkContext` / `<ProductImageWatermark>`** — `WatermarkProvider` (in root layout) passes `siteSettings.logo` down via context; `ProductImageWatermark` renders it as a semi-transparent overlay on product card images. Falls back to a plain text watermark ("Maison du Prestige") if no logo is set.
+- **`<QuickAddButton>`** — hover-reveal "Ajouter au panier" overlay on `<ProductCard>`; fires `addItem` from `CartContext` and briefly shows a green confirmation state.
 
 ---
 

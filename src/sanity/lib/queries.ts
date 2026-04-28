@@ -98,6 +98,7 @@ export const SITE_SETTINGS_QUERY = /* groq */ `
     googleAnalyticsId,
     googleAdsId,
     googleSheetsWebhookUrl,
+    "ogImage": ogImage.asset->url,
   }
 `
 
@@ -189,7 +190,9 @@ export const POST_BY_SLUG_QUERY = /* groq */ `
     title,
     "slug": slug.current,
     publishedAt,
+    _updatedAt,
     excerpt,
+    author,
     "mainImage": mainImage { asset, hotspot, crop, alt },
     content,
   }

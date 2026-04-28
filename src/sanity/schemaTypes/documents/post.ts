@@ -48,6 +48,14 @@ export const postType = defineType({
       ],
     }),
     defineField({
+      name: 'author',
+      title: 'Auteur',
+      type: 'string',
+      group: 'content',
+      description: 'Nom de l\'auteur affiché sur l\'article (ex : Équipe Maison du Prestige)',
+      initialValue: 'Équipe Maison du Prestige',
+    }),
+    defineField({
       name: 'excerpt',
       title: 'Extrait',
       type: 'text',

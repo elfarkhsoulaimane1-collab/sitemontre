@@ -580,7 +580,7 @@ export default function ProductDetailClient({
                         }`}
                       >
                         {!imgError[i] && thumbSrc ? (
-                          <Image src={thumbSrc} alt={`Vue ${i + 1}`} fill unoptimized className="object-cover" sizes="72px"
+                          <Image src={thumbSrc} alt={`${product.name} — vue ${i + 1}`} fill unoptimized className="object-cover" sizes="72px"
                             onError={() => setImgError(p => ({ ...p, [i]: true }))} />
                         ) : (
                           <div className="w-full h-full bg-neutral-800" />

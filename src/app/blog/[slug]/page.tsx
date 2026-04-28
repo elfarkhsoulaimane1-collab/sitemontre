@@ -7,6 +7,7 @@ import { sanityFetch } from '@/sanity/lib/fetch'
 import { POST_BY_SLUG_QUERY, POST_SLUGS_QUERY } from '@/sanity/lib/queries'
 import { imageUrl } from '@/sanity/lib/image'
 import { Post } from '@/types'
+import JsonLd from '@/components/JsonLd'
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -22,7 +23,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = await sanityFetch<Post>(POST_BY_SLUG_QUERY, { slug })
   if (!post) return {}
   return {
-    title:       `${post.title} — Maison du Prestige`,
+    title:       post.title,
     description: post.excerpt ?? undefined,
   }
 }
@@ -39,7 +40,29 @@ export default async function BlogPostPage({ params }: Props) {
     year:  'numeric',
   })
 
+  const blogPostSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.title,
+    description: post.excerpt ?? undefined,
+    image: img ?? undefined,
+    author: post.author
+      ? { '@type': 'Person', name: post.author }
+      : { '@type': 'Organization', name: 'Maison du Prestige', url: 'https://www.maisonduprestige.com' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Maison du Prestige',
+      logo: { '@type': 'ImageObject', url: 'https://www.maisonduprestige.com/logo.png' },
+    },
+    datePublished: post.publishedAt,
+    dateModified: post._updatedAt ?? post.publishedAt,
+    url: `https://www.maisonduprestige.com/blog/${slug}`,
+    mainEntityOfPage: `https://www.maisonduprestige.com/blog/${slug}`,
+  }
+
   return (
+    <>
+    <JsonLd data={blogPostSchema} />
     <main className="min-h-screen bg-stone-50">
       {/* Hero image */}
       {img && (
@@ -70,7 +93,15 @@ export default async function BlogPostPage({ params }: Props) {
         </Link>
 
         {/* Meta */}
-        <p className="text-[11px] uppercase tracking-[0.22em] text-gold mb-4">{date}</p>
+        <div className="flex items-center gap-4 mb-4">
+          <p className="text-[11px] uppercase tracking-[0.22em] text-gold">{date}</p>
+          {post.author && (
+            <>
+              <span className="text-stone-300 text-[11px]">·</span>
+              <p className="text-[11px] text-neutral-500">{post.author}</p>
+            </>
+          )}
+        </div>
 
         {/* Title */}
         <h1 className="font-serif text-3xl sm:text-4xl text-neutral-900 leading-tight mb-6">
@@ -107,6 +138,7 @@ export default async function BlogPostPage({ params }: Props) {
         </div>
       </article>
     </main>
+    </>
   )
 }
 

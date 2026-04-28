@@ -120,10 +120,57 @@ export default async function HomePage() {
         '@type': 'Store',
         name: 'Maison du Prestige',
         description: 'Montres premium inspirées du Maroc. Livraison gratuite, paiement à la livraison.',
-        url: 'https://www.atlas-watches.ma',
+        url: 'https://www.maisonduprestige.com',
         currenciesAccepted: 'MAD',
         paymentAccepted: 'Cash',
         areaServed: 'MA',
+      }} />
+
+      <JsonLd data={{
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: [
+          {
+            '@type': 'Question',
+            name: 'Livrez-vous partout au Maroc ?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Oui, Maison du Prestige livre partout au Maroc. La livraison est gratuite pour toute commande supérieure à 500 MAD. Pour les commandes inférieures, des frais de 50 MAD s\'appliquent. Les délais sont de 2 à 4 jours ouvrables.',
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'Puis-je payer à la livraison (COD) ?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Oui, nous proposons uniquement le paiement à la livraison (Cash on Delivery). Vous payez en espèces à la réception de votre commande — aucun risque, aucune carte bancaire requise.',
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'Les montres sont-elles authentiques et garanties ?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Toutes nos montres sont 100 % authentiques et livrées avec leur garantie officielle. Nous ne vendons aucune contrefaçon. En cas de problème, vous bénéficiez de notre politique de retour sous 7 jours.',
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'Comment puis-je contacter le service client ?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Notre service client est disponible via WhatsApp, 7j/7. Nous répondons en français, en arabe et en darija. Vous pouvez également utiliser le chat en ligne sur notre site.',
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'Quelles marques de montres proposez-vous ?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Maison du Prestige propose une sélection de montres de marques reconnues dont Guess, Michael Kors, et d\'autres grandes marques premium. Toutes les montres sont authentiques et disponibles avec livraison au Maroc.',
+            },
+          },
+        ],
       }} />
     </>
   )

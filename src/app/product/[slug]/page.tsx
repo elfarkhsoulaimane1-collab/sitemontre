@@ -106,6 +106,16 @@ export default async function ProductPage({ params }: Props) {
 
   if (!product) notFound()
 
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Accueil',    item: 'https://www.maisonduprestige.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Collection', item: 'https://www.maisonduprestige.com/collection' },
+      { '@type': 'ListItem', position: 3, name: product.name, item: `https://www.maisonduprestige.com/product/${product.slug}` },
+    ],
+  }
+
   const productSchema = {
     '@context': 'https://schema.org',
     '@type': 'Product',
@@ -121,7 +131,7 @@ export default async function ProductPage({ params }: Props) {
         ? 'https://schema.org/InStock'
         : 'https://schema.org/OutOfStock',
       seller: { '@type': 'Organization', name: 'Maison du Prestige' },
-      url: `https://www.atlas-watches.ma/product/${product.slug}`,
+      url: `https://www.maisonduprestige.com/product/${product.slug}`,
     },
     aggregateRating: product.reviews > 0 ? {
       '@type': 'AggregateRating',
@@ -134,6 +144,7 @@ export default async function ProductPage({ params }: Props) {
 
   return (
     <>
+      <JsonLd data={breadcrumbSchema} />
       <JsonLd data={productSchema} />
       <ProductDetailClient
         product={product}

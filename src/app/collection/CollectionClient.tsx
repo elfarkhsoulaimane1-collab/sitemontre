@@ -1,13 +1,14 @@
 'use client'
 
-import { useSearchParams, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { useMemo, useState } from 'react'
 import ProductCard from '@/components/ProductCard'
 import { Product, CollectionData } from '@/types'
 
 interface Props {
-  products: Product[]
-  collections: CollectionData[]
+  products:        Product[]
+  collections:     CollectionData[]
+  initialCategory: string
 }
 
 const DEFAULT_SORTS = [
@@ -17,21 +18,18 @@ const DEFAULT_SORTS = [
   { value: 'rating',     label: 'Mieux notés'      },
 ]
 
-export default function CollectionClient({ products, collections }: Props) {
-  const searchParams = useSearchParams()
-  const router       = useRouter()
+export default function CollectionClient({ products, collections, initialCategory }: Props) {
+  const router = useRouter()
+  const [activeCategory, setActiveCategory] = useState(initialCategory)
   const [sort, setSort] = useState('default')
 
-  const activeCategory = searchParams.get('category') ?? 'all'
-
   function setCategory(cat: string) {
-    const params = new URLSearchParams(searchParams.toString())
+    setActiveCategory(cat)
     if (cat === 'all') {
-      params.delete('category')
+      router.push('/collection', { scroll: false })
     } else {
-      params.set('category', cat)
+      router.push(`/collection?category=${cat}`, { scroll: false })
     }
-    router.push(`/collection?${params.toString()}`, { scroll: false })
   }
 
   const filtered = useMemo(() => {
@@ -101,7 +99,7 @@ export default function CollectionClient({ products, collections }: Props) {
           </select>
         </div>
 
-        {/* Grid */}
+        {/* Grid — pre-rendered with server-filtered products for Googlebot */}
         {filtered.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {filtered.map((product, i) => (

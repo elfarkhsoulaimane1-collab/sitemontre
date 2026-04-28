@@ -99,6 +99,7 @@ export interface SiteSettings {
   googleAnalyticsId?: string
   googleAdsId?: string
   googleSheetsWebhookUrl?: string
+  ogImage?: string
 }
 
 // ── Order ───────────────────────────────────────────────────────────────────
@@ -204,6 +205,8 @@ export interface PostCard {
 export interface Post extends PostCard {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   content?: any[]
+  author?: string
+  _updatedAt?: string
 }
 
 export interface Review {

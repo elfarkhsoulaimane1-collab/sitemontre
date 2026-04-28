@@ -25,47 +25,16 @@ const inter = Inter({
   display: 'swap',
 })
 
-export const metadata: Metadata = {
-  metadataBase: new URL('https://www.atlas-watches.ma'),
+const BASE_METADATA: Metadata = {
+  metadataBase: new URL('https://www.maisonduprestige.com'),
   title: {
     default: 'Maison du Prestige — Montres Premium au Maroc',
     template: '%s | Maison du Prestige',
   },
   description:
     'Découvrez notre collection de montres premium inspirées du Maroc. Livraison gratuite partout au Maroc. Paiement à la livraison disponible.',
-  keywords: [
-    'montres maroc',
-    'montres de luxe maroc',
-    'montre homme maroc',
-    'acheter montre maroc',
-    'maison du prestige',
-    'montre casablanca',
-    'montre livraison maroc',
-  ],
   authors: [{ name: 'Maison du Prestige' }],
   alternates: { canonical: '/' },
-  openGraph: {
-    type: 'website',
-    locale: 'fr_MA',
-    siteName: 'Maison du Prestige',
-    title: 'Maison du Prestige — Montres Premium au Maroc',
-    description:
-      'Montres premium avec livraison gratuite partout au Maroc. Paiement à la livraison.',
-    images: [
-      {
-        url: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=80',
-        width: 1200,
-        height: 630,
-        alt: 'Collection de montres premium Maison du Prestige — Maroc',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Maison du Prestige — Montres Premium au Maroc',
-    description: 'Livraison gratuite. Paiement à la livraison.',
-    images: ['https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=80'],
-  },
   robots: {
     index: true,
     follow: true,
@@ -73,12 +42,43 @@ export const metadata: Metadata = {
   },
 }
 
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await sanityFetch<SiteSettings>(SITE_SETTINGS_QUERY)
+  // Use Sanity ogImage if configured, otherwise fall back to local branded asset
+  const ogImageUrl = settings?.ogImage ?? '/og-image.svg'
+  const ogImageBlock = [
+    {
+      url: ogImageUrl,
+      width: 1200,
+      height: 630,
+      alt: 'Collection de montres premium Maison du Prestige — Maroc',
+    },
+  ]
+  return {
+    ...BASE_METADATA,
+    openGraph: {
+      type: 'website',
+      locale: 'fr_MA',
+      siteName: 'Maison du Prestige',
+      title: 'Maison du Prestige — Montres Premium au Maroc',
+      description: 'Montres premium avec livraison gratuite partout au Maroc. Paiement à la livraison.',
+      images: ogImageBlock,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: 'Maison du Prestige — Montres Premium au Maroc',
+      description: 'Livraison gratuite. Paiement à la livraison.',
+      images: [ogImageUrl],
+    },
+  }
+}
+
 const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: 'Maison du Prestige',
-  url: 'https://www.atlas-watches.ma',
-  logo: 'https://www.atlas-watches.ma/logo.png',
+  url: 'https://www.maisonduprestige.com',
+  logo: 'https://www.maisonduprestige.com/logo.png',
   contactPoint: {
     '@type': 'ContactPoint',
     contactType: 'customer service',
@@ -91,7 +91,12 @@ const websiteSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   name: 'Maison du Prestige',
-  url: 'https://www.atlas-watches.ma',
+  url: 'https://www.maisonduprestige.com',
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: 'https://www.maisonduprestige.com/collection?q={search_term_string}',
+    'query-input': 'required name=search_term_string',
+  },
 }
 
 // Fetches siteSettings and renders the full chrome (Navbar + Footer + Analytics).

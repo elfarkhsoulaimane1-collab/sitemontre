@@ -7,7 +7,7 @@ import { imageUrl } from '@/sanity/lib/image'
 import { PostCard } from '@/types'
 
 export const metadata: Metadata = {
-  title: 'Blog — Maison du Prestige',
+  title: 'Blog',
   description: 'Articles, conseils et actualités horlogères par Maison du Prestige.',
 }
 

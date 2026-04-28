@@ -33,7 +33,17 @@
       "Bash(npm list *)",
       "Bash(git status *)",
       "Bash(grep -rn --include=\"*.ts\" --include=\"*.tsx\" --include=\"*.js\" -E \"\\(sk-|sk_|Bearer [a-zA-Z0-9]{20,}|password\\\\s*=\\\\s*['\\\\\"][^'\\\\\"]{6,}|secret\\\\s*=\\\\s*['\\\\\"][^'\\\\\"]{6,}|token\\\\s*=\\\\s*['\\\\\"][^'\\\\\"]{20,}|212[0-9]{9}\\)\" /Users/elfarkh/abdo/Sitemontre/src/)",
-      "Bash(grep *)"
+      "Bash(grep *)",
+      "Read(//Users/elfarkh/.claude/plugins/cache/agricidaniel-seo/claude-seo/1.9.6/skills/seo-audit/**)",
+      "Read(//Users/elfarkh/.claude/plugins/cache/agricidaniel-seo/claude-seo/1.9.6/scripts/**)",
+      "Read(//Users/elfarkh/.claude/plugins/cache/agricidaniel-seo/claude-seo/1.9.6/**)",
+      "Bash(python3 scripts/fetch_page.py \"http://www.maisonduprestige.com/\")",
+      "Bash(pip3 install *)",
+      "Bash(python3 scripts/google_auth.py --check)",
+      "Bash(python3 scripts/backlinks_auth.py --check)",
+      "Bash(python3 scripts/pagespeed_check.py \"http://www.maisonduprestige.com/\")",
+      "Bash(python3 -c ' *)",
+      "Bash(python3 scripts/commoncrawl_graph.py \"maisonduprestige.com\")"
     ]
   }
 }

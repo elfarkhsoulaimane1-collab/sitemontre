@@ -406,7 +406,7 @@ export default function HomeClient({ data }: { data: HomeData }) {
           </motion.div>
 
           {/* Headline */}
-          <div className="mb-10">
+          <h1 className="mb-10">
             <Clip delay={0.2}>
               <span className="font-serif font-bold text-white uppercase tracking-[-0.04em] leading-[0.9] lg:leading-[0.87] block"
                 style={{ fontSize: 'clamp(64px, 14vw, 160px)' }}>
@@ -419,7 +419,7 @@ export default function HomeClient({ data }: { data: HomeData }) {
                 {heroTitleAccent}
               </span>
             </Clip>
-          </div>
+          </h1>
 
           {/* Trust signals */}
           {heroTrustSignals.length > 0 && (
