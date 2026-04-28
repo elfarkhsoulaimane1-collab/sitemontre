@@ -4,10 +4,6 @@ import { PRODUCT_SLUGS_QUERY, POST_SLUGS_QUERY, PAGE_SLUGS_QUERY } from '@/sanit
 
 const BASE = 'https://www.maisonduprestige.com'
 
-function toKebab(slug: string): string {
-  return slug.trim().toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
-}
-
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [products, posts, pages] = await Promise.all([
     sanityFetch<string[]>(PRODUCT_SLUGS_QUERY),
@@ -25,10 +21,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ]
 
   const productPages = (products ?? [])
-    .map(toKebab)
     .filter(Boolean)
     .map((slug) => ({
-      url: `${BASE}/product/${slug}`,
+      url: `${BASE}/product/${encodeURIComponent(slug)}`,
       lastModified: new Date(),
       changeFrequency: 'weekly' as const,
       priority: 0.8,

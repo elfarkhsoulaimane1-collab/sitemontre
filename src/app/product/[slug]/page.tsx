@@ -21,14 +21,10 @@ interface Props {
   params: Promise<{ slug: string }>
 }
 
-function toKebab(slug: string): string {
-  return slug.trim().toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
-}
-
 export async function generateStaticParams() {
   if (isSanityConfigured()) {
     const slugs = await sanityFetch<string[]>(PRODUCT_SLUGS_QUERY) ?? []
-    return slugs.map((slug) => ({ slug: toKebab(slug) })).filter((p) => p.slug)
+    return slugs.filter(Boolean).map((slug) => ({ slug }))
   }
   return localProducts.map((p) => ({ slug: p.slug }))
 }
