@@ -12,8 +12,8 @@ export default function ProductImageWatermark() {
         src={logoSrc}
         alt=""
         aria-hidden="true"
-        className="absolute top-2 right-2 z-50 pointer-events-none select-none w-[42px] md:w-[56px] object-contain opacity-60"
-        style={{ filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.6))', mixBlendMode: 'screen' }}
+        className="absolute top-2 right-2 z-[9999] pointer-events-none select-none w-[40px] md:w-[55px] object-contain opacity-60"
+        style={{ filter: 'drop-shadow(0 1px 3px rgba(0,0,0,0.6))' }}
       />
     )
   }
@@ -21,7 +21,7 @@ export default function ProductImageWatermark() {
   return (
     <span
       aria-hidden="true"
-      className="absolute top-2 right-2 sm:top-3 sm:right-3 z-50 pointer-events-none select-none font-serif text-[7px] sm:text-[9px] uppercase tracking-[0.2em] text-white opacity-30"
+      className="absolute top-2 right-2 sm:top-3 sm:right-3 z-[9999] pointer-events-none select-none font-serif text-[7px] sm:text-[9px] uppercase tracking-[0.2em] text-white opacity-40"
       style={{ textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}
     >
       Maison du Prestige

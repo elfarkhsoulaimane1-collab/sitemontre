@@ -174,8 +174,6 @@ function OverlayCard({
       <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/20 to-transparent" />
       <div className="absolute inset-0 bg-gradient-to-b from-neutral-950/45 via-transparent to-transparent" />
 
-      <ProductImageWatermark />
-
       {/* Badges */}
       {product.badge && (
         <span className="absolute top-2 left-2 sm:top-5 sm:left-5 badge-gold z-10 text-[8px] sm:text-[10px]">{product.badge}</span>
@@ -190,6 +188,8 @@ function OverlayCard({
           {num}
         </span>
       )}
+
+      <ProductImageWatermark />
 
       {/* Bottom panel */}
       <div className="absolute bottom-0 inset-x-0 p-3 sm:p-7 md:p-9 z-10">

@@ -524,7 +524,6 @@ export default function ProductDetailClient({
                 )}
 
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
-                <ProductImageWatermark />
 
                 {/* Badge */}
                 {product.badge && (
@@ -561,6 +560,8 @@ export default function ProductDetailClient({
                     ))}
                   </div>
                 )}
+
+                <ProductImageWatermark />
               </div>
 
               {/* Thumbnails */}

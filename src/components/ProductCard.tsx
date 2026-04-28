@@ -43,7 +43,6 @@ export default function ProductCard({
         )}
 
         <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        <ProductImageWatermark />
 
         {product.badge && (
           <span className={`absolute top-3 left-3 text-[10px] font-bold uppercase tracking-widest px-2 py-1 ${BADGE_STYLES[product.badge] ?? 'bg-neutral-900 text-white'}`}>
@@ -52,6 +51,7 @@ export default function ProductCard({
           </span>
         )}
 
+        <ProductImageWatermark />
         <QuickAddButton product={product} />
       </div>
 

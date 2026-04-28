@@ -23,13 +23,14 @@ export default function RelatedCard({ product }: { product: Product }) {
         />
       )}
       <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/95 via-neutral-950/20 to-transparent group-hover:from-neutral-950/80 transition-all duration-700" />
-      <ProductImageWatermark />
 
       {product.badge && (
         <span className="absolute top-3 left-3 text-[9px] font-bold uppercase tracking-widest bg-gold text-black px-2 py-0.5 z-10">
           {product.badge}
         </span>
       )}
+
+      <ProductImageWatermark />
 
       <div className="absolute bottom-0 inset-x-0 p-5 z-10">
         <div className="h-px bg-gold/60 w-0 group-hover:w-full transition-[width] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] mb-3" />
