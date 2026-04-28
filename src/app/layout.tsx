@@ -119,13 +119,16 @@ async function SiteShell({ children }: { children: React.ReactNode }) {
 }
 
 // Shown while SiteShell's Sanity fetch is in-flight.
-// Renders minimal chrome placeholders so the page doesn't appear blank,
-// and passes children through so content is visible immediately.
-function LayoutSkeleton({ children }: { children: React.ReactNode }) {
+// Renders nav/footer chrome placeholders only — children are intentionally
+// omitted to prevent duplicate heading and JSON-LD output in the streamed HTML.
+// (React streaming emits both the fallback and the resolved shell into the
+// raw HTML; including children in the fallback would make every H1, H2, H3
+// and <script type="application/ld+json"> block appear twice to crawlers.)
+function LayoutSkeleton() {
   return (
     <>
       <div className="h-16 bg-neutral-950 border-b border-neutral-800" aria-hidden="true" />
-      <main>{children}</main>
+      <div className="min-h-[100dvh]" aria-hidden="true" />
       <div className="h-32 bg-neutral-950 border-t border-neutral-800" aria-hidden="true" />
     </>
   )
@@ -142,7 +145,7 @@ export default function RootLayout({
         <JsonLd data={organizationSchema} />
         <JsonLd data={websiteSchema} />
         <CartProvider>
-          <Suspense fallback={<LayoutSkeleton>{children}</LayoutSkeleton>}>
+          <Suspense fallback={<LayoutSkeleton />}>
             <SiteShell>{children}</SiteShell>
           </Suspense>
           <ChatWidget />

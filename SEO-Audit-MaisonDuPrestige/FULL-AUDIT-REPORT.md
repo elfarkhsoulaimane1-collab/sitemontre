@@ -1,392 +1,348 @@
-# SEO Audit Report — Maison du Prestige
+# Full SEO Audit — Maison du Prestige
 **URL:** https://www.maisonduprestige.com/  
 **Audit Date:** 2026-04-28  
-**Business Type:** E-commerce — Luxury Watches (Moroccan Market)  
-**Language:** French (fr)  
-**Framework:** Next.js (App Router) on Railway + Fastly CDN  
+**Auditor:** Claude SEO Audit v1.9.6  
+**Business Type:** E-commerce — Luxury Watch Retailer (Morocco, COD, French-language)  
+**Pages Crawled:** 50 (full sitemap)
 
 ---
 
-## Overall SEO Health Score: 40 / 100
+## SEO Health Score: 61 / 100
 
-| Category | Weight | Score | Weighted |
-|----------|--------|-------|----------|
-| Technical SEO | 22% | 18/100 | 4.0 |
-| Content Quality | 23% | 55/100 | 12.7 |
-| On-Page SEO | 20% | 30/100 | 6.0 |
-| Schema / Structured Data | 10% | 40/100 | 4.0 |
-| Performance (CWV) | 10% | 72/100 | 7.2 |
-| AI Search Readiness | 10% | 20/100 | 2.0 |
-| Images | 5% | 60/100 | 3.0 |
-| **TOTAL** | **100%** | — | **38.9 ≈ 40** |
+| Category | Score | Weight | Weighted |
+|---|---|---|---|
+| Technical SEO | 72/100 | 22% | 15.8 |
+| Content Quality | 58/100 | 23% | 13.3 |
+| On-Page SEO | 44/100 | 20% | 8.8 |
+| Schema / Structured Data | 65/100 | 10% | 6.5 |
+| Performance (CWV) | 60/100 | 10% | 6.0 |
+| AI Search Readiness | 72/100 | 10% | 7.2 |
+| Images | 78/100 | 5% | 3.9 |
+| **TOTAL** | | | **61.5** |
 
-> ⚠️ Score is critically depressed by the canonical URL misconfiguration, which alone renders the entire domain effectively unintelligible to Google.
+> _PageSpeed API was rate-limited during this audit. Performance score is estimated from page weight (147KB HTML) and Vercel CDN signals. Run a dedicated PageSpeed check for exact CWV values._
 
 ---
 
 ## Executive Summary
 
-### Top 5 Critical Issues
+Maison du Prestige has a solid technical foundation (Vercel CDN, HTTPS, full security headers, sitemap, robots.txt, llms.txt) but is held back by **critical on-page issues affecting every product page**: titles and meta descriptions that far exceed Google's display limits, duplicate schema blocks on every page, a 404 product URL in the sitemap with spaces in the slug, and a temporary (307) non-www redirect that should be permanent.
 
-1. **Wrong canonical URL on every page** — ALL pages point canonical to `https://www.atlas-watches.ma` (the old dev domain). Google will not index `maisonduprestige.com`.
-2. **No XML sitemap** — `/sitemap.xml`, `/sitemap_index.xml`, `/sitemap-0.xml` all return 404.
-3. **No robots.txt** — Returns 404; Google sees this as a missing file and treats the site as uncontrolled.
-4. **Duplicate H1 tags** — Product, blog, and policy pages each render their H1 twice (SSR + CSR hydration duplication).
-5. **Missing H1 on Homepage and Collection page** — The two highest-traffic pages have no H1.
+### Top 5 Critical Issues
+1. **All 43 product titles are too long** (71–114 chars vs. 60-char limit) — Google truncates and rewrites them
+2. **All product meta descriptions far exceed 160 chars** (210–662 chars) — Google ignores them and auto-generates
+3. **Duplicate schema + H1 on every page** — Organization, WebSite, BreadcrumbList, Product all render twice in HTML
+4. **404 URL in sitemap** — `/product/Emporio Armani Renato Blue Leather Gents Watch AR11216` (spaces in slug)
+5. **307 Temporary redirect** for non-www → www (should be 301/308 permanent)
 
 ### Top 5 Quick Wins
-
-1. Fix `metadataBase` in `src/app/layout.tsx` — change from `https://www.atlas-watches.ma` to `https://www.maisonduprestige.com` (1 line fix).
-2. Add `src/app/sitemap.ts` — Next.js built-in sitemap generation (30 min).
-3. Add `src/app/robots.ts` — Next.js built-in robots.txt (5 min).
-4. Add `public/llms.txt` — AI crawler guidance file (10 min).
-5. Add a meaningful H1 to the homepage hero section (15 min).
-
----
-
-## 1. Technical SEO
-
-### 1.1 Crawlability
-
-| Check | Status | Notes |
-|-------|--------|-------|
-| robots.txt | ❌ MISSING | Returns HTTP 404 |
-| XML Sitemap | ❌ MISSING | All variants return 404 |
-| HTTP → HTTPS redirect | ✅ PASS | 301 redirect in place |
-| HTTP/2 | ✅ PASS | HTTP/2 confirmed |
-| CDN | ✅ PASS | Fastly (via Railway) |
-| ISR/Caching | ✅ PASS | `s-maxage=60, stale-while-revalidate=31535940` |
-
-**robots.txt missing:** Googlebot receives a 404 when fetching `/robots.txt`. While this doesn't block crawling, it prevents you from controlling crawl budget and blocking unwanted sections (e.g., `/cart`, `/admin`, `/studio`).
-
-**Sitemap missing:** Next.js 13+ supports automatic sitemap generation via `src/app/sitemap.ts`. Without one, Googlebot must discover all pages by following links — missing any orphaned or deep pages.
-
-### 1.2 Indexability
-
-| Check | Status | Notes |
-|-------|--------|-------|
-| Meta robots (homepage) | ✅ index, follow | Correct |
-| Canonical URL | ❌ CRITICAL | Points to wrong domain on ALL pages |
-| HTTPS enforced | ✅ PASS | HSTS 2yr + preload |
-
-**CANONICAL CRISIS — Most Critical Issue:**  
-Every page on `www.maisonduprestige.com` contains:
-```html
-<link rel="canonical" href="https://www.atlas-watches.ma/..." />
-```
-This signals to Google that the "true" version of every page lives at `atlas-watches.ma`. As a result:
-- Google will NOT index `maisonduprestige.com`
-- Any link equity earned by `maisonduprestige.com` is attributed to `atlas-watches.ma`
-- The domain may be completely deindexed
-
-**Root cause:** `metadataBase` in `src/app/layout.tsx` is set to `https://www.atlas-watches.ma` (the old staging domain). Changing this to `https://www.maisonduprestige.com` will fix canonicals on all pages instantly.
-
-### 1.3 Security Headers
-
-| Header | Status |
-|--------|--------|
-| Strict-Transport-Security | ✅ 2yr + includeSubDomains + preload |
-| X-Frame-Options: SAMEORIGIN | ✅ Present |
-| X-Content-Type-Options: nosniff | ✅ Present |
-| X-XSS-Protection | ✅ Present |
-| Referrer-Policy | ✅ strict-origin-when-cross-origin |
-| Permissions-Policy | ✅ Present |
-| Content-Security-Policy | ⚠️ Partial only (no script-src) |
-
-Security headers are well-configured. The partial CSP is a known tradeoff documented in CLAUDE.md.
-
-### 1.4 URL Structure
-
-| Check | Status |
-|-------|--------|
-| Lowercase URLs | ✅ Consistent |
-| Hyphens as separators | ✅ Consistent |
-| Query parameters for filters | ⚠️ `/collection?category=montres-hommes` — not crawlable as distinct pages |
-| Dynamic params | ✅ `/product/[slug]`, `/blog/[slug]` |
-
-**Category pages not indexable:** The filter URLs (`/collection?category=montres-hommes`) are applied client-side. There are no static `/collection/montres-hommes` pages. This is a missed keyword opportunity.
+1. Fix the 404 product slug (spaces → hyphens) in Sanity — 5 minutes
+2. Add `sameAs` social profiles to Organization schema — 10 minutes
+3. Add `sku` field to Product schema — 15 minutes
+4. Fix duplicate schema rendering — 30 minutes
+5. Truncate product title template to ≤60 chars in `generateMetadata()` — 1 hour
 
 ---
 
-## 2. On-Page SEO
+## 1. Technical SEO — 72/100
 
-### 2.1 Title Tags
+### 1.1 Crawlability ✓
+- **robots.txt**: Present and correct at `/robots.txt`
+- Properly disallows: `/admin/`, `/studio/`, `/cart`, `/api/`
+- References sitemap: `Sitemap: https://www.maisonduprestige.com/sitemap.xml` ✓
+- No `Crawl-delay` directive (allows full crawl speed) ✓
 
-| Page | Title | Length | Issue |
-|------|-------|--------|-------|
-| Homepage | Maison du Prestige — Montres Premium au Maroc | 46 chars | ✅ Good |
-| Collection | Collection \| Maison du Prestige | 32 chars | ⚠️ Generic, no keywords |
-| Product (watch 1) | GOLD TONE CASE GOLD TONE STAINLESS STEEL WATCH GW0033L8 — 1.199 MAD \| Maison du Prestige | 91 chars | ❌ Too long, model code only |
-| Product (watch 2) | Guess Continental chocolate en cuir pour homme — 1.300 MAD \| Maison du Prestige | 82 chars | ⚠️ Slightly long |
-| Blog index | Blog — Maison du Prestige \| Maison du Prestige | 47 chars | ❌ Brand name duplicated |
-| Blog post | Top 5 des montres tendance pour homme au Maroc — Maison du Prestige \| Maison du Prestige | 90 chars | ❌ Too long, brand duplicated |
-| Contact | Contactez-nous \| Maison du Prestige | 36 chars | ✅ OK |
-| Politique livraison | Politique de Livraison \| Maison du Prestige | 44 chars | ✅ OK |
+### 1.2 Sitemap — 1 Critical Issue
+- **50 URLs** in `/sitemap.xml` with `lastmod`, `changefreq`, `priority` ✓
+- Homepage 1.0 · Collection 0.9 · Category pages 0.85 · Products 0.8 · Blog 0.7 ✓
+- **CRITICAL**: 1 URL returns 404 — `https://www.maisonduprestige.com/product/Emporio Armani Renato Blue Leather Gents Watch AR11216`
+  - Root cause: Sanity product slug contains spaces instead of hyphens
+  - Google crawls this URL, receives 404, wastes crawl budget, logs soft 404
 
-**Blog title duplication:** The brand name `Maison du Prestige` appears twice — once from the page title and once appended by the template. This needs a fix in the blog metadata generation.
+### 1.3 HTTPS & Security Headers ✓
+All headers confirmed via `curl -sI`:
 
-**Product title issue:** Some products use raw model codes (e.g., `GW0033L8`) as page titles. These are not search terms Moroccan customers use.
+| Header | Value | Status |
+|---|---|---|
+| Strict-Transport-Security | max-age=63072000; includeSubDomains; preload | ✓ |
+| X-Content-Type-Options | nosniff | ✓ |
+| X-Frame-Options | SAMEORIGIN | ✓ |
+| X-XSS-Protection | 1; mode=block | ✓ |
+| Referrer-Policy | strict-origin-when-cross-origin | ✓ |
+| Permissions-Policy | camera=(), microphone=(), geolocation=(), payment=() | ✓ |
+| Content-Security-Policy | base-uri 'self'; form-action 'self'; frame-ancestors 'self' | Partial |
 
-### 2.2 Meta Descriptions
+Note: `script-src` intentionally omitted from CSP (ad pixel SDKs require unsafe-inline).
 
-| Page | Status | Notes |
-|------|--------|-------|
-| Homepage | ✅ Good | 107 chars, includes keywords |
-| Collection | ✅ Good | Mentions MAD, Maroc, livraison |
-| Product pages | ⚠️ Variable | Some use raw model descriptions |
-| Blog index | ✅ OK | |
-| Blog posts | ✅ Good | Keyword-rich |
+### 1.4 Redirects ⚠
+- **non-www → www**: `maisonduprestige.com` → `https://www.maisonduprestige.com/` returns **HTTP 307** (Temporary)
+- `next.config.js` specifies `permanent: true` but Vercel serves 307 instead of 308
+- Google treats 307 as temporary — link equity not fully consolidated
+- Fix: Force Vercel redeploy with "Clear build cache" to pick up the latest redirect config
 
-### 2.3 Heading Structure
+### 1.5 Canonical Tags ✓
+- All product pages: canonical matches page URL ✓
+- Homepage: `https://www.maisonduprestige.com` (no trailing slash) ✓
+- Collection page: `/collection` ✓
+- Blog posts: per-post canonicals ✓
+- Category pages (`montres-hommes`, `montres-femmes`): not verified — should be set
 
-| Page | H1 | Issue |
-|------|----|-------|
-| Homepage | ❌ EMPTY | No visible H1 text |
-| Collection | ❌ MISSING | H1 not rendered |
-| Product pages | ❌ DUPLICATED | H1 appears twice in HTML |
-| Blog index | ✅ "Le Blog" (duplicated) | H1 exists but rendered twice |
-| Blog posts | ✅ Present (duplicated) | H1 rendered twice |
-| Contact | ✅ "Contactez-nous" | Single H1, correct |
+### 1.6 URL Structure — 1 Issue
+- Clean hyphen-separated slugs throughout ✓
+- Exception: 1 product slug with spaces → 404 (see §1.2) ✗
+- French-language descriptive slugs include brand + model keywords ✓
 
-**Duplicate H1 cause:** The SSR-rendered H1 and the client-hydrated H1 are both present in the page source. This is likely caused by a component that renders in both the server RSC shell and the client `*Client.tsx` component. Each page effectively has 2 H1 tags, which is an SEO signal problem.
-
-**Homepage H1:** The hero section has a visually prominent heading but it's wrapped in an element that is not `<h1>`. This is a missed primary keyword opportunity.
+### 1.7 Server & CDN
+- `x-vercel-cache: HIT` — CDN serving pre-rendered ISR pages ✓
+- `x-nextjs-stale-time: 300` — 5-minute ISR revalidation window ✓
+- `cache-control: public, max-age=0, must-revalidate` on HTML pages ✓
+- Static assets: `max-age=31536000, immutable` ✓
 
 ---
 
-## 3. Content Quality
+## 2. Content Quality — 58/100
 
-### 3.1 Homepage Content
+### 2.1 Homepage
+- Word count: ~900 words — adequate ✓
+- Sections: Hero, Trust band, Featured products, Collections, Brand story, Testimonials, CTA, Blog, Newsletter ✓
+- French-language content is fluent and brand-appropriate ✓
+- Missing: Casablanca/Morocco-specific buying context, price range guidance, brand comparison content
 
-**Strengths:**
-- French language matches target audience ✅
-- Moroccan context (MAD, livraison, COD) ✅
-- Trust signals: testimonials, badges ✅
-- Blog articles section signals content depth ✅
+### 2.2 Product Pages
+- Descriptions present in Sanity (schema `description: ✓`) ✓
+- Some product names are in English ("GUESS Ladies Black Gold Tone GW0548L3") — inconsistent with French site
+- Meta descriptions generated at 210–662 chars — all over limit, Google will ignore them
 
-**Weaknesses:**
-- No H1 heading for semantic anchor ❌
-- Sections like "Bestsellers & Deals" and "Articles & Conseils" appear twice in the H2 list — likely double rendering ⚠️
-- OG image is a generic Unsplash watch photo, not a branded asset ⚠️
-
-### 3.2 Product Pages
-
-**Strengths:**
-- Product descriptions exist in French ✅
-- Price prominently in title ✅
-- Customer reviews with ratings ✅
-- Brand attribution (e.g., Guess) ✅
-
-**Weaknesses:**
-- Some product names are model codes not user search terms ❌
-- Meta descriptions are cut from raw spec data ⚠️
-- No long-form editorial content for rich E-E-A-T signals ⚠️
-
-### 3.3 Blog Content
-
-3 blog posts found:
+### 2.3 Blog Content ✓
+Three published posts covering purchase-intent queries:
 - "Pourquoi acheter une montre en ligne au Maroc est une bonne idée"
 - "Top 5 des montres tendance pour homme au Maroc"
 - "Comment choisir une montre élégante au Maroc en 2026"
 
-These are well-optimized Moroccan-market keywords. The blog exists but:
-- No Article/BlogPosting schema markup ❌
-- Blog index title has brand duplication bug ❌
-- Raw word count ~1,243 for sample post (acceptable, but longer posts rank better) ⚠️
+BlogPosting schema, author bylines, and correct canonicals are all in place ✓
 
-### 3.4 E-E-A-T Assessment
-
+### 2.4 E-E-A-T Signals
 | Signal | Status |
-|--------|--------|
-| Author attribution | ❌ No author bylines on blog posts |
-| About/brand story page | ❌ Not found |
-| Physical address | ❌ Not present in schema or pages |
-| Phone number | ⚠️ WhatsApp only (acceptable for Morocco) |
-| Business registration | ❌ No visible legal/company info |
-| Customer reviews | ✅ Present on product pages |
-| Social proof | ✅ Testimonials section on homepage |
-| SSL/security | ✅ Full HTTPS + HSTS |
+|---|---|
+| Customer testimonials with names + cities | ✓ |
+| Blog posts demonstrating product expertise | ✓ |
+| sameAs social profiles in Organization schema | ✗ MISSING |
+| Site-wide AggregateRating on Organization | ✗ MISSING |
+| Physical address / About page | ✗ MISSING |
+| Press mentions / external authority | ✗ None detected |
+
+### 2.5 Thin Content
+- No thin content pages detected
+- `/pages/contact`, `/pages/politique-livraison`, `/pages/politique-retours` use short fallback text — expand when possible
 
 ---
 
-## 4. Schema / Structured Data
+## 3. On-Page SEO — 44/100
 
-### 4.1 Current Schema (Homepage)
+### 3.1 Title Tags ✗ CRITICAL — All Products Over Limit
 
-| Type | URL in Schema | Issues |
-|------|---------------|--------|
-| Organization | https://www.atlas-watches.ma | ❌ Wrong URL |
-| WebSite | https://www.atlas-watches.ma | ❌ Wrong URL |
-| Store | https://www.atlas-watches.ma | ❌ Wrong URL, **duplicated** |
+| Page Type | Length | Status |
+|---|---|---|
+| Homepage | 58 chars | ✓ |
+| Collection | 31 chars | ⚠ Too short/generic |
+| Product pages (sample) | 71–114 chars | ✗ ALL too long |
+| Blog posts | 73 chars | ⚠ Slightly over |
 
-### 4.2 Product Page Schema
+Product title template: `[Name] — [Price] MAD | Maison du Prestige`  
+Including the price pushes most titles 15–55 chars over the limit.  
+**Recommended template**: `[Product Name] | Maison du Prestige` (target ≤55 chars)
 
-| Type | Status | Details |
-|------|--------|---------|
-| Organization | ✅ Present | ❌ Wrong URL, duplicated |
-| WebSite | ✅ Present | ❌ Wrong URL, duplicated |
-| Product | ✅ Present | ❌ Wrong URL, **duplicated** |
+### 3.2 Meta Descriptions ✗ CRITICAL — All Products Over Limit
 
-**Product schema strengths:**
-- `name`, `description`, `image` ✅
-- `price`, `priceCurrency: MAD` ✅
-- `availability: InStock` ✅
-- `aggregateRating` with `ratingValue`, `reviewCount` ✅
-- `brand` with `Brand` type ✅
+| Page | Length | Status |
+|---|---|---|
+| Homepage | 183 chars | ⚠ Slightly over (limit: ~160) |
+| Collection | 120 chars | ✓ |
+| Products | 210–662 chars | ✗ ALL far over limit |
 
-**Product schema weaknesses:**
-- Every schema block appears twice (duplication bug) ❌
-- Product URL in schema points to atlas-watches.ma ❌
-- No `sku` or `gtin` fields ⚠️
-- No `Review` array (only aggregate) ⚠️
+Appears to be AI-generated long-form descriptions from Sanity. Google will truncate or auto-generate snippets for all product pages. Add `maxLength` validation in `generateMetadata()`.
 
-### 4.3 Blog Schema
+### 3.3 Heading Structure — Duplicate Issue ✗
 
-| Type | Status |
-|------|--------|
-| Article / BlogPosting | ❌ MISSING |
-| Author | ❌ MISSING |
-| datePublished / dateModified | ❌ MISSING |
+Every page renders all heading levels **twice** in the HTML output. Example from product page:
+```
+H1: "Montre MICHAEL KORS Pour Femme, MK6686"
+H1: "Montre MICHAEL KORS Pour Femme, MK6686"  ← duplicate
+```
+Root cause: The Next.js RSC + client hydration pipeline is emitting both the server-rendered and client-side HTML into the response. Google will see 2× H1 per page — diluting heading signals and potentially triggering duplicate content flags at the element level.
 
-Blog posts have no specific schema beyond the site-level Organization and WebSite blocks.
+Heading hierarchy (ignoring duplicates):
+- H1: Primary keyword (product name / page topic) ✓
+- H2: Section titles (collections, blog, testimonials, CTA) ✓
+- H3: Product names, trust items, blog post titles ✓
+
+### 3.4 Internal Linking ⚠
+Homepage links to 15 internal URLs:
+
+| Missing Link | Priority |
+|---|---|
+| `/collection/montres-hommes` | High — major category page |
+| `/collection/montres-femmes` | High — major category page |
+| Any product deeper than featured 4 | Medium |
+
+Product pages include breadcrumb navigation ✓  
+No cross-linking between related products detected from crawl sample ⚠
+
+### 3.5 Image Alt Text
+- 6 images on homepage missing `alt`
+  - 4 flagged `aria-hidden="true"` (decorative watermarks) — acceptable
+  - 2 images missing `alt` without `aria-hidden` — needs fixing
+- Product pages: all images have alt text ✓
+- Blog posts: all hero images have alt text ✓
+
+---
+
+## 4. Schema / Structured Data — 65/100
+
+### 4.1 Homepage Schema — Present but Duplicated
+
+| Type | Fields | Issues |
+|---|---|---|
+| Organization | name ✓, url ✓, logo ✓ | Missing: sameAs, address, telephone |
+| WebSite | url ✓, potentialAction ✓ | — |
+| Store | url ✓, areaServed: MA ✓, currenciesAccepted: MAD ✓ | Could add address, openingHours |
+| FAQPage | 5 Q&As ✓ | — |
+| **ALL TYPES** | Render twice in HTML | Critical — confuses crawlers |
+
+### 4.2 Product Schema
+
+| Field | Status |
+|---|---|
+| Product.name | ✓ |
+| Product.description | ✓ |
+| Product.image | ✓ |
+| Product.brand.name | ✓ |
+| offers.price | ✓ |
+| offers.priceCurrency (MAD) | ✓ |
+| offers.availability (InStock) | ✓ |
+| offers.url | ✓ |
+| aggregateRating | ✓ |
+| sku | ✗ MISSING |
+| gtin / mpn | ✗ MISSING |
+| BreadcrumbList (3 levels) | ✓ but duplicated |
+
+### 4.3 Blog Schema ✓
+- BlogPosting on all 3 posts ✓
+- headline, author (Person), datePublished, dateModified, publisher ✓
+- publisher.logo URL hardcoded as `/logo.png` — should reference actual Sanity logo URL
 
 ### 4.4 Missing Schema Opportunities
+- `ItemList` on `/collection`, `/collection/montres-hommes`, `/collection/montres-femmes`
+- `AggregateRating` on Organization (site-wide rating of 4.9/5 already claimed in UI)
+- `Review` objects embedded in Product schema (reviews exist in Sanity)
+- `LocalBusiness` with `address` and `contactPoint` for WhatsApp
 
-| Schema Type | Priority | Benefit |
-|-------------|----------|---------|
-| BreadcrumbList | High | Rich results in SERP |
-| FAQPage | Medium | SERP feature — common for Moroccan COD questions |
-| Article on blog posts | High | Google News / Discover eligibility |
-| LocalBusiness with address | Medium | Local SEO signals |
-| SearchAction (Sitelinks search box) | Low | Site search in SERP |
-
----
-
-## 5. Performance
-
-**Measurements (lab, from Europe):**
-
-| Metric | Value | Rating |
-|--------|-------|--------|
-| DNS lookup | 2.5ms | Excellent |
-| TCP + TLS connect | 184ms | Good (CDN in Europe) |
-| Time to First Byte (TTFB) | 281ms | Acceptable |
-| Total HTML transfer | 377ms | Good |
-| HTML size | 142 KB | ⚠️ Large for HTML |
-| Download speed | 378 KB/s | Good |
-| HTTP version | HTTP/2 | ✅ |
-
-**JavaScript loading:**
-- 13 script tags (12 async, 0 deferred)
-- 1 stylesheet
-- 4 preloads (2 fonts, 1 image, 1 script)
-
-**Good:**
-- Most scripts are async ✅
-- Fonts preloaded ✅
-- CDN in place (Fastly/Railway) ✅
-- ISR caching enabled ✅
-
-**Concerns:**
-- 142 KB HTML is large — suggests significant inline JS from Next.js hydration ⚠️
-- No Core Web Vitals field data available (no Google API credentials configured) ⚠️
-- PageSpeed API rate-limited during audit — run manually at https://pagespeed.web.dev/ ⚠️
+### 4.5 Duplication Root Cause
+Root layout (`layout.tsx`) injects Organization + WebSite via `<JsonLd>`. Page components inject Store/FAQ/Product/BreadcrumbList via their own `<JsonLd>`. The entire HTML is being emitted twice in crawlable output — most likely a streaming + static generation artifact in the Next.js App Router producing duplicate `<script type="application/ld+json">` tags.
 
 ---
 
-## 6. Images
+## 5. Performance — 60/100
 
-| Check | Status | Details |
-|-------|--------|---------|
-| Images without alt text | ❌ 6–7 per page | Accessibility + SEO issue |
-| OG/social image | ⚠️ Unsplash stock photo | Not branded |
-| Product images | ✅ Sanity CDN | Good |
-| Image optimization | ⚠️ `images.unoptimized: true` | Next.js optimization disabled |
-| Responsive images | ❓ Unknown without field data | |
-| Logo image | ✅ Sanity CDN preloaded | |
+> _Estimated — PageSpeed API rate-limited during this audit._
 
-**OG Image:** `https://images.unsplash.com/photo-1523275335684-37898b6baf30` — a generic watch stock photo. Social sharing will show a non-branded image, reducing CTR on Facebook/Instagram (critical for Moroccan audience).
+### 5.1 Observable Signals
+| Metric | Value | Assessment |
+|---|---|---|
+| Homepage HTML size | 147KB | Heavy — suggests large inline data payloads |
+| CDN | Vercel (x-vercel-cache: HIT) | ✓ Global edge |
+| ISR revalidation | 300s | ✓ 5-min cache |
+| Static asset caching | max-age=31536000, immutable | ✓ |
+| Image format | Original JPG/PNG (unoptimized) | ✗ No WebP/AVIF |
+| Font preloading | Playfair Display + Inter preloaded | ✓ |
+| Hero image | Preloaded from Sanity CDN | ✓ |
 
-**Image alt text:** Multiple product images, gallery images, and decorative images lack `alt` attributes. This impacts both accessibility (WCAG) and image search SEO.
+### 5.2 Biggest Performance Risk
+`images.unoptimized: true` in `next.config.js` disables all Next.js Image Optimization. Every image is served at original resolution and format. This likely causes:
+- LCP image too large (full-res Sanity images without resizing)
+- Extra bytes per page visit (no WebP conversion)
+- No responsive `srcset` generation
 
----
-
-## 7. AI Search Readiness (GEO)
-
-| Signal | Status |
-|--------|--------|
-| llms.txt | ❌ MISSING (404) |
-| Robots.txt AI crawler directives | ❌ No robots.txt |
-| Structured, citable content | ⚠️ Minimal editorial depth |
-| Author bylines | ❌ Missing |
-| Factual, reference-quality content | ⚠️ Product focus, limited authority content |
-| Brand mentions / citations | ❌ No referring domains in Common Crawl |
-| AI overview optimization | ❌ No FAQ or Q&A schema |
-
-**Common Crawl data:** `maisonduprestige.com` has **0 referring domains** in the Common Crawl dataset (Jan–Mar 2026). The site is new and has no external backlink profile. PageRank and Harmonic Centrality are both null.
+**Fix**: Remove `unoptimized: true` and ensure all `<Image>` components have explicit `width`/`height` or `fill`. Sanity images should use `imageUrl(src, 1200)` for hero and `imageUrl(src, 400)` for cards (already done in code).
 
 ---
 
-## 8. Backlink Profile
+## 6. AI Search Readiness — 72/100
 
-| Source | Data |
-|--------|------|
-| Common Crawl (2026 Q1) | 0 referring domains |
-| Moz DA/PA | Not available (no API key) |
-| Bing Webmaster | Not available (no API key) |
+### 6.1 llms.txt ✓
+Present at `/llms.txt`. Contains brand description, main pages, about, contact.  
+**Improvements**:
+- Add WhatsApp number
+- List all product categories
+- Add blog post URLs
+- Add return policy page URL
+- Add price range context ("montres de 800 à 3000 MAD")
 
-The site appears brand new with no external links. This significantly limits its ability to rank for competitive keywords until authority is built.
+### 6.2 AI Crawler Access ✓
+GPTBot, Claude-Web, PerplexityBot not blocked in robots.txt ✓
 
----
+### 6.3 Content Citability
+- FAQ schema (5 Q&As) directly citable by AI Overviews ✓
+- Blog posts cover specific queries AI assistants answer ✓
+- Missing: Price range text in visible content (structured JSON only)
+- Missing: Comparison content ("Guess vs Michael Kors", "best watch under 1500 MAD")
 
-## 9. Site Structure & Crawl Map
-
-**Pages discovered:**
-
-| URL | Type | Status |
-|-----|------|--------|
-| / | Homepage | ✅ Live |
-| /collection | Category | ✅ Live (CSR — products not in HTML) |
-| /collection?category=montres-hommes | Filter | ⚠️ Client-side only |
-| /collection?category=montres-femmes | Filter | ⚠️ Client-side only |
-| /product/[slug] | Product | ✅ Live (4 discovered) |
-| /blog | Blog index | ✅ Live |
-| /blog/[slug] | Blog post | ✅ Live (3 posts) |
-| /pages/contact | Contact | ✅ Live |
-| /pages/politique-livraison | Policy | ✅ Live |
-| /pages/politique-retours | Policy | ✅ Live |
-| /cart | Cart | ✅ Live (no SEO value) |
-| /sitemap.xml | — | ❌ 404 |
-| /robots.txt | — | ❌ 404 |
-| /llms.txt | — | ❌ 404 |
-
-**Collection page note:** The `/collection` page renders products client-side via React. Only 4 product links are discoverable by Googlebot in the static HTML. This means most products may not be indexed unless they have other entry points.
+### 6.4 Brand Signal Strength
+- Common Crawl: 0 referring domains (new domain — expected)
+- No `sameAs` in Organization schema — AI cannot verify brand identity across web
+- Brand name "Maison du Prestige" is distinctive ✓
 
 ---
 
-## Appendix: Raw Findings
+## 7. Images — 78/100
 
-### Canonical URLs Observed
+### 7.1 Alt Text
+- Homepage: 2 non-decorative images missing alt text ✗
+- Products + blog: all images have alt text ✓
 
-| Page | Canonical Set |
-|------|--------------|
-| / | https://www.atlas-watches.ma |
-| /collection | https://www.atlas-watches.ma/collection |
-| /product/[slug] | https://www.atlas-watches.ma/product/[slug] |
-| /blog | https://www.atlas-watches.ma |
-| /blog/[slug] | https://www.atlas-watches.ma |
-| /pages/contact | https://www.atlas-watches.ma |
-| /pages/politique-livraison | https://www.atlas-watches.ma |
+### 7.2 Format & Sizing
+- All images unoptimized (`images.unoptimized: true`) ✗
+- No WebP/AVIF conversion — significant performance loss
+- Sanity CDN supports `?fm=webp` parameter for manual format negotiation
+- `imageUrl()` helper already limits width (800–1200px) ✓
 
-### HTTP Response Headers (HTTPS)
+### 7.3 SEO
+- Descriptive alt text on product images ✓
+- Filenames from Sanity are asset hashes — not SEO-optimized but acceptable
+- Hero images from Unsplash won't appear in brand-attributed Google Image Search
 
-```
-HTTP/2 200
-cache-control: s-maxage=60, stale-while-revalidate=31535940
-content-security-policy: base-uri 'self'; form-action 'self'; frame-ancestors 'self'
-strict-transport-security: max-age=63072000; includeSubDomains; preload
-x-content-type-options: nosniff
-x-frame-options: SAMEORIGIN
-x-nextjs-cache: HIT
-x-xss-protection: 1; mode=block
-```
+---
+
+## 8. Backlink Profile — Not Established
+
+- Common Crawl: **0 referring domains** in latest index
+- Domain appears to be new or very recently launched
+- No external link equity has accumulated yet
+- Requires off-page link building strategy (not a technical issue)
+
+---
+
+## Appendix A: Full URL Status
+
+| URL | HTTP | Notes |
+|---|---|---|
+| https://www.maisonduprestige.com | 200 | ✓ |
+| https://www.maisonduprestige.com/collection | 200 | ✓ |
+| https://www.maisonduprestige.com/collection/montres-hommes | 200 | ✓ |
+| https://www.maisonduprestige.com/collection/montres-femmes | 200 | ✓ |
+| https://www.maisonduprestige.com/blog | 200 | ✓ |
+| https://www.maisonduprestige.com/pages/contact | 200 | ✓ |
+| 42 product pages | 200 | ✓ |
+| /product/Emporio Armani Renato... | **404** | ✗ Spaces in slug |
+| 3 blog posts | 200 | ✓ |
+| https://maisonduprestige.com/ | 307 | ⚠ Should be 308/301 |
+
+## Appendix B: Schema Inventory
+
+| Page | Schema Types | Duplicate |
+|---|---|---|
+| Homepage | Organization, WebSite, Store, FAQPage | ✗ All ×2 |
+| Product pages | Organization, WebSite, BreadcrumbList, Product | ✗ All ×2 |
+| Blog posts | Organization, WebSite, BlogPosting | ✗ All ×2 |
+| Collection | Organization, WebSite | ✗ ×2 |
+| Category pages | Organization, WebSite, BreadcrumbList | ✗ ×2 |

@@ -21,12 +21,44 @@ interface Props {
   params: Promise<{ slug: string }>
 }
 
+function toKebab(slug: string): string {
+  return slug.trim().toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
+}
+
 export async function generateStaticParams() {
   if (isSanityConfigured()) {
     const slugs = await sanityFetch<string[]>(PRODUCT_SLUGS_QUERY) ?? []
-    return slugs.map((slug) => ({ slug }))
+    return slugs.map((slug) => ({ slug: toKebab(slug) })).filter((p) => p.slug)
   }
   return localProducts.map((p) => ({ slug: p.slug }))
+}
+
+function buildDescription(product: Product): string {
+  if (product.seo?.description) {
+    const d = product.seo.description
+    return d.length <= 160 ? d : d.slice(0, 157).trimEnd() + '...'
+  }
+
+  const keyword = product.category === 'luxury' || product.category === 'classic'
+    ? 'montre homme Maroc'
+    : product.category === 'sport'
+    ? 'montre sport Maroc'
+    : 'montre femme Maroc'
+
+  const cta = 'Livraison gratuite, paiement à la livraison.'
+
+  // Build: "Achetez [name] — [keyword]. [short desc]. [cta]"
+  const base = `Achetez ${product.name} — ${keyword}. ${cta}`
+  if (base.length <= 160) return base
+
+  // Fallback: strip name to fit
+  const prefix = `Achetez `
+  const suffix = ` — ${keyword}. ${cta}`
+  const nameAllowance = 160 - prefix.length - suffix.length
+  const name = nameAllowance > 10
+    ? product.name.slice(0, nameAllowance).trimEnd()
+    : product.name
+  return `${prefix}${name}${suffix}`.slice(0, 160)
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -41,8 +73,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!product) return {}
 
-  const title       = product.seo?.title       ?? `${product.name} — ${product.price.toLocaleString('fr-MA')} MAD`
-  const description = product.seo?.description ?? product.longDescription
+  const SUFFIX = ' | Maison du Prestige'
+  const rawTitle = product.seo?.title ?? product.name
+  const title = rawTitle.length + SUFFIX.length <= 60
+    ? rawTitle + SUFFIX
+    : rawTitle.slice(0, 60 - SUFFIX.length).trimEnd() + SUFFIX
+  const description = buildDescription(product)
   const ogImage     = product.seo?.ogImage ?? imageUrl(product.images[0], 800)
 
   return {

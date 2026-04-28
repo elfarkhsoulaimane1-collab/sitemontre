@@ -1,0 +1,10 @@
+{
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "maisonduprestige.com" }],
+      "destination": "https://www.maisonduprestige.com/$1",
+      "permanent": true
+    }
+  ]
+}

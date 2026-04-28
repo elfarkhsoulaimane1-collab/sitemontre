@@ -52,7 +52,10 @@ export const ALL_PRODUCTS_QUERY = /* groq */ `
 `
 
 export const PRODUCT_BY_SLUG_QUERY = /* groq */ `
-  *[_type == "product" && slug.current == $slug][0] { ${PRODUCT_FIELDS} }
+  *[_type == "product" && (
+    slug.current == $slug ||
+    lower(string::replace(slug.current, " ", "-")) == lower($slug)
+  )][0] { ${PRODUCT_FIELDS} }
 `
 
 export const PRODUCT_SLUGS_QUERY = /* groq */ `

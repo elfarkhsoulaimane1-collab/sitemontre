@@ -4,6 +4,10 @@ import { PRODUCT_SLUGS_QUERY, POST_SLUGS_QUERY, PAGE_SLUGS_QUERY } from '@/sanit
 
 const BASE = 'https://www.maisonduprestige.com'
 
+function toKebab(slug: string): string {
+  return slug.trim().toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [products, posts, pages] = await Promise.all([
     sanityFetch<string[]>(PRODUCT_SLUGS_QUERY),
@@ -12,20 +16,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ])
 
   const staticPages: MetadataRoute.Sitemap = [
-    { url: BASE,                        lastModified: new Date(), changeFrequency: 'daily',   priority: 1.0 },
-    { url: `${BASE}/collection`,                    lastModified: new Date(), changeFrequency: 'daily',   priority: 0.9 },
-    { url: `${BASE}/collection/montres-hommes`,     lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.85 },
-    { url: `${BASE}/collection/montres-femmes`,     lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.85 },
-    { url: `${BASE}/blog`,              lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.7 },
-    { url: `${BASE}/pages/contact`,     lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
+    { url: BASE,                                   lastModified: new Date(), changeFrequency: 'daily',   priority: 1.0 },
+    { url: `${BASE}/collection`,                   lastModified: new Date(), changeFrequency: 'daily',   priority: 0.9 },
+    { url: `${BASE}/collection/montres-hommes`,    lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.85 },
+    { url: `${BASE}/collection/montres-femmes`,    lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.85 },
+    { url: `${BASE}/blog`,                         lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.7 },
+    { url: `${BASE}/pages/contact`,                lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
   ]
 
-  const productPages = (products ?? []).map((slug) => ({
-    url: `${BASE}/product/${slug}`,
-    lastModified: new Date(),
-    changeFrequency: 'weekly' as const,
-    priority: 0.8,
-  }))
+  const productPages = (products ?? [])
+    .map(toKebab)
+    .filter(Boolean)
+    .map((slug) => ({
+      url: `${BASE}/product/${slug}`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.8,
+    }))
 
   const postPages = (posts ?? []).map((slug) => ({
     url: `${BASE}/blog/${slug}`,
