@@ -24,10 +24,18 @@ const nextConfig = {
 
   async redirects() {
     return [
+      // Apex (non-www) → www — root path
       {
-        source: '/:path*',
+        source: '/',
         has: [{ type: 'host', value: 'maisonduprestige.com' }],
-        destination: 'https://www.maisonduprestige.com/:path*',
+        destination: 'https://www.maisonduprestige.com/',
+        permanent: true,
+      },
+      // Apex (non-www) → www — all other paths
+      {
+        source: '/:path+',
+        has: [{ type: 'host', value: 'maisonduprestige.com' }],
+        destination: 'https://www.maisonduprestige.com/:path+',
         permanent: true,
       },
     ]

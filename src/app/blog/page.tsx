@@ -9,6 +9,7 @@ import { PostCard } from '@/types'
 export const metadata: Metadata = {
   title: 'Blog',
   description: 'Articles, conseils et actualités horlogères par Maison du Prestige.',
+  alternates: { canonical: '/blog' },
 }
 
 export default async function BlogPage() {

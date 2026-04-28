@@ -51,7 +51,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const title = page?.seo?.title ?? page?.title ?? fallback?.title ?? slug
   return {
     title,
-    description: page?.seo?.description,
+    description:  page?.seo?.description,
+    alternates:   { canonical: `/pages/${slug}` },
   }
 }
 

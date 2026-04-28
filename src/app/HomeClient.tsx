@@ -33,22 +33,6 @@ function Placeholder({ className }: { className?: string }) {
 const EXPO = [0.16, 1, 0.3, 1] as const
 const SOFT = [0.25, 1, 0.5, 1] as const
 
-/* ─── Clip reveal — hero lines ───────────────────────────────────────── */
-function Clip({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  const reduced = useReducedMotion()
-  return (
-    <div className="overflow-hidden">
-      <motion.div
-        initial={{ y: reduced ? 0 : '108%' }}
-        animate={{ y: 0 }}
-        transition={{ duration: 1.2, delay, ease: EXPO }}
-      >
-        {children}
-      </motion.div>
-    </div>
-  )
-}
-
 /* ─── Fade + rise (sections) ─────────────────────────────────────────── */
 function Reveal({ children, delay = 0, className }: { children: React.ReactNode; delay?: number; className?: string }) {
   const reduced = useReducedMotion()
@@ -407,18 +391,14 @@ export default function HomeClient({ data }: { data: HomeData }) {
 
           {/* Headline */}
           <h1 className="mb-10">
-            <Clip delay={0.2}>
-              <span className="font-serif font-bold text-white uppercase tracking-[-0.04em] leading-[0.9] lg:leading-[0.87] block"
-                style={{ fontSize: 'clamp(64px, 14vw, 160px)' }}>
-                {heroTitle}
-              </span>
-            </Clip>
-            <Clip delay={0.38}>
-              <span className="font-serif font-bold text-gradient uppercase tracking-[-0.04em] leading-[0.9] lg:leading-[0.87] block"
-                style={{ fontSize: 'clamp(64px, 14vw, 160px)' }}>
-                {heroTitleAccent}
-              </span>
-            </Clip>
+            <span className="font-serif font-bold text-white uppercase tracking-[-0.04em] leading-[0.9] lg:leading-[0.87] block"
+              style={{ fontSize: 'clamp(64px, 14vw, 160px)' }}>
+              {heroTitle}
+            </span>
+            <span className="font-serif font-bold text-gradient uppercase tracking-[-0.04em] leading-[0.9] lg:leading-[0.87] block"
+              style={{ fontSize: 'clamp(64px, 14vw, 160px)' }}>
+              {heroTitleAccent}
+            </span>
           </h1>
 
           {/* Trust signals */}
@@ -530,7 +510,7 @@ export default function HomeClient({ data }: { data: HomeData }) {
                   {icon}
                 </div>
                 <div>
-                  <p className="text-white text-[13px] font-semibold leading-tight">{title}</p>
+                  <h3 className="text-white text-[13px] font-semibold leading-tight">{title}</h3>
                   <p className="text-neutral-500 text-[12px] mt-0.5 leading-snug">{sub}</p>
                 </div>
               </motion.div>
@@ -580,9 +560,9 @@ export default function HomeClient({ data }: { data: HomeData }) {
 
                     <div className="absolute bottom-0 inset-x-0 p-5 sm:p-7">
                       <div className="h-px bg-gold w-0 group-hover:w-full transition-[width] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] mb-4" />
-                      <p className="font-serif text-xl sm:text-2xl text-white font-bold leading-tight">
+                      <h3 className="font-serif text-xl sm:text-2xl text-white font-bold leading-tight">
                         {label}
-                      </p>
+                      </h3>
                       <p className="text-neutral-500 text-[10px] uppercase tracking-widest mt-2">
                         {subLabel}
                       </p>

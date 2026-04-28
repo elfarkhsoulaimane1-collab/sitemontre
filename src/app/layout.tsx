@@ -34,7 +34,6 @@ const BASE_METADATA: Metadata = {
   description:
     'Découvrez notre collection de montres premium inspirées du Maroc. Livraison gratuite partout au Maroc. Paiement à la livraison disponible.',
   authors: [{ name: 'Maison du Prestige' }],
-  alternates: { canonical: '/' },
   robots: {
     index: true,
     follow: true,

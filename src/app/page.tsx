@@ -22,12 +22,14 @@ const FALLBACK_TESTIMONIALS: HomepageTestimonial[] = [
 ]
 
 export async function generateMetadata(): Promise<Metadata> {
+  const base: Metadata = { alternates: { canonical: '/' } }
   const data = await sanityFetch<HomePageData>(HOME_PAGE_QUERY)
-  if (!data?.seo) return {}
+  if (!data?.seo) return base
   return {
+    ...base,
     ...(data.seo.title       && { title: data.seo.title }),
     ...(data.seo.description && { description: data.seo.description }),
-    ...(data.seo.keywords    && { keywords: data.seo.keywords }),
+    ...(data.seo.keywords?.length && { keywords: data.seo.keywords }),
     ...(data.seo.ogImage     && {
       openGraph: {
         images: [{ url: data.seo.ogImage, width: 1200, height: 630, alt: data.seo.title ?? 'Maison du Prestige' }],
