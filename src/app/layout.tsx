@@ -39,6 +39,9 @@ const BASE_METADATA: Metadata = {
     follow: true,
     googleBot: { index: true, follow: true },
   },
+  verification: {
+    google: 'xuJiG0wzs2_nblXvBcWjgpV-phd8JJzPiX49cu9MZU0',
+  },
 }
 
 export async function generateMetadata(): Promise<Metadata> {

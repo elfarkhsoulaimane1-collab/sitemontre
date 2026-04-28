@@ -288,7 +288,16 @@ export const homePageType = defineType({
     }),
 
     // ── SEO ───────────────────────────────────────────────────────────────
-    defineField({ name: 'seo', title: 'SEO', type: 'seo', group: 'seo' }),
+    defineField({
+      name: 'seoText',
+      title: 'Texte SEO (bas de page)',
+      type: 'text',
+      rows: 4,
+      group: 'seo',
+      description: "Paragraphe affiché en bas de la page d'accueil. Idéal pour les mots-clés longue traîne (montres homme/femme Maroc, livraison…).",
+      initialValue: "Maison du Prestige propose une sélection de montres homme et femme au Maroc, alliant élégance, qualité et prix accessible. Nos montres originales sont choisies pour offrir un style unique, avec livraison rapide partout au Maroc et paiement à la livraison.",
+    }),
+    defineField({ name: 'seo', title: 'SEO (balises méta)', type: 'seo', group: 'seo' }),
   ],
   preview: {
     prepare() { return { title: "Page d'accueil" } },

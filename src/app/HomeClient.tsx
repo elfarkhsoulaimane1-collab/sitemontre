@@ -308,6 +308,7 @@ export interface HomeData {
   ctaSubtitle: string; ctaButton: string; ctaImage: string
   newsletterSubtitle: string; newsletterTitle: string; newsletterText: string
   blogPosts: PostCard[]
+  seoText: string
 }
 
 /* ─── Constants ───────────────────────────────────────────────────────── */
@@ -329,7 +330,7 @@ export default function HomeClient({ data }: { data: HomeData }) {
     testimonialsSubtitle, testimonialsTitle, homepageReviews,
     ctaLabel, ctaTitle, ctaDiscount, ctaSubtitle, ctaButton, ctaImage,
     newsletterSubtitle, newsletterTitle, newsletterText,
-    blogPosts,
+    blogPosts, seoText,
   } = data
 
   const heroRef = useRef<HTMLElement>(null)
@@ -889,6 +890,13 @@ export default function HomeClient({ data }: { data: HomeData }) {
             <NewsletterForm />
             <p className="text-neutral-700 text-[11px] mt-6 tracking-wider">Pas de spam · Désabonnement en 1 clic</p>
           </Reveal>
+        </div>
+      </section>
+
+      {/* SEO text — visible to crawlers, understated for users */}
+      <section aria-label="À propos de Maison du Prestige" className="py-16 px-4 sm:px-6 border-t border-neutral-900">
+        <div className="max-w-3xl mx-auto text-center">
+          <p className="text-sm md:text-base text-neutral-500 leading-relaxed">{seoText}</p>
         </div>
       </section>
     </>

@@ -147,6 +147,7 @@ export const HOME_PAGE_QUERY = /* groq */ `
     newsletterSubtitle,
     newsletterTitle,
     newsletterText,
+    seoText,
     "seo": seo { title, description, keywords, "ogImage": ogImage.asset->url },
   }
 `

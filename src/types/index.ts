@@ -190,6 +190,7 @@ export interface HomePageData {
   newsletterSubtitle?: string
   newsletterTitle?: string
   newsletterText?: string
+  seoText?: string
   seo?: ProductSeo
 }
 

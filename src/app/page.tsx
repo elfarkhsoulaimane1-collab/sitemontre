@@ -99,6 +99,7 @@ export default async function HomePage() {
   const newsletterSubtitle = cms?.newsletterSubtitle ?? 'Restez informé'
   const newsletterTitle    = cms?.newsletterTitle    ?? 'Accès VIP en Avant-Première'
   const newsletterText     = cms?.newsletterText     ?? 'Inscrivez-vous pour recevoir nos nouvelles collections et offres exclusives avant tout le monde.'
+  const seoText            = cms?.seoText            ?? 'Maison du Prestige propose une sélection de montres homme et femme au Maroc, alliant élégance, qualité et prix accessible. Nos montres originales sont choisies pour offrir un style unique, avec livraison rapide partout au Maroc et paiement à la livraison.'
 
   return (
     <>
@@ -115,6 +116,7 @@ export default async function HomePage() {
         ctaLabel, ctaTitle, ctaDiscount, ctaSubtitle, ctaButton, ctaImage,
         newsletterSubtitle, newsletterTitle, newsletterText,
         blogPosts,
+        seoText,
       }} />
 
       <JsonLd data={{
