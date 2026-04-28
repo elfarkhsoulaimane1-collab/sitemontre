@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRef } from 'react'
+import { useRef, useMemo } from 'react'
 import dynamic from 'next/dynamic'
 import { motion, useScroll, useTransform, useReducedMotion } from 'motion/react'
 import ProductCard from '@/components/ProductCard'
@@ -16,6 +16,72 @@ function safeImg(v: unknown, w = 800): string | null {
   if (!v) return null
   const s = typeof v === 'string' ? v : imageUrl(v, w)
   return s?.trim() || null
+}
+
+/* ─── Hero Heading ────────────────────────────────────────────────────── */
+function splitIntoLines(text: string, maxChars = 12): string[] {
+  const words = text.trim().split(/\s+/)
+  const lines: string[] = []
+  let current = ''
+  for (const word of words) {
+    const next = current ? `${current} ${word}` : word
+    if (next.length > maxChars && current) {
+      lines.push(current)
+      current = word
+    } else {
+      current = next
+    }
+  }
+  if (current) lines.push(current)
+  return lines
+}
+
+function HeroHeading({ title, accent }: { title: string; accent: string }) {
+  const titleLines = useMemo(() => splitIntoLines(title, 12), [title])
+  const accentLines = useMemo(() => splitIntoLines(accent, 12), [accent])
+
+  const allLines = [...titleLines, ...accentLines]
+  const longest = allLines.reduce((max, l) => Math.max(max, l.length), 0)
+
+  // Tier down font size for longer lines
+  const desktopSize =
+    longest <= 8  ? 'clamp(3rem,10vw,8rem)'  :
+    longest <= 12 ? 'clamp(2.5rem,8vw,6.5rem)' :
+    longest <= 16 ? 'clamp(2rem,6.5vw,5.5rem)' :
+                    'clamp(1.75rem,5.5vw,4.5rem)'
+
+  const lh = longest <= 10 ? '0.9' : longest <= 14 ? '0.95' : '1.0'
+
+  const shared: React.CSSProperties = {
+    fontFamily: 'inherit',
+    lineHeight: lh,
+    letterSpacing: '-0.04em',
+    overflowWrap: 'break-word',
+    wordBreak: 'break-word',
+  }
+
+  return (
+    <>
+      <style>{`@media(min-width:768px){.hero-h1 span.hero-line{font-size:var(--hero-desktop-sz)!important}}`}</style>
+      <h1
+        className="hero-h1 mb-10 max-w-[900px]"
+        style={{ ['--hero-desktop-sz' as string]: desktopSize } as React.CSSProperties}
+      >
+        {titleLines.map((line, i) => (
+          <span key={i} className="hero-line font-serif font-bold text-white uppercase block"
+            style={{ ...shared, fontSize: 'clamp(2rem,8vw,3.5rem)' }}>
+            {line}
+          </span>
+        ))}
+        {accentLines.map((line, i) => (
+          <span key={`a${i}`} className="hero-line font-serif font-bold text-gradient uppercase block"
+            style={{ ...shared, fontSize: 'clamp(2rem,8vw,3.5rem)' }}>
+            {line}
+          </span>
+        ))}
+      </h1>
+    </>
+  )
 }
 
 /* ─── Placeholder ─────────────────────────────────────────────────────── */
@@ -390,16 +456,7 @@ export default function HomeClient({ data }: { data: HomeData }) {
           </motion.div>
 
           {/* Headline */}
-          <h1 className="mb-10">
-            <span className="font-serif font-bold text-white uppercase tracking-[-0.04em] leading-[0.9] lg:leading-[0.87] block"
-              style={{ fontSize: 'clamp(64px, 14vw, 160px)' }}>
-              {heroTitle}
-            </span>
-            <span className="font-serif font-bold text-gradient uppercase tracking-[-0.04em] leading-[0.9] lg:leading-[0.87] block"
-              style={{ fontSize: 'clamp(64px, 14vw, 160px)' }}>
-              {heroTitleAccent}
-            </span>
-          </h1>
+          <HeroHeading title={heroTitle} accent={heroTitleAccent} />
 
           {/* Trust signals */}
           {heroTrustSignals.length > 0 && (
