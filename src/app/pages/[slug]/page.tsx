@@ -60,8 +60,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 const ptComponents = {
   block: {
     normal:  ({ children }: { children?: React.ReactNode }) => <p className="text-neutral-300 leading-relaxed mb-4">{children}</p>,
-    h2:      ({ children }: { children?: React.ReactNode }) => <h2 className="font-serif text-2xl text-white font-bold mt-10 mb-4">{children}</h2>,
-    h3:      ({ children }: { children?: React.ReactNode }) => <h3 className="font-serif text-xl text-white font-semibold mt-8 mb-3">{children}</h3>,
+    h2:      ({ children }: { children?: React.ReactNode }) => <h2 className="font-serif text-2xl text-amber-400 font-bold mt-10 mb-4">{children}</h2>,
+    h3:      ({ children }: { children?: React.ReactNode }) => <h3 className="font-serif text-xl text-amber-300 font-semibold mt-8 mb-3">{children}</h3>,
   },
   marks: {
     strong: ({ children }: { children?: React.ReactNode }) => <strong className="text-white font-semibold">{children}</strong>,
@@ -82,8 +82,8 @@ export default async function PageRoute({ params }: Props) {
   const hasCms  = !!(page?.content?.length)
 
   return (
-    <div className="min-h-screen pt-32 pb-20 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-2xl mx-auto">
+    <div className="min-h-screen bg-neutral-950 pt-20 pb-24 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto">
         <nav className="flex items-center gap-2 text-xs text-neutral-500 mb-10">
           <Link href="/" className="hover:text-amber-400 transition-colors">Accueil</Link>
           <span>/</span>

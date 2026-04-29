@@ -763,6 +763,9 @@ export default function ProductDetailClient({
                   }
                 </div>
               )}
+
+              {/* Policy accordion */}
+              <PolicyAccordion />
             </div>
           </div>
         </div>
@@ -934,6 +937,60 @@ export default function ProductDetailClient({
           </a>
         </div>
       </div>
+    </div>
+  )
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   POLICY ACCORDION
+═══════════════════════════════════════════════════════════════════════════ */
+const POLICY_ITEMS = [
+  {
+    id:      'livraison',
+    title:   'Politique de Livraison',
+    content: 'Livraison gratuite partout au Maroc. Les commandes sont généralement livrées sous 2 à 4 jours ouvrables après confirmation.',
+    Icon:    () => <TruckIcon className="w-4 h-4" />,
+  },
+  {
+    id:      'retour',
+    title:   'Politique de Retour',
+    content: "Vous pouvez demander un retour sous 7 jours après réception, à condition que la montre soit non utilisée, dans son état d'origine et avec son emballage.",
+    Icon:    () => <ReturnIcon className="w-4 h-4" />,
+  },
+]
+
+function PolicyAccordion() {
+  const [open, setOpen] = useState<string | null>(null)
+  return (
+    <div className="border-t border-neutral-800">
+      {POLICY_ITEMS.map(({ id, title, content, Icon }, i) => (
+        <div key={id} className={i > 0 ? 'border-t border-neutral-800/50' : ''}>
+          <button
+            onClick={() => setOpen(prev => prev === id ? null : id)}
+            aria-expanded={open === id}
+            className="w-full flex items-center justify-between py-4 text-left group"
+          >
+            <span className="flex items-center gap-3">
+              <span className="text-gold flex-shrink-0"><Icon /></span>
+              <span className="text-[13px] font-semibold text-white tracking-wide">{title}</span>
+            </span>
+            <span
+              className={`flex-shrink-0 w-5 h-5 flex items-center justify-center border border-neutral-700 group-hover:border-gold group-hover:text-gold text-neutral-500 text-base leading-none select-none transition-all duration-300 ${
+                open === id ? 'rotate-45 border-gold text-gold' : 'rotate-0'
+              }`}
+            >
+              +
+            </span>
+          </button>
+          <div className={`grid transition-all duration-300 ease-in-out ${open === id ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}>
+            <div className="overflow-hidden">
+              <p className="text-neutral-400 text-[13px] leading-relaxed pb-5 pr-8">
+                {content}
+              </p>
+            </div>
+          </div>
+        </div>
+      ))}
     </div>
   )
 }

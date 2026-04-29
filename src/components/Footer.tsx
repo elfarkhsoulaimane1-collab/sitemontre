@@ -1,17 +1,15 @@
 import Link from 'next/link'
-import { SiteSettings, NavLink } from '@/types'
+import { SiteSettings, NavLink, CmsPage } from '@/types'
 
 interface Props {
   settings?: SiteSettings
+  cmsPages?: CmsPage[]
 }
 
-const DEFAULT_NAV: NavLink[] = [
-  { href: '/',                             label: 'Accueil'      },
-  { href: '/collection',                   label: 'Collection'   },
-  { href: '/cart',                         label: 'Panier'       },
-  { href: '/pages/politique-livraison',    label: 'Livraison'    },
-  { href: '/pages/politique-retours',      label: 'Retours'      },
-  { href: '/pages/contact',               label: 'Contact'      },
+const CORE_NAV: NavLink[] = [
+  { href: '/',           label: 'Accueil'    },
+  { href: '/collection', label: 'Collection' },
+  { href: '/blog',       label: 'Blog'       },
 ]
 
 const DEFAULT_COMMITMENTS = [
@@ -22,11 +20,12 @@ const DEFAULT_COMMITMENTS = [
   'Service client 7j/7',
 ]
 
-export default function Footer({ settings }: Props) {
+export default function Footer({ settings, cmsPages = [] }: Props) {
   const siteName    = settings?.siteName    ?? 'Maison du Prestige'
   const tagline     = settings?.siteDescription ?? 'Des montres premium inspirées du Maroc. Chaque pièce raconte une histoire. Chaque seconde compte.'
   const wa          = settings?.whatsappNumber ?? '212600000000'
-  const navLinks    = settings?.footerNavLinks?.length  ? settings.footerNavLinks  : DEFAULT_NAV
+  const pageLinks: NavLink[] = cmsPages.map(p => ({ href: `/pages/${p.slug}`, label: p.title }))
+  const navLinks    = settings?.footerNavLinks?.length  ? settings.footerNavLinks  : [...CORE_NAV, ...pageLinks]
   const commitments = settings?.footerCommitments?.length ? settings.footerCommitments : DEFAULT_COMMITMENTS
   const copyright   = settings?.footerCopyright ?? `${siteName}. Tous droits réservés.`
   const ctaTagline  = settings?.footerTagline ?? 'Une question ? Contactez-nous.'

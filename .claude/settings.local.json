@@ -47,7 +47,8 @@
       "Bash(python3 /Users/elfarkh/.claude/plugins/cache/agricidaniel-seo/claude-seo/1.9.6/scripts/google_auth.py --check)",
       "Bash(python3 /Users/elfarkh/.claude/plugins/cache/agricidaniel-seo/claude-seo/1.9.6/scripts/backlinks_auth.py --check)",
       "Bash(python3 /Users/elfarkh/.claude/plugins/cache/agricidaniel-seo/claude-seo/1.9.6/scripts/drift_history.py https://www.maisonduprestige.com/)",
-      "Bash(python3 /Users/elfarkh/.claude/plugins/cache/agricidaniel-seo/claude-seo/1.9.6/scripts/fetch_page.py https://www.maisonduprestige.com/)"
+      "Bash(python3 /Users/elfarkh/.claude/plugins/cache/agricidaniel-seo/claude-seo/1.9.6/scripts/fetch_page.py https://www.maisonduprestige.com/)",
+      "Bash(python3)"
     ]
   }
 }

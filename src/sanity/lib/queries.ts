@@ -162,6 +162,13 @@ export const PAGE_SLUGS_QUERY = /* groq */ `
   *[_type == "page" && defined(slug.current)][].slug.current
 `
 
+export const NAV_PAGES_QUERY = /* groq */ `
+  *[_type == "page" && defined(slug.current)] | order(_createdAt asc) {
+    title,
+    "slug": slug.current,
+  }
+`
+
 export const REVIEWS_BY_PRODUCT_QUERY = /* groq */ `
   *[_type == "review" && product._ref == $productId && approved == true]
   | order(_createdAt desc) {

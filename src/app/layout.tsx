@@ -10,9 +10,8 @@ import Analytics from '@/components/Analytics'
 import JsonLd from '@/components/JsonLd'
 import ChatWidget from '@/components/ChatWidget'
 import { sanityFetch } from '@/sanity/lib/fetch'
-import { SITE_SETTINGS_QUERY } from '@/sanity/lib/queries'
-import { SiteSettings } from '@/types'
-import { Analytics as VercelAnalytics } from '@vercel/analytics/next'
+import { SITE_SETTINGS_QUERY, NAV_PAGES_QUERY } from '@/sanity/lib/queries'
+import { SiteSettings, CmsPage } from '@/types'
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -106,18 +105,23 @@ const websiteSchema = {
 // Lives in its own async component so RootLayout can suspend on it without
 // blocking the page content from streaming to the client.
 async function SiteShell({ children }: { children: React.ReactNode }) {
-  const settings = await sanityFetch<SiteSettings>(SITE_SETTINGS_QUERY) ?? undefined
+  const [settings, cmsPages] = await Promise.all([
+    sanityFetch<SiteSettings>(SITE_SETTINGS_QUERY),
+    sanityFetch<CmsPage[]>(NAV_PAGES_QUERY),
+  ])
+  const s = settings ?? undefined
+  const pages = cmsPages ?? []
   return (
-    <WatermarkProvider logoSrc={settings?.logo ?? null}>
+    <WatermarkProvider logoSrc={s?.logo ?? null}>
       <Analytics
-        metaPixelId={settings?.metaPixelId}
-        tiktokPixelId={settings?.tiktokPixelId}
-        googleAnalyticsId={settings?.googleAnalyticsId}
-        googleAdsId={settings?.googleAdsId}
+        metaPixelId={s?.metaPixelId}
+        tiktokPixelId={s?.tiktokPixelId}
+        googleAnalyticsId={s?.googleAnalyticsId}
+        googleAdsId={s?.googleAdsId}
       />
-      <Navbar settings={settings} />
+      <Navbar settings={s} cmsPages={pages} />
       <main>{children}</main>
-      <Footer settings={settings} />
+      <Footer settings={s} cmsPages={pages} />
     </WatermarkProvider>
   )
 }
@@ -154,7 +158,6 @@ export default function RootLayout({
           </Suspense>
           <ChatWidget />
         </CartProvider>
-        <VercelAnalytics />
       </body>
     </html>
   )

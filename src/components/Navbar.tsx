@@ -3,24 +3,20 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import CartBadge from './CartBadge'
-import { SiteSettings, NavLink } from '@/types'
+import { SiteSettings, NavLink, CmsPage } from '@/types'
 
 interface Props {
   settings?: SiteSettings
+  cmsPages?: CmsPage[]
 }
 
-const DEFAULT_NAV: NavLink[] = [
-  { href: '/',                             label: 'Accueil'              },
-  { href: '/collection',                   label: 'Collection'           },
-  { href: '/collection?filter=new',        label: 'Nouveautés'           },
-  { href: '/collection?filter=bestseller', label: 'Best Sellers'         },
-  { href: '/collection?filter=sale',       label: 'Promotions'           },
-  { href: '/blog',                         label: 'Blog'                 },
-  { href: '/pages/livraison',              label: 'Livraison & Paiement' },
-  { href: '/contact',                      label: 'Contact'              },
+const CORE_NAV: NavLink[] = [
+  { href: '/',           label: 'Accueil'    },
+  { href: '/collection', label: 'Collection' },
+  { href: '/blog',       label: 'Blog'       },
 ]
 
-export default function Navbar({ settings }: Props) {
+export default function Navbar({ settings, cmsPages = [] }: Props) {
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
@@ -31,7 +27,8 @@ export default function Navbar({ settings }: Props) {
   const siteName     = settings?.siteName ?? 'Maison du Prestige'
   const announcement = settings?.announcementBar
     ?? 'Livraison gratuite\u00a0\u2022\u00a0Paiement à la livraison\u00a0\u2022\u00a0Retours sous 7 jours'
-  const navLinks     = settings?.navLinks?.length ? settings.navLinks : DEFAULT_NAV
+  const pageLinks: NavLink[] = cmsPages.map(p => ({ href: `/pages/${p.slug}`, label: p.title }))
+  const navLinks     = settings?.navLinks?.length ? settings.navLinks : [...CORE_NAV, ...pageLinks]
   const phone        = settings?.phone ?? '+212 6XX XX XX XX'
 
   return (

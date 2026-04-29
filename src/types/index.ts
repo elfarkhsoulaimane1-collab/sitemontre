@@ -135,6 +135,11 @@ export interface NavLink {
   href: string
 }
 
+export interface CmsPage {
+  title: string
+  slug: string
+}
+
 export interface TrustItem {
   icon: string
   title: string
