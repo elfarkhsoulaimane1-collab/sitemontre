@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { products as localProducts } from '@/data/products'
 import { sanityFetch } from '@/sanity/lib/fetch'
-import { ALL_PRODUCTS_QUERY } from '@/sanity/lib/queries'
+import { ALL_PRODUCTS_QUERY, COLLECTION_BY_SLUG_QUERY } from '@/sanity/lib/queries'
 import { Product } from '@/types'
 import ProductCard from '@/components/ProductCard'
 import JsonLd from '@/components/JsonLd'
@@ -30,8 +30,12 @@ const breadcrumbSchema = {
 }
 
 export default async function MonstresFemmesPage() {
-  const sanityProducts = await sanityFetch<Product[]>(ALL_PRODUCTS_QUERY)
+  const [sanityProducts, collection] = await Promise.all([
+    sanityFetch<Product[]>(ALL_PRODUCTS_QUERY),
+    sanityFetch<{ description?: string }>(COLLECTION_BY_SLUG_QUERY, { slug: 'montres-femmes' }),
+  ])
   const products = sanityProducts ?? localProducts
+  const description = collection?.description
 
   return (
     <>
@@ -48,9 +52,11 @@ export default async function MonstresFemmesPage() {
         </nav>
         <p className="section-subtitle text-gold/70">Notre sélection</p>
         <h1 className="section-title text-white mt-2">Montres Femme Maroc</h1>
-        <p className="text-neutral-400 text-sm mt-4 max-w-md mx-auto">
-          Collection de montres femme premium — livraison gratuite partout au Maroc, paiement à la livraison.
-        </p>
+        {description && (
+          <p className="text-neutral-400 text-sm sm:text-base mt-4 max-w-2xl mx-auto leading-relaxed">
+            {description}
+          </p>
+        )}
       </section>
 
       {/* Product grid — pre-rendered for Googlebot */}

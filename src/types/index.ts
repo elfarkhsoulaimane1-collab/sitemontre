@@ -148,6 +148,7 @@ export interface TrustItem {
 
 export interface CollectionData {
   value: string
+  slug?: string
   label: string
   subLabel?: string
   image?: string

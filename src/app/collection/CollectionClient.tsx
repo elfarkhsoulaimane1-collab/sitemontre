@@ -52,13 +52,30 @@ export default function CollectionClient({ products, collections, initialCategor
     ),
   ]
 
+  const PAGE_TITLES: Record<string, string> = {
+    'montres-femmes': 'Montres Femme au Maroc',
+    'montres-hommes': 'Montres Homme au Maroc',
+  }
+  const pageTitle = PAGE_TITLES[activeCategory] ?? 'Notre Collection'
+
+  const BOTTOM_DESCRIPTIONS: Record<string, string> = {
+    'montres-femmes': 'Trouvez la montre femme idéale au Maroc parmi notre sélection premium. Paiement à la réception, livraison rapide dans tout le pays.',
+    'montres-hommes': 'Commandez votre montre homme au Maroc en toute confiance — livraison gratuite, paiement à la livraison, retour sous 7 jours.',
+  }
+  const bottomDescription = BOTTOM_DESCRIPTIONS[activeCategory] ?? activeDescription
+
+  const activeCollection = activeCategory !== 'all'
+    ? collections.find(c => c.value === activeCategory || c.slug === activeCategory)
+    : undefined
+  const activeDescription = activeCollection?.description ?? undefined
+
   return (
     <>
       {/* Page header */}
       <div className="pt-12 pb-12 px-4 sm:px-6 lg:px-8 bg-white border-b border-stone-200">
         <div className="max-w-7xl mx-auto">
           <p className="text-gold text-xs uppercase tracking-[0.4em] mb-3">Maison du Prestige</p>
-          <h1 className="font-serif text-4xl sm:text-5xl text-neutral-900 font-bold">Notre Collection</h1>
+          <h1 className="font-serif text-4xl sm:text-5xl text-neutral-900 font-bold">{pageTitle}</h1>
           <p className="text-neutral-500 mt-3 text-sm max-w-md">
             {filtered.length} montre{filtered.length !== 1 ? 's' : ''} —
             livraison gratuite, paiement à la livraison.
@@ -66,7 +83,18 @@ export default function CollectionClient({ products, collections, initialCategor
         </div>
       </div>
 
+      {activeDescription && (
+        <section className="bg-white border-b border-stone-200">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center">
+            <p className="text-stone-600 text-sm md:text-base leading-relaxed">
+              {activeDescription}
+            </p>
+          </div>
+        </section>
+      )}
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
         {/* Filters + Sort */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10">
           <div className="flex flex-wrap gap-2" role="group" aria-label="Filtrer par catégorie">
@@ -123,6 +151,16 @@ export default function CollectionClient({ products, collections, initialCategor
           </div>
         )}
       </div>
+
+      {bottomDescription && (
+        <section className="bg-white border-t border-stone-200">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center">
+            <p className="text-stone-500 text-xs md:text-sm leading-relaxed">
+              {bottomDescription}
+            </p>
+          </div>
+        </section>
+      )}
     </>
   )
 }

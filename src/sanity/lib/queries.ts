@@ -68,9 +68,17 @@ export const RELATED_PRODUCTS_QUERY = /* groq */ `
 export const ALL_COLLECTIONS_QUERY = /* groq */ `
   *[_type == "collection"] | order(order asc) {
     "value": slug.current,
+    "slug": slug.current,
     label,
     subLabel,
     "image": image.asset->url,
+    description,
+  }
+`
+
+export const COLLECTION_BY_SLUG_QUERY = /* groq */ `
+  *[_type == "collection" && slug.current == $slug][0] {
+    label,
     description,
   }
 `
