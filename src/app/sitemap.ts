@@ -21,9 +21,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ]
 
   const productPages = (products ?? [])
-    .filter(Boolean)
+    .filter((slug): slug is string => typeof slug === 'string' && slug.length > 0 && !/[\s%]/.test(slug))
     .map((slug) => ({
-      url: `${BASE}/product/${encodeURIComponent(slug)}`,
+      url: `${BASE}/product/${slug}`,
       lastModified: new Date(),
       changeFrequency: 'weekly' as const,
       priority: 0.8,
