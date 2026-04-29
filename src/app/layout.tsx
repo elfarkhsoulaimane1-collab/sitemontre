@@ -12,6 +12,7 @@ import ChatWidget from '@/components/ChatWidget'
 import { sanityFetch } from '@/sanity/lib/fetch'
 import { SITE_SETTINGS_QUERY } from '@/sanity/lib/queries'
 import { SiteSettings } from '@/types'
+import { Analytics as VercelAnalytics } from '@vercel/analytics/next'
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -153,6 +154,7 @@ export default function RootLayout({
           </Suspense>
           <ChatWidget />
         </CartProvider>
+        <VercelAnalytics />
       </body>
     </html>
   )
