@@ -58,16 +58,18 @@ export default function CollectionClient({ products, collections, initialCategor
   }
   const pageTitle = PAGE_TITLES[activeCategory] ?? 'Notre Collection'
 
+  const activeCollection = activeCategory !== 'all'
+    ? collections.find(c => c.value === activeCategory || c.slug === activeCategory)
+    : undefined
+  const activeDescription = activeCategory !== 'all' ? activeCollection?.description : undefined
+
   const BOTTOM_DESCRIPTIONS: Record<string, string> = {
     'montres-femmes': 'Trouvez la montre femme idéale au Maroc parmi notre sélection premium. Paiement à la réception, livraison rapide dans tout le pays.',
     'montres-hommes': 'Commandez votre montre homme au Maroc en toute confiance — livraison gratuite, paiement à la livraison, retour sous 7 jours.',
   }
-  const bottomDescription = BOTTOM_DESCRIPTIONS[activeCategory] ?? activeDescription
-
-  const activeCollection = activeCategory !== 'all'
-    ? collections.find(c => c.value === activeCategory || c.slug === activeCategory)
+  const bottomDescription = activeCategory !== 'all'
+    ? BOTTOM_DESCRIPTIONS[activeCategory] ?? activeDescription
     : undefined
-  const activeDescription = activeCollection?.description ?? undefined
 
   return (
     <>
