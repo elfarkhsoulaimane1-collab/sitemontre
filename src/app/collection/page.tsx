@@ -10,10 +10,22 @@ interface Props {
   searchParams: Promise<{ category?: string }>
 }
 
-export const metadata: Metadata = {
-  title: 'Collection',
-  description: 'Toute la collection de montres premium Maison du Prestige. Livraison gratuite partout au Maroc, paiement à la livraison.',
-  alternates: { canonical: '/collection' },
+export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
+  const { category } = await searchParams
+  const TITLES: Record<string, string> = {
+    'montres-hommes': 'Montres Homme au Maroc | Maison du Prestige',
+    'montres-femmes': 'Montres Femme au Maroc | Maison du Prestige',
+  }
+  const DESCS: Record<string, string> = {
+    'montres-hommes': 'Collection de montres homme premium au Maroc. Livraison gratuite, paiement à la livraison.',
+    'montres-femmes': 'Collection de montres femme premium au Maroc. Livraison gratuite, paiement à la livraison.',
+  }
+  const cat = category ?? 'all'
+  return {
+    title:      TITLES[cat] ?? 'Collection | Maison du Prestige',
+    description: DESCS[cat] ?? 'Toute la collection de montres premium Maison du Prestige. Livraison gratuite partout au Maroc, paiement à la livraison.',
+    alternates: { canonical: cat !== 'all' ? `/collection?category=${cat}` : '/collection' },
+  }
 }
 
 const FALLBACK_COLLECTIONS: CollectionData[] = [

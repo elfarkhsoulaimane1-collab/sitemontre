@@ -76,9 +76,9 @@ export default function ProductCard({
 
         <div className="flex items-center gap-3 pt-1">
           <span className="font-bold text-neutral-900 text-base">
-            {product.price.toLocaleString('fr-MA')} MAD
+            {product.price > 0 ? `${product.price.toLocaleString('fr-MA')} MAD` : 'Prix sur demande'}
           </span>
-          {product.originalPrice && (
+          {product.price > 0 && product.originalPrice && (
             <span className="text-sm text-neutral-400 line-through">
               {product.originalPrice.toLocaleString('fr-MA')} MAD
             </span>

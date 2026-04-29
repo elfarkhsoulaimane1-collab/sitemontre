@@ -79,8 +79,7 @@ export default function CollectionClient({ products, collections, initialCategor
           <p className="text-gold text-xs uppercase tracking-[0.4em] mb-3">Maison du Prestige</p>
           <h1 className="font-serif text-4xl sm:text-5xl text-neutral-900 font-bold">{pageTitle}</h1>
           <p className="text-neutral-500 mt-3 text-sm max-w-md">
-            {filtered.length} montre{filtered.length !== 1 ? 's' : ''} —
-            livraison gratuite, paiement à la livraison.
+            {filtered.length} montre{filtered.length > 1 ? 's' : ''} — livraison gratuite, paiement à la livraison.
           </p>
         </div>
       </div>
