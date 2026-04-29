@@ -11,6 +11,25 @@ interface Props {
   initialCategory: string
 }
 
+const FAQ_ITEMS = [
+  {
+    q: 'Quelle montre choisir au Maroc ?',
+    a: 'Choisissez une montre selon votre style : classique, sport ou moderne. Nos collections offrent des modèles adaptés à toutes les occasions.',
+  },
+  {
+    q: 'Les montres sont-elles originales ?',
+    a: 'Oui, toutes nos montres sont 100% originales et sélectionnées avec soin.',
+  },
+  {
+    q: 'Quel est le délai de livraison ?',
+    a: 'Livraison rapide partout au Maroc en 24 à 48h.',
+  },
+  {
+    q: 'Puis-je payer à la livraison ?',
+    a: 'Oui, vous pouvez payer à la réception de votre commande en toute sécurité.',
+  },
+]
+
 const DEFAULT_SORTS = [
   { value: 'default',    label: 'Recommandés'    },
   { value: 'price-asc',  label: 'Prix croissant'  },
@@ -142,6 +161,23 @@ export default function CollectionClient({ products, collections, initialCategor
           </div>
         </section>
       )}
+
+      {/* FAQ — SEO content */}
+      <section className="bg-white border-t border-stone-200">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <h2 className="font-serif text-2xl sm:text-3xl text-neutral-900 font-bold text-center mb-10">
+            Questions fréquentes
+          </h2>
+          <dl className="space-y-8">
+            {FAQ_ITEMS.map(({ q, a }) => (
+              <div key={q}>
+                <dt className="font-semibold text-neutral-900 text-sm sm:text-base mb-2">{q}</dt>
+                <dd className="text-neutral-500 text-sm leading-relaxed">{a}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </section>
     </>
   )
 }

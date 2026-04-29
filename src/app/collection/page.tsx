@@ -62,9 +62,37 @@ export default async function CollectionPage({ searchParams }: Props) {
     url: `https://www.maisonduprestige.com/collection?category=${initialCategory}`,
   }
 
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'Quelle montre choisir au Maroc ?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Choisissez une montre selon votre style : classique, sport ou moderne. Nos collections offrent des modèles adaptés à toutes les occasions.' },
+      },
+      {
+        '@type': 'Question',
+        name: 'Les montres sont-elles originales ?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Oui, toutes nos montres sont 100% originales et sélectionnées avec soin.' },
+      },
+      {
+        '@type': 'Question',
+        name: 'Quel est le délai de livraison ?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Livraison rapide partout au Maroc en 24 à 48h.' },
+      },
+      {
+        '@type': 'Question',
+        name: 'Puis-je payer à la livraison ?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Oui, vous pouvez payer à la réception de votre commande en toute sécurité.' },
+      },
+    ],
+  }
+
   return (
     <>
       <JsonLd data={collectionSchema} />
+      <JsonLd data={faqSchema} />
       <CollectionClient
         products={products}
         collections={collections}
