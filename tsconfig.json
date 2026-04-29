@@ -36,6 +36,11 @@
     ".next/dev/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "agent-skills",
+    "skills",
+    "bencium-claude-code-design-skill",
+    "ui-ux-pro-max-skill",
+    "claude-marketplace"
   ]
 }
