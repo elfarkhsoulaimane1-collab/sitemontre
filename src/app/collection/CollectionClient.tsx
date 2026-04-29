@@ -25,18 +25,11 @@ export default function CollectionClient({ products, collections, initialCategor
 
   function setCategory(cat: string) {
     setActiveCategory(cat)
-    if (cat === 'all') {
-      router.push('/collection', { scroll: false })
-    } else {
-      router.push(`/collection?category=${cat}`, { scroll: false })
-    }
+    router.push(`/collection?category=${cat}`, { scroll: false })
   }
 
   const filtered = useMemo(() => {
-    let list = [...products]
-    if (activeCategory !== 'all') {
-      list = list.filter((p) => (p.collectionSlug ?? p.category) === activeCategory)
-    }
+    let list = products.filter((p) => (p.collectionSlug ?? p.category) === activeCategory)
     switch (sort) {
       case 'price-asc':  list.sort((a, b) => a.price - b.price);  break
       case 'price-desc': list.sort((a, b) => b.price - a.price);  break
@@ -45,12 +38,9 @@ export default function CollectionClient({ products, collections, initialCategor
     return list
   }, [products, activeCategory, sort])
 
-  const categoryTabs = [
-    { value: 'all', label: 'Tout' },
-    ...Array.from(
-      new Map(collections.map(({ value, label }) => [value, { value, label }])).values()
-    ),
-  ]
+  const categoryTabs = Array.from(
+    new Map(collections.map(({ value, label }) => [value, { value, label }])).values()
+  )
 
   const PAGE_TITLES: Record<string, string> = {
     'montres-femmes': 'Montres Femme au Maroc',
@@ -58,18 +48,14 @@ export default function CollectionClient({ products, collections, initialCategor
   }
   const pageTitle = PAGE_TITLES[activeCategory] ?? 'Notre Collection'
 
-  const activeCollection = activeCategory !== 'all'
-    ? collections.find(c => c.value === activeCategory || c.slug === activeCategory)
-    : undefined
-  const activeDescription = activeCategory !== 'all' ? activeCollection?.description : undefined
+  const activeCollection = collections.find(c => c.value === activeCategory || c.slug === activeCategory)
+  const activeDescription = activeCollection?.description
 
   const BOTTOM_DESCRIPTIONS: Record<string, string> = {
     'montres-femmes': 'Trouvez la montre femme idéale au Maroc parmi notre sélection premium. Paiement à la réception, livraison rapide dans tout le pays.',
     'montres-hommes': 'Commandez votre montre homme au Maroc en toute confiance — livraison gratuite, paiement à la livraison, retour sous 7 jours.',
   }
-  const bottomDescription = activeCategory !== 'all'
-    ? BOTTOM_DESCRIPTIONS[activeCategory] ?? activeDescription
-    : undefined
+  const bottomDescription = BOTTOM_DESCRIPTIONS[activeCategory] ?? activeDescription
 
   return (
     <>
@@ -143,12 +129,6 @@ export default function CollectionClient({ products, collections, initialCategor
         ) : (
           <div className="text-center py-24">
             <p className="text-neutral-400 text-sm">Aucune montre dans cette catégorie.</p>
-            <button
-              onClick={() => setCategory('all')}
-              className="text-gold text-xs uppercase tracking-widest mt-4 hover:text-gold-dark transition-colors"
-            >
-              Voir toute la collection →
-            </button>
           </div>
         )}
       </div>

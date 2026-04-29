@@ -20,11 +20,11 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
     'montres-hommes': 'Collection de montres homme premium au Maroc. Livraison gratuite, paiement à la livraison.',
     'montres-femmes': 'Collection de montres femme premium au Maroc. Livraison gratuite, paiement à la livraison.',
   }
-  const cat = category ?? 'all'
+  const cat = category ?? 'montres-femmes'
   return {
-    title:      TITLES[cat] ?? 'Collection | Maison du Prestige',
-    description: DESCS[cat] ?? 'Toute la collection de montres premium Maison du Prestige. Livraison gratuite partout au Maroc, paiement à la livraison.',
-    alternates: { canonical: cat !== 'all' ? `/collection?category=${cat}` : '/collection' },
+    title:       TITLES[cat] ?? 'Collection | Maison du Prestige',
+    description: DESCS[cat]  ?? 'Toute la collection de montres premium Maison du Prestige. Livraison gratuite partout au Maroc, paiement à la livraison.',
+    alternates: { canonical: `/collection?category=${cat}` },
   }
 }
 
@@ -37,7 +37,7 @@ const FALLBACK_COLLECTIONS: CollectionData[] = [
 
 export default async function CollectionPage({ searchParams }: Props) {
   const { category } = await searchParams
-  const initialCategory = category ?? 'all'
+  const initialCategory = category ?? 'montres-femmes'
 
   const [sanityProducts, sanityCollections] = await Promise.all([
     sanityFetch<Product[]>(ALL_PRODUCTS_QUERY),
@@ -52,18 +52,14 @@ export default async function CollectionPage({ searchParams }: Props) {
     'montres-hommes': 'Montres Homme au Maroc',
   }
 
-  const activeCollection = initialCategory !== 'all'
-    ? collections.find(c => c.value === initialCategory)
-    : null
+  const activeCollection = collections.find(c => c.value === initialCategory) ?? null
 
   const collectionSchema = {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
     name: PAGE_TITLES[initialCategory] ?? activeCollection?.label ?? 'Notre Collection',
     ...(activeCollection?.description && { description: activeCollection.description }),
-    url: initialCategory !== 'all'
-      ? `https://www.maisonduprestige.com/collection?category=${initialCategory}`
-      : 'https://www.maisonduprestige.com/collection',
+    url: `https://www.maisonduprestige.com/collection?category=${initialCategory}`,
   }
 
   return (
