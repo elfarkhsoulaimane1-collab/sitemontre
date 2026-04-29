@@ -71,28 +71,28 @@ export default function Footer({ settings, cmsPages = [] }: Props) {
             <div className="flex gap-4 mt-6">
               {settings?.instagramUrl && (
                 <a href={settings.instagramUrl} target="_blank" rel="noopener noreferrer"
-                   className="text-xs uppercase tracking-widest text-neutral-500 hover:text-amber-400 transition-colors duration-300">
+                   className="text-xs uppercase tracking-widest text-neutral-300 hover:text-amber-400 transition-colors duration-300">
                   Instagram
                 </a>
               )}
               {settings?.facebookUrl && (
                 <a href={settings.facebookUrl} target="_blank" rel="noopener noreferrer"
-                   className="text-xs uppercase tracking-widest text-neutral-500 hover:text-amber-400 transition-colors duration-300">
+                   className="text-xs uppercase tracking-widest text-neutral-300 hover:text-amber-400 transition-colors duration-300">
                   Facebook
                 </a>
               )}
               {settings?.tiktokUrl && (
                 <a href={settings.tiktokUrl} target="_blank" rel="noopener noreferrer"
-                   className="text-xs uppercase tracking-widest text-neutral-500 hover:text-amber-400 transition-colors duration-300">
+                   className="text-xs uppercase tracking-widest text-neutral-300 hover:text-amber-400 transition-colors duration-300">
                   TikTok
                 </a>
               )}
               {/* Fallback placeholder links if no social URLs in Sanity */}
               {!settings?.instagramUrl && !settings?.facebookUrl && !settings?.tiktokUrl && (
                 <>
-                  <a href="#" className="text-xs uppercase tracking-widest text-neutral-500 hover:text-amber-400 transition-colors duration-300">Instagram</a>
-                  <a href="#" className="text-xs uppercase tracking-widest text-neutral-500 hover:text-amber-400 transition-colors duration-300">Facebook</a>
-                  <a href="#" className="text-xs uppercase tracking-widest text-neutral-500 hover:text-amber-400 transition-colors duration-300">TikTok</a>
+                  <a href="#" className="text-xs uppercase tracking-widest text-neutral-300 hover:text-amber-400 transition-colors duration-300">Instagram</a>
+                  <a href="#" className="text-xs uppercase tracking-widest text-neutral-300 hover:text-amber-400 transition-colors duration-300">Facebook</a>
+                  <a href="#" className="text-xs uppercase tracking-widest text-neutral-300 hover:text-amber-400 transition-colors duration-300">TikTok</a>
                 </>
               )}
             </div>
@@ -100,7 +100,7 @@ export default function Footer({ settings, cmsPages = [] }: Props) {
 
           {/* Links */}
           <nav aria-label="Liens du pied de page">
-            <h3 className="text-xs uppercase tracking-[0.2em] text-neutral-500 mb-6">
+            <h3 className="text-xs uppercase tracking-[0.2em] text-neutral-300 mb-6">
               Navigation
             </h3>
             <ul className="space-y-3">
@@ -119,7 +119,7 @@ export default function Footer({ settings, cmsPages = [] }: Props) {
 
           {/* Commitments */}
           <div>
-            <h3 className="text-xs uppercase tracking-[0.2em] text-neutral-500 mb-6">
+            <h3 className="text-xs uppercase tracking-[0.2em] text-neutral-300 mb-6">
               Nos Engagements
             </h3>
             <ul className="space-y-3">
@@ -134,10 +134,10 @@ export default function Footer({ settings, cmsPages = [] }: Props) {
         </div>
 
         <div className="mt-16 pt-8 border-t border-neutral-900 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-neutral-600 text-xs">
+          <p className="text-neutral-400 text-xs">
             © {new Date().getFullYear()} {copyright}
           </p>
-          <p className="text-neutral-600 text-xs">Fait avec passion au Maroc 🇲🇦</p>
+          <p className="text-neutral-400 text-xs">Fait avec passion au Maroc 🇲🇦</p>
         </div>
       </div>
     </footer>

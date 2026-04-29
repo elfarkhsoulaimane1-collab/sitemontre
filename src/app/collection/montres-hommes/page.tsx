@@ -50,8 +50,8 @@ export default async function MontresHommesPage() {
           <span>/</span>
           <span className="text-gold">Homme</span>
         </nav>
-        <p className="section-subtitle text-gold/70">Notre sélection</p>
-        <h1 className="section-title text-white mt-2">Montres Homme Maroc</h1>
+        <p className="text-sm uppercase tracking-[0.2em] mb-4 text-gold/70">Notre sélection</p>
+        <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-white mt-2">Montres Homme Maroc</h1>
         {description && (
           <p className="text-neutral-400 text-sm sm:text-base mt-4 max-w-2xl mx-auto leading-relaxed">
             {description}

@@ -19,8 +19,8 @@ export default async function BlogPage() {
     <main className="min-h-screen bg-stone-50">
       {/* Header */}
       <section className="bg-neutral-950 py-20 px-4 text-center">
-        <p className="section-subtitle text-gold/70">Notre univers</p>
-        <h1 className="section-title text-white mt-2">Le Blog</h1>
+        <p className="text-sm uppercase tracking-[0.2em] mb-4 text-gold/70">Notre univers</p>
+        <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-white mt-2">Le Blog</h1>
         <p className="text-neutral-400 text-sm mt-4 max-w-md mx-auto">
           Articles, conseils et actualités autour de l&apos;horlogerie de prestige.
         </p>

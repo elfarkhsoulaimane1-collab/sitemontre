@@ -2,6 +2,10 @@
 const nextConfig = {
   poweredByHeader: false,
 
+  experimental: {
+    optimizeCss: true,
+  },
+
   allowedDevOrigins: ['cdn.sanity.io'],
 
   images: {

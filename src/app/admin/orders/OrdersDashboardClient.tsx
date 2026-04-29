@@ -131,7 +131,7 @@ export default function OrdersDashboardClient({ initialOrders, fetchError }: Pro
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
-            <p className="section-subtitle mb-1">Administration</p>
+            <p className="text-neutral-500 text-sm uppercase tracking-[0.2em] mb-1">Administration</p>
             <h1 className="font-serif text-3xl text-white">Commandes</h1>
           </div>
           <div className="flex gap-3">

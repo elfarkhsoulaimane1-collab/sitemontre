@@ -235,3 +235,44 @@ export interface HomepageTestimonial {
   avatar?:      string
 }
 
+export interface HomeData {
+  heroTitle: string
+  heroTitleAccent: string
+  heroSubtitle: string
+  heroImage: string
+  heroVideo?: string
+  heroCtaPrimary: string
+  heroCtaSecondary: string
+  heroTrustSignals: string[]
+  trustItems: TrustItem[]
+  featuredSectionSubtitle: string
+  featuredSectionTitle: string
+  featuredProducts: Product[]
+  categoriesSubtitle: string
+  categoriesTitle: string
+  featuredCollections: CollectionData[]
+  brandSubtitle: string
+  brandTitle: string
+  brandTitleAccent: string
+  brandText1: string
+  brandText2: string
+  brandImage: string
+  brandYear: string
+  brandFoundedLabel: string
+  brandStats: { value: string; label: string }[]
+  testimonialsSubtitle: string
+  testimonialsTitle: string
+  homepageReviews: HomepageTestimonial[]
+  ctaLabel: string
+  ctaTitle: string
+  ctaDiscount: string
+  ctaSubtitle: string
+  ctaButton: string
+  ctaImage: string
+  newsletterSubtitle: string
+  newsletterTitle: string
+  newsletterText: string
+  blogPosts: PostCard[]
+  seoText: string
+}
+

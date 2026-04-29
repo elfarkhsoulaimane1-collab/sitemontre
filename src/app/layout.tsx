@@ -8,7 +8,7 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import Analytics from '@/components/Analytics'
 import JsonLd from '@/components/JsonLd'
-import ChatWidget from '@/components/ChatWidget'
+import ClientChatWidget from '@/components/ClientChatWidget'
 import { sanityFetch } from '@/sanity/lib/fetch'
 import { SITE_SETTINGS_QUERY, NAV_PAGES_QUERY } from '@/sanity/lib/queries'
 import { SiteSettings, CmsPage } from '@/types'
@@ -156,7 +156,7 @@ export default function RootLayout({
           <Suspense fallback={<LayoutSkeleton />}>
             <SiteShell>{children}</SiteShell>
           </Suspense>
-          <ChatWidget />
+          <ClientChatWidget />
         </CartProvider>
       </body>
     </html>
