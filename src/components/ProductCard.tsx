@@ -28,7 +28,7 @@ export default function ProductCard({
     ? Math.round((1 - product.price / product.originalPrice) * 100)
     : null
 
-  const img = imageUrl(product.images?.[0], 600)
+  const img = imageUrl(product.images?.[0], 600, 75)
 
   return (
     <Link href={`/product/${product.slug}`} className="group block">

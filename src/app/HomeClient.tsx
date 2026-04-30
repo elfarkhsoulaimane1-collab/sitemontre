@@ -2,9 +2,8 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRef } from 'react'
+import { useRef, useEffect } from 'react'
 import dynamic from 'next/dynamic'
-import { motion, useScroll, useTransform, useReducedMotion } from 'motion/react'
 import { imageUrl } from '@/sanity/lib/image'
 import type { HomeData } from '@/types'
 
@@ -16,13 +15,13 @@ const HomeSections = dynamic(() => import('./HomeSections'), {
 })
 
 /* ─── Safe image ──────────────────────────────────────────────────────────── */
-function safeImg(v: unknown, w = 800): string | null {
+function safeImg(v: unknown, w = 800, q = 75): string | null {
   if (!v) return null
-  const s = typeof v === 'string' ? v : imageUrl(v, w)
+  const s = typeof v === 'string' ? v : imageUrl(v, w, q)
   return s?.trim() || null
 }
 
-/* ─── Hero Heading (kept for fallback if no server heading prop) ─────────── */
+/* ─── Hero Heading (fallback if no server-rendered heading prop) ─────────── */
 function HeroHeading({ title, accent }: { title: string; accent: string }) {
   return (
     <h1 className="mb-10 max-w-2xl">
@@ -46,10 +45,6 @@ function Placeholder({ className }: { className?: string }) {
     </div>
   )
 }
-
-/* ─── Easing curves ───────────────────────────────────────────────────────── */
-const EXPO = [0.16, 1, 0.3, 1] as const
-const SOFT = [0.25, 1, 0.5, 1] as const
 
 /* ─── Trust band icons ────────────────────────────────────────────────────── */
 function IconTruck() {
@@ -88,14 +83,61 @@ export default function HomeClient({ data, heroHeading }: { data: HomeData; hero
     heroCtaPrimary, heroCtaSecondary, heroTrustSignals,
   } = data
 
-  const heroRef = useRef<HTMLElement>(null)
-  const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] })
-  const bgY      = useTransform(scrollYProgress, [0, 1], ['0%', '20%'])
-  const textY    = useTransform(scrollYProgress, [0, 1], ['0%', '8%'])
-  const textFade = useTransform(scrollYProgress, [0, 0.45], [1, 0])
-  const reduced  = useReducedMotion()
+  const heroRef    = useRef<HTMLElement>(null)
+  const bgRef      = useRef<HTMLDivElement>(null)
+  const contentRef = useRef<HTMLDivElement>(null)
+  const trustBandRef = useRef<HTMLDivElement>(null)
 
-  const heroSrc = safeImg(heroImage, 1920)
+  const heroSrc = safeImg(heroImage, 1920, 70)
+
+  /* Parallax scroll — RAF-based, no framer-motion */
+  useEffect(() => {
+    const hero    = heroRef.current
+    const bg      = bgRef.current
+    const content = contentRef.current
+    if (!hero || !bg || !content) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    let ticking = false
+    const onScroll = () => {
+      if (ticking) return
+      ticking = true
+      requestAnimationFrame(() => {
+        const progress = Math.min(window.scrollY / hero.offsetHeight, 1)
+        bg.style.transform      = `translateY(${progress * 20}%) scale(1.12)`
+        content.style.transform = `translateY(${progress * 8}%)`
+        content.style.opacity   = String(Math.max(0, 1 - progress / 0.45))
+        ticking = false
+      })
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  /* Trust band — IntersectionObserver fade-in */
+  useEffect(() => {
+    const band = trustBandRef.current
+    if (!band) return
+    const items = Array.from(band.querySelectorAll<HTMLElement>('[data-trust-item]'))
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      items.forEach(el => { el.style.opacity = '1' })
+      return
+    }
+
+    const io = new IntersectionObserver((entries) => {
+      if (entries[0]?.isIntersecting) {
+        items.forEach((el, i) => {
+          el.style.animationDelay = `${i * 0.08}s`
+          el.style.animation      = 'fadeIn 0.6s ease-out both'
+        })
+        io.disconnect()
+      }
+    }, { threshold: 0.1 })
+    io.observe(band)
+    return () => io.disconnect()
+  }, [])
 
   return (
     <>
@@ -105,14 +147,14 @@ export default function HomeClient({ data, heroHeading }: { data: HomeData; hero
       <section ref={heroRef} className="relative h-screen min-h-[700px] flex flex-col overflow-hidden bg-neutral-950">
 
         {/* Parallax background */}
-        <motion.div style={{ y: bgY }} className="absolute inset-0 scale-[1.12] will-change-transform">
+        <div ref={bgRef} className="absolute inset-0 will-change-transform" style={{ transform: 'scale(1.12)' }}>
           {heroVideo
-            ? <video src={heroVideo} autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover" />
+            ? <video src={heroVideo} autoPlay muted loop playsInline preload="metadata" className="absolute inset-0 w-full h-full object-cover" />
             : heroSrc
               ? <Image src={heroSrc} alt="" fill priority unoptimized sizes="100vw" className="object-cover" />
               : <Placeholder className="absolute inset-0" />
           }
-        </motion.div>
+        </div>
 
         {/* Gradient stack */}
         <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/70 to-neutral-950/15" />
@@ -123,50 +165,46 @@ export default function HomeClient({ data, heroHeading }: { data: HomeData; hero
         <div className="absolute inset-0 opacity-[0.04] pointer-events-none" style={{ backgroundImage: GRAIN_URL, backgroundSize: '200px 200px' }} />
 
         {/* Left accent line */}
-        <motion.div
-          initial={{ scaleY: 0 }} animate={{ scaleY: 1 }}
-          transition={{ duration: 1.6, delay: 0.3, ease: EXPO }}
-          style={{ originY: 0 }}
+        <div
           className="absolute left-6 sm:left-10 lg:left-16 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-gold/25 to-transparent"
+          style={{ animation: 'scaleYIn 1.6s cubic-bezier(0.16,1,0.3,1) 0.3s both', transformOrigin: 'top' }}
         />
 
         {/* Right editorial strip */}
-        <motion.div
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-          transition={{ duration: 1.2, delay: 1.5 }}
+        <div
+          style={{ animation: 'fadeOpacity 1.2s ease-out 1.5s both' }}
           className="absolute top-0 right-0 bottom-0 w-[70px] border-l border-neutral-800/20 hidden xl:flex flex-col items-center justify-center gap-10 select-none"
           aria-hidden="true"
         >
           <p className="text-neutral-700 text-[8px] uppercase tracking-[0.6em] [writing-mode:vertical-rl]">Maroc — 2025</p>
           <div className="w-4 h-px bg-gold/30" />
           <p className="font-serif text-5xl font-bold text-neutral-800/40 [writing-mode:vertical-rl] leading-none">25</p>
-        </motion.div>
+        </div>
 
         {/* Content */}
-        <motion.div
-          style={{ y: textY, opacity: reduced ? undefined : textFade }}
+        <div
+          ref={contentRef}
           className="relative z-10 flex flex-col justify-end h-full px-6 sm:px-12 lg:px-20 xl:pr-28 pb-12 lg:pb-20 will-change-transform"
         >
           {/* Brand label */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.9, delay: 0.1, ease: SOFT }}
+          <div
+            style={{ animation: 'fadeInLeft 0.9s cubic-bezier(0.25,1,0.5,1) 0.1s both' }}
             className="flex items-center gap-5 mb-9"
           >
-            <motion.div initial={{ scaleX: 0 }} animate={{ scaleX: 1 }}
-              transition={{ duration: 1, delay: 0.25, ease: EXPO }} style={{ originX: 0 }}
-              className="h-px w-10 bg-gold flex-shrink-0" />
+            <div
+              style={{ animation: 'scaleXIn 1s cubic-bezier(0.16,1,0.3,1) 0.25s both', transformOrigin: 'left' }}
+              className="h-px w-10 bg-gold flex-shrink-0"
+            />
             <p className="text-gold text-[9px] uppercase tracking-[0.6em]">Maison du Prestige — Maroc</p>
-          </motion.div>
+          </div>
 
           {/* Headline — server-rendered via prop for LCP */}
           {heroHeading ?? <HeroHeading title={heroTitle} accent={heroTitleAccent} />}
 
           {/* Trust signals */}
           {heroTrustSignals.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 0.75 }}
+            <div
+              style={{ animation: 'fadeOpacity 1s ease-out 0.75s both' }}
               className="flex flex-wrap items-center gap-x-5 gap-y-2 mb-8"
             >
               {heroTrustSignals.map((signal, i) => (
@@ -175,13 +213,12 @@ export default function HomeClient({ data, heroHeading }: { data: HomeData; hero
                   {signal}
                 </span>
               ))}
-            </motion.div>
+            </div>
           )}
 
           {/* Bottom bar */}
-          <motion.div
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 0.9 }}
+          <div
+            style={{ animation: 'fadeOpacity 1s ease-out 0.9s both' }}
             className="grid grid-cols-1 sm:grid-cols-3 sm:items-center gap-6 border-t border-neutral-800/60 pt-8"
           >
             <p className="text-neutral-400 text-[13px] leading-relaxed max-w-[300px]">{heroSubtitle}</p>
@@ -197,43 +234,34 @@ export default function HomeClient({ data, heroHeading }: { data: HomeData; hero
               <Link href="#showcase"
                 className="group flex items-center gap-3 text-neutral-500 text-[10px] uppercase tracking-[0.35em] hover:text-white transition-colors duration-300">
                 {heroCtaSecondary}
-                <motion.span animate={{ x: [0, 5, 0] }} transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }} className="text-gold">→</motion.span>
+                <span className="text-gold inline-block animate-bounce-x">→</span>
               </Link>
             </div>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
 
         {/* Scroll pulse */}
-        <motion.div
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 2 }}
+        <div
+          style={{ animation: 'fadeOpacity 1s ease-out 2s both' }}
           className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center"
           aria-hidden="true"
         >
-          <motion.div
-            animate={{ scaleY: [0, 1, 0] }}
-            transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut', repeatDelay: 0.6 }}
-            className="w-px h-10 bg-gradient-to-b from-gold/50 to-transparent origin-top"
-          />
-        </motion.div>
+          <div className="w-px h-10 bg-gradient-to-b from-gold/50 to-transparent origin-top animate-scroll-pulse" />
+        </div>
       </section>
 
       {/* ══════════════════════════════════════════════════════
           § 2  GOLD MARQUEE
       ══════════════════════════════════════════════════════ */}
       <div className="bg-gold overflow-hidden py-3 select-none" aria-hidden="true">
-        <motion.div
-          animate={{ x: [0, '-50%'] }}
-          transition={{ duration: 44, repeat: Infinity, ease: 'linear' }}
-          className="flex whitespace-nowrap will-change-transform"
-        >
+        <div className="flex whitespace-nowrap will-change-transform animate-marquee">
           {[...MARQUEE, ...MARQUEE].map((item, i) => (
             <span key={i} className="inline-flex items-center gap-8 px-10">
               <span className="text-neutral-900/80 text-[8.5px] uppercase tracking-[0.5em] font-bold">{item}</span>
               <span className="text-neutral-900/25" style={{ fontSize: 4 }}>◆</span>
             </span>
           ))}
-        </motion.div>
+        </div>
       </div>
 
       {/* ══════════════════════════════════════════════════════
@@ -241,19 +269,16 @@ export default function HomeClient({ data, heroHeading }: { data: HomeData; hero
       ══════════════════════════════════════════════════════ */}
       <div className="bg-neutral-950 border-b border-neutral-800/60">
         <div className="max-w-[1520px] mx-auto px-6 sm:px-10 lg:px-16">
-          <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-neutral-800/60">
+          <div ref={trustBandRef} className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-neutral-800/60">
             {([
               { icon: <IconTruck />, title: 'Livraison Gratuite',      sub: 'Partout au Maroc en 2–4 jours ouvrables' },
               { icon: <IconCod />,   title: 'Paiement à la Livraison', sub: 'Payez en cash à la réception — aucun risque' },
               { icon: <IconWhatsApp />, title: 'Support WhatsApp',     sub: "Réponse en moins d'une heure, 7j/7" },
-            ] as const).map(({ icon, title, sub }, i) => (
-              <motion.div
+            ] as const).map(({ icon, title, sub }) => (
+              <div
                 key={title}
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: i * 0.08, ease: SOFT }}
-                className="flex items-center gap-5 px-6 sm:px-8 lg:px-12 py-7"
+                data-trust-item=""
+                className="flex items-center gap-5 px-6 sm:px-8 lg:px-12 py-7 opacity-0"
               >
                 <div className="w-11 h-11 bg-gold/8 border border-gold/20 flex items-center justify-center flex-shrink-0">
                   {icon}
@@ -262,7 +287,7 @@ export default function HomeClient({ data, heroHeading }: { data: HomeData; hero
                   <p className="text-white text-[13px] font-semibold leading-tight">{title}</p>
                   <p className="text-neutral-500 text-[12px] mt-0.5 leading-snug">{sub}</p>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>

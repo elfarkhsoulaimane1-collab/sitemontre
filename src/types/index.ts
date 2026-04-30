@@ -151,7 +151,7 @@ export interface CollectionData {
   slug?: string
   label: string
   subLabel?: string
-  image?: string
+  image?: ImageSource
   description?: string
 }
 
@@ -159,7 +159,7 @@ export interface HomePageData {
   heroTitle?: string
   heroTitleAccent?: string
   heroSubtitle?: string
-  heroImage?: string
+  heroImage?: ImageSource
   heroVideo?: {
     asset?: {
       url: string
@@ -192,7 +192,7 @@ export interface HomePageData {
   ctaDiscount?: string
   ctaSubtitle?: string
   ctaButton?: string
-  ctaImage?: string
+  ctaImage?: ImageSource
   newsletterSubtitle?: string
   newsletterTitle?: string
   newsletterText?: string
@@ -232,14 +232,14 @@ export interface HomepageTestimonial {
   rating:       number
   review:       string
   verified?:    boolean
-  avatar?:      string
+  avatar?:      ImageSource
 }
 
 export interface HomeData {
   heroTitle: string
   heroTitleAccent: string
   heroSubtitle: string
-  heroImage: string
+  heroImage: ImageSource
   heroVideo?: string
   heroCtaPrimary: string
   heroCtaSecondary: string
@@ -268,7 +268,7 @@ export interface HomeData {
   ctaDiscount: string
   ctaSubtitle: string
   ctaButton: string
-  ctaImage: string
+  ctaImage: ImageSource
   newsletterSubtitle: string
   newsletterTitle: string
   newsletterText: string

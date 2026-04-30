@@ -71,7 +71,7 @@ export const ALL_COLLECTIONS_QUERY = /* groq */ `
     "slug": slug.current,
     label,
     subLabel,
-    "image": image.asset->url,
+    "image": image { "asset": asset->{ _id, _ref, url }, hotspot, crop },
     description,
   }
 `
@@ -115,7 +115,7 @@ export const HOME_PAGE_QUERY = /* groq */ `
     heroTitle,
     heroTitleAccent,
     heroSubtitle,
-    "heroImage": heroImage.asset->url,
+    "heroImage": heroImage { "asset": asset->{ _id, _ref, url }, hotspot, crop },
     "heroVideo": heroVideo.asset->url,
     heroCtaPrimary,
     heroCtaSecondary,
@@ -130,7 +130,7 @@ export const HOME_PAGE_QUERY = /* groq */ `
       "value": slug.current,
       label,
       subLabel,
-      "image": image.asset->url,
+      "image": image { "asset": asset->{ _id, _ref, url }, hotspot, crop },
     },
     brandSubtitle,
     brandTitle,
@@ -148,7 +148,7 @@ export const HOME_PAGE_QUERY = /* groq */ `
     ctaDiscount,
     ctaSubtitle,
     ctaButton,
-    "ctaImage": ctaImage.asset->url,
+    "ctaImage": ctaImage { "asset": asset->{ _id, _ref, url }, hotspot, crop },
     newsletterSubtitle,
     newsletterTitle,
     newsletterText,
@@ -227,7 +227,7 @@ export const HOMEPAGE_TESTIMONIALS_QUERY = /* groq */ `
     rating,
     review,
     verified,
-    "avatar": avatar.asset->url,
+    "avatar": avatar { "asset": asset->{ _id, _ref, url }, hotspot, crop },
   }
 `
 

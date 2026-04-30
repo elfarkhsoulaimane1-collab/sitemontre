@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import CartBadge from './CartBadge'
 import { SiteSettings, NavLink, CmsPage } from '@/types'
@@ -18,10 +18,25 @@ const CORE_NAV: NavLink[] = [
 
 export default function Navbar({ settings, cmsPages = [] }: Props) {
   const [open, setOpen] = useState(false)
+  const dialogRef      = useRef<HTMLDivElement>(null)
+  const closeButtonRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
+  }, [open])
+
+  /* inert keeps descendants out of the AT and prevents keyboard focus when closed.
+     aria-hidden alone does not block focus — inert does both. */
+  useEffect(() => {
+    const el = dialogRef.current
+    if (!el) return
+    if (open) {
+      el.removeAttribute('inert')
+      closeButtonRef.current?.focus()
+    } else {
+      el.setAttribute('inert', '')
+    }
   }, [open])
 
   const siteName     = settings?.siteName ?? 'Maison du Prestige'
@@ -100,10 +115,10 @@ export default function Navbar({ settings, cmsPages = [] }: Props) {
 
       {/* Mobile / tablet overlay — below xl */}
       <div
+        ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-label="Menu"
-        aria-hidden={!open}
         className={`xl:hidden fixed inset-0 z-50 bg-neutral-950 flex flex-col transition-opacity duration-300 ${
           open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
@@ -113,6 +128,7 @@ export default function Navbar({ settings, cmsPages = [] }: Props) {
             {siteName}
           </Link>
           <button
+            ref={closeButtonRef}
             onClick={() => setOpen(false)}
             aria-label="Fermer"
             className="w-8 h-8 flex items-center justify-center text-neutral-500 hover:text-white transition-colors"

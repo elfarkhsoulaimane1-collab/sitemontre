@@ -12,9 +12,9 @@ import type { HomeData, Product, PostCard } from '@/types'
 const NewsletterForm = dynamic(() => import('@/components/NewsletterForm'), { ssr: false })
 
 /* ─── Shared utils ────────────────────────────────────────────────────────── */
-function safeImg(v: unknown, w = 800): string | null {
+function safeImg(v: unknown, w = 800, q = 75): string | null {
   if (!v) return null
-  const s = typeof v === 'string' ? v : imageUrl(v, w)
+  const s = typeof v === 'string' ? v : imageUrl(v, w, q)
   return s?.trim() || null
 }
 
@@ -115,7 +115,7 @@ function Placeholder({ className }: { className?: string }) {
 function OverlayCard({
   product, sizes = '60vw', aspect = 'aspect-[2/3]', index,
 }: { product: Product; sizes?: string; aspect?: string; index?: number }) {
-  const src = safeImg(product.images?.[0], 1000)
+  const src = safeImg(product.images?.[0], 900, 75)
   const num = index !== undefined ? String(index + 1).padStart(2, '0') : null
   const discount = product.originalPrice
     ? Math.round((1 - product.price / product.originalPrice) * 100)
@@ -184,7 +184,7 @@ function formatPostDate(iso: string) {
 function BlogHeroCard({ post, sizes, minH, tall }: {
   post: PostCard; sizes: string; minH: string; tall?: boolean
 }) {
-  const img = safeImg(post.mainImage, 1200)
+  const img = safeImg(post.mainImage, 1000, 75)
   const date = formatPostDate(post.publishedAt)
   return (
     <Link href={`/blog/${post.slug}`}
@@ -249,7 +249,7 @@ export default function HomeSections({ data }: { data: HomeData }) {
     blogPosts, seoText,
   } = data
 
-  const ctaSrc = safeImg(ctaImage, 1800)
+  const ctaSrc = safeImg(ctaImage, 1400, 65)
   const GRAIN_URL = "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")"
 
   return (
@@ -271,7 +271,7 @@ export default function HomeSections({ data }: { data: HomeData }) {
 
           <Grid className="grid grid-cols-2 md:grid-cols-4 gap-[3px]">
             {featuredCollections.map(({ value, label, subLabel, image }, idx) => {
-              const catSrc = safeImg(image, 700)
+              const catSrc = safeImg(image, 700, 75)
               const num = String(idx + 1).padStart(2, '0')
               return (
                 <Cell key={value}>
@@ -450,7 +450,7 @@ export default function HomeSections({ data }: { data: HomeData }) {
                 <footer className="flex items-center gap-5 mt-12 pt-8 border-t border-neutral-800">
                   <div className="w-11 h-11 rounded-full overflow-hidden bg-gold flex items-center justify-center flex-shrink-0">
                     {homepageReviews[0].avatar
-                      ? <img src={homepageReviews[0].avatar} alt={homepageReviews[0].name} className="w-full h-full object-cover" />
+                      ? <img src={imageUrl(homepageReviews[0].avatar, 88)} alt={homepageReviews[0].name} loading="lazy" className="w-full h-full object-cover" />
                       : <span className="font-serif text-black font-bold text-lg">{homepageReviews[0].name[0]}</span>
                     }
                   </div>
@@ -484,7 +484,7 @@ export default function HomeSections({ data }: { data: HomeData }) {
                     <footer className="flex items-center gap-3 mt-7 pt-5 border-t border-neutral-800">
                       <div className="w-8 h-8 rounded-full overflow-hidden bg-gold/10 border border-gold/20 flex items-center justify-center flex-shrink-0">
                         {t.avatar
-                          ? <img src={t.avatar} alt={t.name} className="w-full h-full object-cover" />
+                          ? <img src={imageUrl(t.avatar, 64)} alt={t.name} loading="lazy" className="w-full h-full object-cover" />
                           : <span className="font-serif text-gold text-sm font-bold">{t.name[0]}</span>
                         }
                       </div>
