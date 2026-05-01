@@ -23,7 +23,7 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
   }
   const cat = category ?? 'montres-femmes'
   return {
-    title:       TITLES[cat] ?? 'Collection | Maison du Prestige',
+    title:       { absolute: TITLES[cat] ?? 'Collection | Maison du Prestige' },
     description: DESCS[cat]  ?? 'Toute la collection de montres premium Maison du Prestige. Livraison gratuite partout au Maroc, paiement à la livraison.',
     alternates: { canonical: `/collection?category=${cat}` },
   }

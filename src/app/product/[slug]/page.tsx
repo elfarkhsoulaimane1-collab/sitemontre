@@ -71,10 +71,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!product) return {}
 
   const SUFFIX = ' | Maison du Prestige'
+  const HOMME_CATS = new Set(['luxury', 'classic', 'sport', 'montres-hommes', 'homme'])
+  const genre = HOMME_CATS.has(product.category) ? 'Homme' : 'Femme'
+
   const rawTitle = product.seo?.title ?? product.name
-  const title = rawTitle.length + SUFFIX.length <= 60
-    ? rawTitle + SUFFIX
-    : rawTitle.slice(0, 60 - SUFFIX.length).trimEnd() + SUFFIX
+  const hasGenre = /homme|femme/i.test(rawTitle)
+  const core = hasGenre ? rawTitle : `${rawTitle} ${genre}`
+  const maxCore = 60 - SUFFIX.length
+  const truncatedCore = core.length <= maxCore ? core : core.slice(0, maxCore).trimEnd()
+  const titleStr = truncatedCore + SUFFIX
+  const title = { absolute: titleStr }
   const description = buildDescription(product)
   const ogImage     = product.seo?.ogImage ?? imageUrl(product.images[0], 800)
 
@@ -84,14 +90,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     keywords: product.seo?.keywords,
     alternates: { canonical: `/product/${slug}` },
     openGraph: {
-      title,
+      title: titleStr,
       description,
       type: 'website',
       images: ogImage ? [{ url: ogImage, width: 800, height: 800, alt: product.name }] : undefined,
     },
     twitter: {
       card: 'summary_large_image',
-      title,
+      title: titleStr,
       description,
       images: ogImage ? [ogImage] : undefined,
     },

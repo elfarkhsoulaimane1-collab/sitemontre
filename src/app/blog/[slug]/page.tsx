@@ -70,7 +70,7 @@ export default async function BlogPostPage({ params }: Props) {
     publisher: {
       '@type': 'Organization',
       name: 'Maison du Prestige',
-      logo: { '@type': 'ImageObject', url: 'https://www.maisonduprestige.com/logo.png' },
+      url: 'https://www.maisonduprestige.com',
     },
     datePublished: post.publishedAt,
     dateModified: post._updatedAt ?? post.publishedAt,

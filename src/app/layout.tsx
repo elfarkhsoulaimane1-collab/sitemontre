@@ -28,7 +28,7 @@ const inter = Inter({
 const BASE_METADATA: Metadata = {
   metadataBase: new URL('https://www.maisonduprestige.com'),
   title: {
-    default: 'Maison du Prestige — Montres Premium au Maroc',
+    default: 'Montres Maroc – Homme & Femme | Maison du Prestige',
     template: '%s | Maison du Prestige',
   },
   description:
@@ -80,10 +80,6 @@ const organizationSchema = {
   '@type': 'Organization',
   name: 'Maison du Prestige',
   url: 'https://www.maisonduprestige.com',
-  logo: {
-    '@type': 'ImageObject',
-    url: 'https://www.maisonduprestige.com/logo.png',
-  },
   contactPoint: {
     '@type': 'ContactPoint',
     contactType: 'customer service',
