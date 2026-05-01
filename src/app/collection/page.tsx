@@ -3,6 +3,7 @@ import { products as localProducts } from '@/data/products'
 import { sanityFetch } from '@/sanity/lib/fetch'
 import { ALL_PRODUCTS_QUERY, ALL_COLLECTIONS_QUERY } from '@/sanity/lib/queries'
 import { Product, CollectionData } from '@/types'
+import { imageUrl } from '@/sanity/lib/image'
 import CollectionClient from './CollectionClient'
 import JsonLd from '@/components/JsonLd'
 
@@ -62,6 +63,41 @@ export default async function CollectionPage({ searchParams }: Props) {
     url: `https://www.maisonduprestige.com/collection?category=${initialCategory}`,
   }
 
+  const visibleProducts = products.filter(
+    (p) => ((p as Product & { collectionSlug?: string }).collectionSlug ?? p.category) === initialCategory,
+  )
+
+  const itemListSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: PAGE_TITLES[initialCategory] ?? activeCollection?.label ?? 'Collection Montres',
+    url: `https://www.maisonduprestige.com/collection?category=${initialCategory}`,
+    numberOfItems: visibleProducts.length,
+    itemListElement: visibleProducts.map((p, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      url: `https://www.maisonduprestige.com/product/${p.slug}`,
+      name: p.name,
+      ...(p.images?.[0] && { image: imageUrl(p.images[0], 400) }),
+      ...(p.price > 0 && {
+        item: {
+          '@type': 'Product',
+          name: p.name,
+          url: `https://www.maisonduprestige.com/product/${p.slug}`,
+          ...(p.images?.[0] && { image: imageUrl(p.images[0], 400) }),
+          offers: {
+            '@type': 'Offer',
+            price: p.price,
+            priceCurrency: 'MAD',
+            availability: p.inStock
+              ? 'https://schema.org/InStock'
+              : 'https://schema.org/OutOfStock',
+          },
+        },
+      }),
+    })),
+  }
+
   const faqSchema = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
@@ -93,6 +129,7 @@ export default async function CollectionPage({ searchParams }: Props) {
     <>
       <JsonLd data={collectionSchema} />
       <JsonLd data={faqSchema} />
+      {visibleProducts.length > 0 && <JsonLd data={itemListSchema} />}
       <CollectionClient
         products={products}
         collections={collections}

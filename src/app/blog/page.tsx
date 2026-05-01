@@ -7,8 +7,8 @@ import { imageUrl } from '@/sanity/lib/image'
 import { PostCard } from '@/types'
 
 export const metadata: Metadata = {
-  title: 'Blog',
-  description: 'Articles, conseils et actualités horlogères par Maison du Prestige.',
+  title: 'Blog Montres Maroc',
+  description: 'Conseils, guides et actualités horlogères par Maison du Prestige. Trouvez la montre homme ou femme idéale au Maroc avec nos articles experts.',
   alternates: { canonical: '/blog' },
 }
 
@@ -20,11 +20,25 @@ export default async function BlogPage() {
       {/* Header */}
       <section className="bg-neutral-950 py-20 px-4 text-center">
         <p className="text-sm uppercase tracking-[0.2em] mb-4 text-gold/70">Notre univers</p>
-        <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-white mt-2">Le Blog</h1>
+        <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-white mt-2">Blog Montres Maroc</h1>
         <p className="text-neutral-400 text-sm mt-4 max-w-md mx-auto">
           Articles, conseils et actualités autour de l&apos;horlogerie de prestige.
         </p>
       </section>
+
+      {/* SEO intro */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-0">
+        <p className="text-sm text-neutral-500 leading-relaxed max-w-3xl">
+          Bienvenue sur le blog de Maison du Prestige, votre référence pour les montres au Maroc.
+          Retrouvez ici nos guides d&apos;achat, conseils d&apos;entretien et sélections pour trouver la montre homme
+          ou femme idéale selon votre style et votre budget. Que vous cherchiez une montre de luxe, un chronographe
+          sportif ou un modèle élégant à offrir, nos articles vous accompagnent à chaque étape. Profitez de la
+          livraison gratuite partout au Maroc et du paiement à la livraison — découvrez notre{' '}
+          <a href="/collection?category=montres-hommes" className="text-gold hover:underline">collection montres homme</a>
+          {' '}et notre{' '}
+          <a href="/collection?category=montres-femmes" className="text-gold hover:underline">collection montres femme</a>.
+        </p>
+      </div>
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {posts.length === 0 ? (
@@ -50,44 +64,64 @@ function PostCardItem({ post }: { post: PostCard }) {
   })
 
   return (
-    <Link href={`/blog/${post.slug}`} className="group flex flex-col bg-white border border-stone-200 hover:border-stone-300 hover:shadow-lg transition-all duration-300">
-      {/* Image */}
-      <div className="relative aspect-[16/9] overflow-hidden bg-stone-100">
-        {img ? (
-          <Image
-            src={img}
-            alt={post.mainImage?.alt ?? post.title}
-            fill
-            unoptimized
-            loading="lazy"
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
-          />
-        ) : (
-          <div className="absolute inset-0 flex items-center justify-center bg-neutral-900">
-            <span className="text-gold/30 text-4xl font-serif">M</span>
-          </div>
-        )}
-      </div>
+    <article className="group flex flex-col bg-white border border-stone-200 hover:border-stone-300 hover:shadow-lg transition-all duration-300">
+      {/* Main card link */}
+      <Link href={`/blog/${post.slug}`} className="flex flex-col flex-1">
+        {/* Image */}
+        <div className="relative aspect-[16/9] overflow-hidden bg-stone-100">
+          {img ? (
+            <Image
+              src={img}
+              alt={post.mainImage?.alt ?? post.title}
+              fill
+              unoptimized
+              loading="lazy"
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center bg-neutral-900">
+              <span className="text-gold/30 text-4xl font-serif">M</span>
+            </div>
+          )}
+        </div>
 
-      {/* Content */}
-      <div className="flex flex-col flex-1 p-6">
-        <p className="text-[10px] uppercase tracking-[0.2em] text-neutral-400 mb-3">{date}</p>
-        <h2 className="font-serif text-lg text-neutral-900 leading-snug group-hover:text-gold transition-colors duration-300 mb-3">
-          {post.title}
-        </h2>
-        {post.excerpt && (
-          <p className="text-sm text-neutral-500 leading-relaxed line-clamp-3 flex-1">
-            {post.excerpt}
-          </p>
-        )}
-        <span className="mt-4 text-[11px] uppercase tracking-[0.18em] text-gold font-semibold flex items-center gap-1.5 group-hover:gap-2.5 transition-all duration-300">
-          Lire l&apos;article
-          <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-          </svg>
-        </span>
+        {/* Content */}
+        <div className="flex flex-col flex-1 p-6 pb-4">
+          <p className="text-[10px] uppercase tracking-[0.2em] text-neutral-400 mb-3">{date}</p>
+          <h2 className="font-serif text-lg text-neutral-900 leading-snug group-hover:text-gold transition-colors duration-300 mb-3">
+            {post.title}
+          </h2>
+          {post.excerpt && (
+            <p className="text-sm text-neutral-500 leading-relaxed line-clamp-3 flex-1">
+              {post.excerpt}
+            </p>
+          )}
+          <span className="mt-4 text-[11px] uppercase tracking-[0.18em] text-gold font-semibold flex items-center gap-1.5 group-hover:gap-2.5 transition-all duration-300">
+            Lire l&apos;article
+            <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          </span>
+        </div>
+      </Link>
+
+      {/* Collection links */}
+      <div className="px-6 py-3 border-t border-stone-100 flex flex-wrap gap-2">
+        <Link
+          href="/collection?category=montres-hommes"
+          className="text-[10px] uppercase tracking-[0.15em] text-neutral-400 hover:text-gold transition-colors duration-200"
+        >
+          Montres Hommes
+        </Link>
+        <span className="text-stone-200 text-[10px]">·</span>
+        <Link
+          href="/collection?category=montres-femmes"
+          className="text-[10px] uppercase tracking-[0.15em] text-neutral-400 hover:text-gold transition-colors duration-200"
+        >
+          Montres Femmes
+        </Link>
       </div>
-    </Link>
+    </article>
   )
 }
 

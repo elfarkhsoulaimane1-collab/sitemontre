@@ -9,7 +9,7 @@ const nextConfig = {
   allowedDevOrigins: ['cdn.sanity.io'],
 
   images: {
-    unoptimized: true,
+    unoptimized: false,
     remotePatterns: [
       {
         protocol: 'https',

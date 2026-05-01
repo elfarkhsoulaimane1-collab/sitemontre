@@ -83,8 +83,7 @@ function RichDescription({ blocks }: { blocks: RichDescriptionBlock[] }) {
               const alignClass = ALIGN_CLASS[value.alignment ?? 'center'] ?? ALIGN_CLASS.center
               return (
                 <div className={`my-6 ${sizeClass} ${alignClass}`}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={url} alt={value.alt ?? ''} className="w-full object-cover" />
+                  <Image src={url} alt={value.alt ?? ''} width={800} height={800} className="w-full object-cover" />
                 </div>
               )
             },
@@ -336,12 +335,6 @@ function OrderForm({ product, formRef, onSuccess }: {
   )
 }
 
-const MOCK_REVIEWS: Review[] = [
-  { _id: 'm1', name: 'Karim B.',   rating: 5, comment: "Montre absolument magnifique. La qualité est au rendez-vous, livraison rapide et le paiement à la réception m'a mis en confiance. Je recommande à 100%.", _createdAt: '2025-03-15' },
-  { _id: 'm2', name: 'Fatima Z.',  rating: 5, comment: "Commandé pour offrir à mon mari. Il est ravi ! L'emballage est premium, la montre est identique aux photos. Service impeccable.", _createdAt: '2025-02-28' },
-  { _id: 'm3', name: 'Youssef M.', rating: 4, comment: "Très belle montre, rapport qualité-prix excellent. Le livreur était ponctuel et très professionnel. Je reviendrai commander.", _createdAt: '2025-04-02' },
-]
-
 /* ════════════════════════════════════════════════════════════════════════════ */
 export default function ProductDetailClient({
   reviews,
@@ -415,7 +408,7 @@ export default function ProductDetailClient({
             <div className="flex gap-4 p-5 border-b border-neutral-800">
               <div className="relative w-16 h-16 flex-shrink-0 overflow-hidden bg-neutral-900">
                 {imageUrl(product.images?.[0], 128)
-                  ? <Image src={imageUrl(product.images?.[0], 128) as string} alt={product.name} fill unoptimized className="object-cover" sizes="64px" />
+                  ? <Image src={imageUrl(product.images?.[0], 128) as string} alt={product.name} fill className="object-cover" sizes="64px" />
                   : <span className="w-full h-full bg-neutral-800 block" />
                 }
               </div>
@@ -481,9 +474,6 @@ export default function ProductDetailClient({
     )
   }
 
-  const displayReviews = reviews.length > 0 ? reviews : MOCK_REVIEWS
-  const isMockReviews  = reviews.length === 0
-
   /* ── MAIN PAGE ────────────────────────────────────────────────────────────── */
   return (
     <div className="w-full max-w-[100vw] overflow-x-hidden">
@@ -514,7 +504,7 @@ export default function ProductDetailClient({
                   <Image
                     src={mainImg}
                     alt={`${product.name} — vue ${activeImg + 1}`}
-                    fill priority unoptimized
+                    fill priority
                     className="object-cover transition-opacity duration-500"
                     sizes="(max-width: 768px) 100vw, 50vw"
                     onError={() => setImgError(p => ({ ...p, [activeImg]: true }))}
@@ -582,7 +572,7 @@ export default function ProductDetailClient({
                         }`}
                       >
                         {!imgError[i] && thumbSrc ? (
-                          <Image src={thumbSrc} alt={`${product.name} — vue ${i + 1}`} fill unoptimized className="object-cover" sizes="72px"
+                          <Image src={thumbSrc} alt={`${product.name} — vue ${i + 1}`} fill className="object-cover" sizes="72px"
                             onError={() => setImgError(p => ({ ...p, [i]: true }))} />
                         ) : (
                           <div className="w-full h-full bg-neutral-800" />
@@ -889,17 +879,64 @@ export default function ProductDetailClient({
       {/* ════════════════════════════════════════════════════════════════════════
           § 4  REVIEWS
       ════════════════════════════════════════════════════════════════════════ */}
-      <ReviewsSection
-        reviews={displayReviews}
-        productRating={product.rating}
-        productReviewCount={product.reviews}
-        productId={product.id}
-        canSubmit={sanityEnabled}
-        isMock={isMockReviews}
-      />
+      {(reviews.length > 0 || sanityEnabled) && (
+        <ReviewsSection
+          reviews={reviews}
+          productRating={product.rating}
+          productReviewCount={product.reviews}
+          productId={product.id}
+          canSubmit={sanityEnabled}
+        />
+      )}
 
       {/* ════════════════════════════════════════════════════════════════════════
-          § 5  RELATED PRODUCTS
+          § 5  INTERNAL LINKS / SEO GUIDE
+      ════════════════════════════════════════════════════════════════════════ */}
+      <div className="bg-neutral-950 border-t border-neutral-800/60 py-14 lg:py-18">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl">
+            <p className="text-[10px] uppercase tracking-[0.45em] text-gold/60 mb-3">Nos guides</p>
+            <h2 className="font-serif text-2xl text-white font-bold mb-3 leading-snug">
+              Conseils pour bien choisir votre montre
+            </h2>
+            <p className="text-neutral-400 text-[14px] leading-[1.85] mb-7">
+              Découvrez nos guides pour choisir une montre élégante au Maroc et trouver le modèle adapté à votre style.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <Link
+                href="/blog"
+                className="inline-flex items-center gap-2 border border-neutral-700 text-neutral-300 hover:border-gold hover:text-gold text-[11px] uppercase tracking-[0.2em] px-5 py-3 transition-all duration-200"
+              >
+                Lire le blog
+                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </Link>
+              <Link
+                href="/collection?category=montres-hommes"
+                className="inline-flex items-center gap-2 border border-neutral-700 text-neutral-300 hover:border-gold hover:text-gold text-[11px] uppercase tracking-[0.2em] px-5 py-3 transition-all duration-200"
+              >
+                Montres hommes
+                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </Link>
+              <Link
+                href="/collection?category=montres-femmes"
+                className="inline-flex items-center gap-2 border border-neutral-700 text-neutral-300 hover:border-gold hover:text-gold text-[11px] uppercase tracking-[0.2em] px-5 py-3 transition-all duration-200"
+              >
+                Montres femmes
+                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ════════════════════════════════════════════════════════════════════════
+          § 6  RELATED PRODUCTS
       ════════════════════════════════════════════════════════════════════════ */}
       {related.length > 0 && (
         <div className="bg-neutral-950 py-20 lg:py-28 border-t border-neutral-900">

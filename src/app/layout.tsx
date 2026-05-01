@@ -97,11 +97,6 @@ const websiteSchema = {
   '@type': 'WebSite',
   name: 'Maison du Prestige',
   url: 'https://www.maisonduprestige.com',
-  potentialAction: {
-    '@type': 'SearchAction',
-    target: 'https://www.maisonduprestige.com/collection?q={search_term_string}',
-    'query-input': 'required name=search_term_string',
-  },
 }
 
 // Fetches siteSettings and renders the full chrome (Navbar + Footer + Analytics).

@@ -1,19 +1,45 @@
 # Maison du Prestige — Montres Premium au Maroc
 
-> Boutique en ligne de montres de luxe et premium au Maroc. Livraison gratuite, paiement à la livraison (COD). Spécialisée dans les montres homme et femme de marques reconnues : Guess, Michael Kors, et plus.
+> Boutique en ligne de montres de luxe et premium au Maroc. Livraison gratuite, paiement à la livraison (COD). Spécialisée dans les montres homme et femme de marques reconnues : Guess, Michael Kors, Emporio Armani, Hugo Boss, Tommy Hilfiger, et plus.
+
+## Marques disponibles
+
+- Guess
+- Michael Kors
+- Emporio Armani
+- Hugo Boss
+- Tommy Hilfiger
 
 ## Pages principales
 
 - [Accueil](https://www.maisonduprestige.com/)
 - [Collection](https://www.maisonduprestige.com/collection)
+- [Montres hommes](https://www.maisonduprestige.com/collection/montres-hommes)
+- [Montres femmes](https://www.maisonduprestige.com/collection/montres-femmes)
 - [Blog montres Maroc](https://www.maisonduprestige.com/blog)
+- [À propos](https://www.maisonduprestige.com/pages/about)
 - [Contact](https://www.maisonduprestige.com/pages/contact)
-- [Politique de livraison](https://www.maisonduprestige.com/pages/politique-livraison)
+- [Politique de livraison](https://www.maisonduprestige.com/pages/politique-de-livraison)
+- [Politique de retours](https://www.maisonduprestige.com/pages/politique-de-retours)
 
 ## À propos
 
-Maison du Prestige est une boutique marocaine spécialisée dans la vente de montres premium. Nous proposons des montres authentiques avec garantie, livraison gratuite partout au Maroc pour les commandes supérieures à 500 MAD, et paiement à la livraison.
+Maison du Prestige est une boutique marocaine spécialisée dans la vente de montres premium authentiques. Fondée au Maroc, nous proposons une sélection de montres homme et femme des plus grandes marques internationales avec un service client de qualité.
+
+## Politiques
+
+- Livraison gratuite partout au Maroc pour les commandes supérieures à 500 MAD (50 MAD sinon)
+- Paiement à la livraison (COD) — aucune carte bancaire requise
+- Retours acceptés sous 7 jours après réception
+- Produits authentiques avec garantie
+
+## Localisation et langues
+
+- Pays : Maroc
+- Langues : français, arabe, darija
+- Devise : MAD (dirham marocain)
 
 ## Contact
 
-- Disponible en français, arabe et darija
+- WhatsApp disponible pour commandes et questions
+- Service disponible en français, arabe et darija

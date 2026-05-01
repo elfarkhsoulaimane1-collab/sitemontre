@@ -15,7 +15,7 @@ import { Product, ProductFaqItem, Review, SiteSettings } from '@/types'
 import JsonLd from '@/components/JsonLd'
 import ProductDetailClient from './ProductDetailClient'
 
-export const revalidate = 60
+export const revalidate = 300
 export const dynamicParams = true
 
 interface Props {
@@ -164,6 +164,8 @@ export default async function ProductPage({ params }: Props) {
     brand: { '@type': 'Brand', name: product.brand },
     offers: {
       '@type': 'Offer',
+      'itemCondition': 'https://schema.org/NewCondition',
+      'priceValidUntil': `${new Date().getFullYear()}-12-31`,
       // Omit price when 0 — the site shows "Prix sur demande" in that case
       ...(product.price > 0 && { price: product.price, priceCurrency: 'MAD' }),
       availability: product.inStock

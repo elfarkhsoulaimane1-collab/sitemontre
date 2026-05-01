@@ -22,10 +22,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const post = await sanityFetch<Post>(POST_BY_SLUG_QUERY, { slug })
   if (!post) return {}
+  const description = post.excerpt
+    ?? `${post.title} — Conseils et guides sur les montres au Maroc par Maison du Prestige.`
   return {
     title:       post.title,
-    description: post.excerpt ?? undefined,
+    description: description.length <= 160 ? description : description.slice(0, 157).trimEnd() + '...',
     alternates:  { canonical: `/blog/${slug}` },
+    openGraph: {
+      title: post.title,
+      description,
+      type: 'article',
+    },
   }
 }
 
@@ -40,6 +47,16 @@ export default async function BlogPostPage({ params }: Props) {
     month: 'long',
     year:  'numeric',
   })
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://www.maisonduprestige.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Blog',    item: 'https://www.maisonduprestige.com/blog' },
+      { '@type': 'ListItem', position: 3, name: post.title, item: `https://www.maisonduprestige.com/blog/${slug}` },
+    ],
+  }
 
   const blogPostSchema = {
     '@context': 'https://schema.org',
@@ -58,11 +75,12 @@ export default async function BlogPostPage({ params }: Props) {
     datePublished: post.publishedAt,
     dateModified: post._updatedAt ?? post.publishedAt,
     url: `https://www.maisonduprestige.com/blog/${slug}`,
-    mainEntityOfPage: `https://www.maisonduprestige.com/blog/${slug}`,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://www.maisonduprestige.com/blog/${slug}` },
   }
 
   return (
     <>
+    <JsonLd data={breadcrumbSchema} />
     <JsonLd data={blogPostSchema} />
     <main className="min-h-screen bg-stone-50">
       {/* Hero image */}

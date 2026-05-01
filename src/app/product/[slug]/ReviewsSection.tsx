@@ -33,13 +33,12 @@ function StarRating({ rating, interactive = false, onChange, size = 'md' }: {
   )
 }
 
-export default function ReviewsSection({ reviews, productRating, productReviewCount, productId, canSubmit, isMock }: {
+export default function ReviewsSection({ reviews, productRating, productReviewCount, productId, canSubmit }: {
   reviews:            Review[]
   productRating:      number
   productReviewCount: number
   productId:          string
   canSubmit:          boolean
-  isMock:             boolean
 }) {
   const [name,    setName]    = useState('')
   const [rating,  setRating]  = useState(0)
@@ -74,60 +73,61 @@ export default function ReviewsSection({ reviews, productRating, productReviewCo
     <div className="bg-neutral-900 py-16 lg:py-24 border-t border-neutral-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end gap-8 mb-12">
-          <div>
-            <p className="text-[10px] uppercase tracking-[0.5em] text-gold/70 mb-3">Ce que disent nos clients</p>
-            <p className="text-neutral-500 text-[11px] italic mb-3">Déjà adopté par de nombreux clients satisfaits au Maroc</p>
-            <h2 className="font-serif text-3xl font-bold text-white leading-none tracking-[-0.025em]">
-              Avis clients vérifiés
-            </h2>
-          </div>
-
-          {/* Rating summary */}
-          <div className="sm:ml-auto flex items-center gap-6 border border-neutral-800 bg-neutral-950 px-8 py-5">
-            <div className="text-center">
-              <p className="text-[9px] uppercase tracking-[0.3em] text-neutral-500 mb-2">Note moyenne des clients</p>
-              <p className="font-serif text-6xl text-white font-bold leading-none">{productRating}</p>
-              <div className="mt-3 flex justify-center">
-                <StarRating rating={productRating} size="sm" />
+        {reviews.length > 0 && (
+          <>
+            {/* Header */}
+            <div className="flex flex-col sm:flex-row sm:items-end gap-8 mb-12">
+              <div>
+                <p className="text-[10px] uppercase tracking-[0.5em] text-gold/70 mb-3">Ce que disent nos clients</p>
+                <h2 className="font-serif text-3xl font-bold text-white leading-none tracking-[-0.025em]">
+                  Avis clients vérifiés
+                </h2>
               </div>
-              <p className="text-neutral-500 text-[11px] mt-2">{productReviewCount} avis vérifiés</p>
-            </div>
-          </div>
-        </div>
 
-        {/* Review cards */}
-        <div className="grid md:grid-cols-3 gap-px bg-neutral-800 mb-14">
-          {reviews.map(r => (
-            <div key={r._id} className="bg-neutral-950 p-7 flex flex-col">
-              <StarRating rating={r.rating} size="md" />
-              <blockquote className="text-neutral-300 text-[15px] leading-relaxed mt-5 flex-1">
-                &ldquo;{r.comment}&rdquo;
-              </blockquote>
-              <div className="flex items-center gap-3 pt-5 mt-5 border-t border-neutral-800">
-                <div className="w-10 h-10 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center flex-shrink-0">
-                  <span className="text-gold font-bold text-base">{r.name[0]}</span>
+              {/* Rating summary */}
+              <div className="sm:ml-auto flex items-center gap-6 border border-neutral-800 bg-neutral-950 px-8 py-5">
+                <div className="text-center">
+                  <p className="text-[9px] uppercase tracking-[0.3em] text-neutral-500 mb-2">Note moyenne</p>
+                  <p className="font-serif text-6xl text-white font-bold leading-none">{productRating}</p>
+                  <div className="mt-3 flex justify-center">
+                    <StarRating rating={productRating} size="sm" />
+                  </div>
+                  <p className="text-neutral-500 text-[11px] mt-2">{productReviewCount} avis vérifiés</p>
                 </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-white text-sm font-semibold">{r.name}</p>
-                  {!isMock && (
-                    <p className="text-neutral-600 text-[10px] mt-0.5">
-                      {new Date(r._createdAt).toLocaleDateString('fr-MA', { year: 'numeric', month: 'long', day: 'numeric' })}
-                    </p>
-                  )}
-                </div>
-                <span className="text-[9px] text-emerald-400 bg-emerald-400/8 border border-emerald-400/20 px-2 py-0.5 uppercase tracking-widest flex-shrink-0">
-                  Vérifié
-                </span>
               </div>
             </div>
-          ))}
-        </div>
+
+            {/* Review cards */}
+            <div className="grid md:grid-cols-3 gap-px bg-neutral-800 mb-14">
+              {reviews.map(r => (
+                <div key={r._id} className="bg-neutral-950 p-7 flex flex-col">
+                  <StarRating rating={r.rating} size="md" />
+                  <blockquote className="text-neutral-300 text-[15px] leading-relaxed mt-5 flex-1">
+                    &ldquo;{r.comment}&rdquo;
+                  </blockquote>
+                  <div className="flex items-center gap-3 pt-5 mt-5 border-t border-neutral-800">
+                    <div className="w-10 h-10 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center flex-shrink-0">
+                      <span className="text-gold font-bold text-base">{r.name[0]}</span>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-white text-sm font-semibold">{r.name}</p>
+                      <p className="text-neutral-600 text-[10px] mt-0.5">
+                        {new Date(r._createdAt).toLocaleDateString('fr-MA', { year: 'numeric', month: 'long', day: 'numeric' })}
+                      </p>
+                    </div>
+                    <span className="text-[9px] text-emerald-400 bg-emerald-400/8 border border-emerald-400/20 px-2 py-0.5 uppercase tracking-widest flex-shrink-0">
+                      Vérifié
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
 
         {/* Submit form */}
         {canSubmit && (
-          <div className="max-w-lg border-t border-neutral-800 pt-12">
+          <div className={`max-w-lg ${reviews.length > 0 ? 'border-t border-neutral-800 pt-12' : ''}`}>
             <p className="text-[10px] uppercase tracking-[0.4em] text-neutral-500 mb-8">Laisser un avis</p>
             {status === 'sent' ? (
               <div className="bg-neutral-900 border border-neutral-800 p-8 text-center">

@@ -87,14 +87,6 @@ export default function Footer({ settings, cmsPages = [] }: Props) {
                   TikTok
                 </a>
               )}
-              {/* Fallback placeholder links if no social URLs in Sanity */}
-              {!settings?.instagramUrl && !settings?.facebookUrl && !settings?.tiktokUrl && (
-                <>
-                  <a href="#" className="text-xs uppercase tracking-widest text-neutral-300 hover:text-amber-400 transition-colors duration-300">Instagram</a>
-                  <a href="#" className="text-xs uppercase tracking-widest text-neutral-300 hover:text-amber-400 transition-colors duration-300">Facebook</a>
-                  <a href="#" className="text-xs uppercase tracking-widest text-neutral-300 hover:text-amber-400 transition-colors duration-300">TikTok</a>
-                </>
-              )}
             </div>
           </div>
 

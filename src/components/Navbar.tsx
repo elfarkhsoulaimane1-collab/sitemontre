@@ -44,7 +44,7 @@ export default function Navbar({ settings, cmsPages = [] }: Props) {
     ?? 'Livraison gratuite\u00a0\u2022\u00a0Paiement à la livraison\u00a0\u2022\u00a0Retours sous 7 jours'
   const pageLinks: NavLink[] = cmsPages.map(p => ({ href: `/pages/${p.slug}`, label: p.title }))
   const navLinks     = settings?.navLinks?.length ? settings.navLinks : [...CORE_NAV, ...pageLinks]
-  const phone        = settings?.phone ?? '+212 6XX XX XX XX'
+  const phone        = settings?.phone
 
   return (
     <>
@@ -170,11 +170,13 @@ export default function Navbar({ settings, cmsPages = [] }: Props) {
           </div>
         </nav>
 
-        <div className="flex-shrink-0 px-5 py-4 border-t border-neutral-800">
-          <p className="text-neutral-600 text-[10px] uppercase tracking-[0.2em] text-center">
-            {phone}&nbsp;·&nbsp;WhatsApp disponible
-          </p>
-        </div>
+        {phone && (
+          <div className="flex-shrink-0 px-5 py-4 border-t border-neutral-800">
+            <p className="text-neutral-600 text-[10px] uppercase tracking-[0.2em] text-center">
+              {phone}&nbsp;·&nbsp;WhatsApp disponible
+            </p>
+          </div>
+        )}
       </div>
     </>
   )

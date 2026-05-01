@@ -38,6 +38,8 @@ export const postType = defineType({
       type: 'image',
       group: 'content',
       options: { hotspot: true },
+      validation: (Rule) =>
+        Rule.required().error("Image requise — utilisée dans les résultats Google"),
       fields: [
         defineField({
           name: 'alt',

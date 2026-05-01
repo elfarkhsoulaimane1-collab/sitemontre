@@ -1,0 +1,105 @@
+# Maison du Prestige — Documentation complète pour IA
+
+## Description
+
+Maison du Prestige est une boutique e-commerce marocaine spécialisée dans la vente de montres premium et de luxe. Elle s'adresse aux clients marocains qui recherchent des montres authentiques de marques internationales à des prix accessibles, avec un service de livraison et de paiement adapté au marché local.
+
+Site : https://www.maisonduprestige.com
+Langue principale : Français (arabe et darija disponibles via WhatsApp)
+Devise : MAD (dirham marocain)
+Pays : Maroc
+
+---
+
+## Pages principales
+
+| Page | URL | Description |
+|------|-----|-------------|
+| Accueil | https://www.maisonduprestige.com/ | Page d'accueil avec produits vedettes et promotions |
+| Collection | https://www.maisonduprestige.com/collection | Catalogue complet filtrable par catégorie |
+| Montres hommes | https://www.maisonduprestige.com/collection/montres-hommes | Sélection montres pour hommes |
+| Montres femmes | https://www.maisonduprestige.com/collection/montres-femmes | Sélection montres pour femmes |
+| Blog | https://www.maisonduprestige.com/blog | Conseils, guides et tendances montres au Maroc |
+| À propos | https://www.maisonduprestige.com/pages/about | Histoire et mission de la marque |
+| Contact | https://www.maisonduprestige.com/pages/contact | WhatsApp, email, informations de contact |
+| Panier | https://www.maisonduprestige.com/cart | Panier d'achat |
+| Commande | https://www.maisonduprestige.com/checkout | Formulaire de commande COD |
+
+---
+
+## Collections
+
+### Montres hommes
+Montres sport, chronographes, classiques et habillées pour hommes. Marques : Emporio Armani, Hugo Boss, Guess, Tommy Hilfiger, Michael Kors.
+URL : https://www.maisonduprestige.com/collection/montres-hommes
+
+### Montres femmes
+Montres élégantes, dorées, argentées et fashion pour femmes. Marques : Michael Kors, Guess, Tommy Hilfiger, Emporio Armani.
+URL : https://www.maisonduprestige.com/collection/montres-femmes
+
+---
+
+## Marques disponibles
+
+- **Guess** — montres fashion homme et femme, designs modernes
+- **Michael Kors** — montres élégantes et luxueuses pour femme principalement
+- **Emporio Armani** — montres premium italiennes, homme et femme
+- **Hugo Boss** — montres business et sport pour homme
+- **Tommy Hilfiger** — montres casual-chic américaines
+
+---
+
+## Catalogue produits (résumé)
+
+Le catalogue comprend des montres dans les gammes de prix 500–4000 MAD. Exemples de produits disponibles :
+- Montres chronographes homme Emporio Armani (cuir, acier)
+- Montres sport Hugo Boss et Tommy Hilfiger
+- Montres dorées et argentées Michael Kors femme
+- Montres fashion Guess homme et femme
+- Montres classiques habillées toutes marques
+
+Chaque produit inclut : nom, marque, prix en MAD, disponibilité en stock, description, images.
+
+---
+
+## Politiques commerciales
+
+### Livraison
+- Livraison gratuite pour toute commande supérieure à 500 MAD
+- Frais de livraison : 50 MAD pour les commandes inférieures à 500 MAD
+- Délai de livraison : 2 à 4 jours ouvrables partout au Maroc
+- Zone de livraison : tout le territoire marocain
+
+### Paiement
+- Paiement à la livraison uniquement (COD — Cash on Delivery)
+- Aucune carte bancaire ou paiement en ligne requis
+- Règlement en dirhams marocains (MAD) à la réception du colis
+
+### Retours
+- Retours acceptés sous 7 jours après réception
+- Retour par voie postale
+- Retours gratuits
+
+### Authenticité
+- Tous les produits sont authentiques et garantis
+- Provenance officielle des marques distribuées
+
+---
+
+## Service client
+
+- Canal principal : WhatsApp
+- Langues : français, arabe, darija
+- Disponibilité : tous les jours
+- Email : contact@maisonduprestige.com
+
+---
+
+## Technologie
+
+- Framework : Next.js (App Router)
+- CMS : Sanity v4
+- Hébergement : Vercel (prévu)
+- Structured data : Schema.org JSON-LD (Product, BreadcrumbList, FAQPage, BlogPosting, Organization, WebSite)
+- Sitemap : https://www.maisonduprestige.com/sitemap.xml
+- Robots : https://www.maisonduprestige.com/robots.txt
