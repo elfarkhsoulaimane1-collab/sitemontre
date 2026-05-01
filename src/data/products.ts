@@ -10,14 +10,14 @@ export const products: Product[] = [
     originalPrice: 3200,
     description: 'Élégance absolue en noir profond',
     longDescription:
-      "L'Atlas Noir est notre pièce maîtresse — une montre qui incarne la puissance des nuits marocaines. Son cadran en saphir anti-reflet et son boîtier en acier inoxydable DLC noir en font le compagnon idéal de l'homme qui ne transige pas sur le style.",
+      "L'Atlas Noir est notre pièce maîtresse — une montre qui incarne la puissance des nuits marocaines. Conçue pour l'homme qui refuse les compromis, elle allie une technique suisse de précision à une esthétique sombre et séduisante.\n\nSon cadran en verre saphir anti-reflet capture et filtre la lumière avec une clarté cristalline, tandis que le traitement DLC (Diamond-Like Carbon) du boîtier en acier inoxydable lui confère une résistance aux rayures exceptionnelle. Le résultat : une montre qui conserve son aspect neuf même après des années d'utilisation quotidienne.\n\nLe bracelet en cuir véritable noir mat s'assouplit avec le temps pour un confort personnalisé à votre poignet. Les aiguilles et index badigeonnés de Super-LumiNova garantissent une lisibilité parfaite en toutes conditions, même dans l'obscurité totale.\n\nQue vous soyez en réunion d'affaires à Casablanca, en dîner de gala à Rabat, ou simplement en week-end à Marrakech, l'Atlas Noir affirme votre statut sans un mot. C'est la montre pour celui qui sait que les détails font la différence.\n\nLivrée dans un écrin premium, l'Atlas Noir est accompagnée de sa carte de garantie officielle de 2 ans. Livraison gratuite partout au Maroc, paiement à la livraison.",
     features: [
-      'Mouvement Quartz Suisse',
-      'Verre Saphir Anti-Reflet',
-      'Résistance à l\'eau 50M',
-      'Bracelet Cuir Véritable Noir',
+      'Mouvement Quartz Suisse de précision',
+      'Verre Saphir Anti-Reflet grade 9H',
+      'Résistance à l\'eau 50M (5 ATM)',
+      'Bracelet Cuir Véritable Noir avec boucle ardillon',
       'Boîtier Acier DLC Noir 42mm',
-      'Garantie 2 ans',
+      'Garantie officielle 2 ans',
     ],
     images: [
       'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80',
@@ -29,6 +29,25 @@ export const products: Product[] = [
     inStock: true,
     rating: 4.9,
     reviews: 127,
+    faq: [
+      {
+        question: "L'Atlas Noir convient-elle pour un port quotidien ?",
+        answer: "Absolument. Son traitement DLC résiste aux rayures du quotidien et son étanchéité à 50M la protège contre la pluie et les projections d'eau. C'est une montre conçue pour durer des années sans perdre son éclat.",
+      },
+      {
+        question: 'Quelle est la taille du boîtier de l\'Atlas Noir ?',
+        answer: "Le boîtier mesure 42mm de diamètre pour environ 12mm d'épaisseur — la taille idéale pour un homme avec un poignet de taille standard à grande. Elle s'impose sans être encombrante.",
+      },
+      {
+        question: 'Puis-je payer à la livraison ?',
+        answer: 'Oui. Maison du Prestige propose uniquement le paiement à la livraison (COD). Vous payez en espèces à la réception de votre colis — aucun risque, aucune carte bancaire requise.',
+      },
+    ],
+    seo: {
+      title: 'Atlas Noir — Montre Homme Luxe Noire | Maison du Prestige',
+      description: 'Achetez l\'Atlas Noir : montre homme luxe noire, mouvement suisse, verre saphir, DLC. Livraison gratuite au Maroc. Paiement à la livraison.',
+      keywords: ['montre homme luxe Maroc', 'montre noire DLC', 'montre quartz suisse Maroc'],
+    },
   },
   {
     id: '2',
@@ -39,14 +58,14 @@ export const products: Product[] = [
     originalPrice: 2400,
     description: 'L\'or du désert à votre poignet',
     longDescription:
-      "Inspirée des dunes dorées du Sahara marocain, cette montre allie un boîtier en acier plaqué or et un bracelet en cuir tan pour une élégance intemporelle. Parfaite pour les occasions formelles comme décontractées.",
+      "Inspirée des dunes dorées qui s'étendent à perte de vue dans le Grand Sahara marocain, la Sahara Doré est une ode à l'élégance intemporelle. Son boîtier en acier plaqué or 5 microns et son bracelet en cuir tan évoquent les caravanes historiques qui traversaient le désert chargées d'épices et de soieries.\n\nLe cadran légèrement texturé reflète la chaleur du soleil du désert, avec des index fins et des aiguilles dorées qui glissent silencieusement sur la surface. Le mouvement quartz japonais, reconnu pour sa précision et sa fiabilité sur le long terme, assure une régularité irréprochable — jusqu'à 5 secondes par mois de précision maximale.\n\nD'une sobriété raffinée, cette montre de 40mm se porte aussi bien avec un costume lors d'occasions professionnelles qu'avec une tenue décontractée pour un déjeuner en famille du vendredi. Elle est particulièrement populaire comme cadeau premium pour les mariages, remises de diplômes ou anniversaires importants.\n\nLa Sahara Doré est fournie dans un coffret cadeau luxueux, accompagnée d'une notice d'entretien et d'une garantie de 2 ans. Pour un cadeau qui traversera les générations, c'est le choix évident.\n\nCommandez maintenant et recevez votre montre en 2 à 4 jours ouvrables partout au Maroc, avec paiement à la livraison.",
     features: [
-      'Mouvement Quartz Japonais',
-      'Boîtier Acier Plaqué Or 40mm',
+      'Mouvement Quartz Japonais haute précision',
+      'Boîtier Acier Plaqué Or 5 microns — 40mm',
       'Verre Minéral Trempé',
-      'Bracelet Cuir Tan',
-      'Résistance à l\'eau 30M',
-      'Garantie 2 ans',
+      'Bracelet Cuir Tan avec coutures contrastées',
+      'Résistance à l\'eau 30M (3 ATM)',
+      'Garantie officielle 2 ans',
     ],
     images: [
       'https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&w=800&q=80',
@@ -57,6 +76,25 @@ export const products: Product[] = [
     inStock: true,
     rating: 4.8,
     reviews: 89,
+    faq: [
+      {
+        question: 'Le plaquage or de la Sahara Doré est-il résistant ?',
+        answer: "Le boîtier est plaqué or 5 microns, une épaisseur standard dans l'horlogerie premium. Pour une durabilité maximale, évitez les contacts prolongés avec les parfums et crèmes, et essuyez la montre après chaque port.",
+      },
+      {
+        question: 'Cette montre convient-elle pour offrir en cadeau de mariage ou diplôme ?',
+        answer: "C'est même son usage principal ! La Sahara Doré est livrée dans un coffret cadeau luxueux, prête à offrir. Elle est très appréciée lors des mariages, anniversaires, et remises de diplômes.",
+      },
+      {
+        question: 'Quel est le délai de livraison au Maroc ?',
+        answer: 'La livraison prend généralement 2 à 4 jours ouvrables partout au Maroc. Après confirmation de votre commande, notre équipe vous contacte pour planifier la livraison à votre adresse.',
+      },
+    ],
+    seo: {
+      title: 'Sahara Doré — Montre Homme Classique Or | Maison du Prestige',
+      description: 'Achetez la Sahara Doré : montre classique plaquée or inspirée du Sahara marocain. Livraison gratuite. Paiement à la livraison partout au Maroc.',
+      keywords: ['montre homme or Maroc', 'montre classique Maroc', 'montre cadeau Maroc'],
+    },
   },
   {
     id: '3',
@@ -67,13 +105,13 @@ export const products: Product[] = [
     originalPrice: 1690,
     description: 'Performance et style urbain',
     longDescription:
-      'Pour l\'homme en mouvement, le Casablanca Chrono offre des fonctions chronographe complètes dans un design sportif affûté. Le bracelet en caoutchouc haute résistance garantit confort et durabilité en toutes circonstances.',
+      "Née dans l'énergie vibrante de Casablanca, la ville qui ne dort jamais, la Casablanca Chrono est pensée pour l'homme actif qui refuse de choisir entre performance et style. Son design chronographe à trois compteurs lui permet de mesurer des intervalles de temps avec une précision au 1/20ème de seconde — que ce soit pour chronomètrer une réunion, un entraînement ou un trajet.\n\nLe boîtier en acier inoxydable brossé de 44mm lui confère une présence affirmée au poignet sans être encombrante. La lunette tournante unidirectionnelle, héritage des montres de plongée professionnelles, permet de mesurer les durées d'activité en un coup d'œil.\n\nLe bracelet en caoutchouc haute résistance assure un maintien parfait lors des activités physiques intenses : running, natation, sports de contact. L'étanchéité à 100 mètres garantit que la montre résiste aux projections d'eau, à la pluie abondante, et à la nage.\n\nLa Casablanca Chrono est idéale pour le jeune professionnel dynamique de Casa, le sportif accompli, ou simplement pour celui qui veut une montre robuste capable de tout affronter au quotidien — de l'autoroute à la salle de sport.\n\nRésistante, précise, stylée. La Casablanca Chrono n'accepte pas les compromis.",
     features: [
-      'Chronographe 3 Compteurs',
+      'Chronographe 3 compteurs (heures, minutes, secondes)',
       'Mouvement Quartz Suisse',
       'Boîtier Acier Brossé 44mm',
-      'Bracelet Caoutchouc',
-      'Résistance à l\'eau 100M',
+      'Bracelet Caoutchouc Haute Résistance',
+      'Résistance à l\'eau 100M (10 ATM)',
       'Lunette Tournante Unidirectionnelle',
     ],
     images: [
@@ -85,6 +123,25 @@ export const products: Product[] = [
     inStock: true,
     rating: 4.7,
     reviews: 203,
+    faq: [
+      {
+        question: 'Comment utiliser le chronographe de la Casablanca Chrono ?',
+        answer: "Appuyez une fois sur le poussoir supérieur (à 2h) pour démarrer le chrono, une deuxième fois pour l'arrêter, et une troisième fois pour réinitialiser. Les trois compteurs affichent les heures, minutes et secondes écoulées.",
+      },
+      {
+        question: 'La montre est-elle vraiment étanche à 100 mètres ?',
+        answer: "Oui. 100M d'étanchéité (10 ATM) signifie que la montre résiste à la natation, au snorkeling et à l'aquagym. En revanche, elle n'est pas conçue pour la plongée bouteille. Évitez les bains chauds et saunas.",
+      },
+      {
+        question: 'Puis-je remplacer le bracelet en caoutchouc ?',
+        answer: "Le bracelet est interchangeable avec tout bracelet standard de 22mm. Vous pouvez le remplacer par un bracelet cuir, acier ou NATO selon vos préférences. Notre service client peut vous guider.",
+      },
+    ],
+    seo: {
+      title: 'Casablanca Chrono — Montre Sport Chronographe Homme | Maison du Prestige',
+      description: 'Achetez la Casablanca Chrono : montre sport chronographe homme, étanche 100M, mouvement suisse. Livraison gratuite au Maroc. Paiement à la livraison.',
+      keywords: ['montre sport homme Maroc', 'montre chronographe Maroc', 'montre étanche Maroc'],
+    },
   },
   {
     id: '4',
@@ -94,14 +151,14 @@ export const products: Product[] = [
     price: 3990,
     description: 'Édition limitée — 250 pièces uniquement',
     longDescription:
-      "Notre création la plus exclusive. La Berbère Limitée s'inspire des motifs géométriques berbères pour créer un cadran unique, serti à la main. Chaque pièce est numérotée et livrée avec son certificat d'authenticité.",
+      "Pièce d'exception parmi les pièces d'exception, la Berbère Limitée est une exploration artistique des traditions ancestrales berbères du Maroc. Limitée à seulement 250 exemplaires numérotés dans le monde entier, chacun est un objet de collection autant qu'un instrument horloger de précision.\n\nLe cadran est une œuvre d'art en soi : les motifs géométriques berbères — ces symboles de protection, de fertilité et d'identité culturelle amazighe — y sont gravés à la main par nos artisans joailliers. Chaque gravure est unique, faisant de chaque Berbère Limitée une pièce absolument singulière, sans double au monde.\n\nLe boîtier en or rose 18 carats massif, travaillé avec la même attention méticuleuse, encadre cet hommage à la culture amazighe avec la noblesse qu'elle mérite. Le mouvement automatique suisse, visible à travers le fond saphir, oscille à 28 800 alternances par heure avec une réserve de marche de 42 heures.\n\nLe bracelet en cuir d'alligator certifié CITES, d'une souplesse incomparable, complète l'ensemble avec une touche de prestige supplémentaire. Chaque Berbère Limitée est livrée numérotée sur la carrure, avec un certificat d'authenticité signé, et un écrin artisanal en bois de cèdre du Maroc.\n\nInvestir dans la Berbère Limitée, c'est posséder un morceau de l'histoire horlogère marocaine.",
     features: [
-      'Édition Limitée 250 Pièces',
-      'Mouvement Automatique Suisse',
-      'Cadran Gravé Artisanal',
-      'Boîtier Or Rose 18K 41mm',
-      'Bracelet Cuir Alligator',
-      'Numéroté & Certifié',
+      'Édition Limitée — 250 pièces numérotées mondialement',
+      'Mouvement Automatique Suisse — 42h réserve de marche',
+      'Cadran Gravé à la Main — motifs berbères',
+      'Boîtier Or Rose 18 Carats massif 41mm',
+      'Bracelet Cuir Alligator certifié CITES',
+      'Numéroté & Certificat d\'authenticité inclus',
     ],
     images: [
       'https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?auto=format&fit=crop&w=800&q=80',
@@ -112,6 +169,25 @@ export const products: Product[] = [
     inStock: true,
     rating: 5.0,
     reviews: 34,
+    faq: [
+      {
+        question: 'Combien de pièces de la Berbère Limitée restent disponibles ?',
+        answer: "La Berbère Limitée est produite à seulement 250 exemplaires mondiaux. Chaque pièce est numérotée (ex : 47/250) sur la carrure. Une fois le stock épuisé, cette série ne sera jamais rééditée — c'est garanti par contrat.",
+      },
+      {
+        question: 'Le certificat d\'authenticité est-il inclus à la livraison ?',
+        answer: "Oui. Chaque Berbère Limitée est livrée avec un certificat d'authenticité numéroté et signé par notre maison, ainsi qu'un écrin artisanal en bois de cèdre du Maroc. Une pièce de collection complète.",
+      },
+      {
+        question: 'Quel est le mouvement exact de cette montre ?',
+        answer: "La Berbère Limitée est animée par un calibre automatique suisse avec une réserve de marche de 42 heures et un balancier oscillant à 28 800 alt/h. Le fond transparent en saphir vous permet d'observer ce chef-d'œuvre mécanique.",
+      },
+    ],
+    seo: {
+      title: 'Berbère Limitée — Montre Or Rose Édition Limitée | Maison du Prestige',
+      description: "Achetez la Berbère Limitée : édition limitée 250 pièces, boîtier or rose 18K, mouvement automatique suisse. Montre de collection au Maroc.",
+      keywords: ['montre luxe édition limitée Maroc', 'montre or rose Maroc', 'montre automatique Maroc'],
+    },
   },
   {
     id: '5',
@@ -121,14 +197,14 @@ export const products: Product[] = [
     price: 890,
     description: 'Pureté minimaliste, élégance maximale',
     longDescription:
-      "La Médina Blanc est un hommage à l'architecture immaculée des médinas marocaines. Son cadran blanc épuré, ses aiguilles fines dorées et son boîtier fin de 38mm en font la montre idéale pour ceux qui croient que moins c'est plus.",
+      "Inspirée de la blancheur immaculée des médinas marocaines, baignées de soleil et de sérénité, la Médina Blanc est une déclaration de style par la simplicité. Dans un monde saturé d'informations et de stimuli visuels, elle rappelle que l'essentiel suffit.\n\nSon cadran blanc laqué, avec ses aiguilles fines dorées et ses index minimalistes, affiche l'heure avec une clarté absolue — comme une page vierge qui attend votre histoire. Le boîtier en acier argenté de 38mm ne mesure que 9mm d'épaisseur, lui permettant de glisser sous n'importe quelle manche de chemise ou de veste.\n\nLe bracelet mesh en acier, avec son fermoir à double sécurité, garantit un maintien parfait et un confort optimal pour une journée entière. Son aspect contemporain contraste élégamment avec le cadran classique, créant une tension visuelle délibérée entre modernité et tradition.\n\nLa Médina Blanc est particulièrement appréciée pour sa polyvalence : elle s'adapte au bureau, au café, en week-end et en voyage. Sa sobriété lui permet de se coordonner avec pratiquement n'importe quelle tenue, masculine ou féminine.\n\nAvec son rapport qualité-prix imbattable et son design intemporel, la Médina Blanc est la meilleure introduction au monde de l'horlogerie de qualité au Maroc.",
     features: [
-      'Design Ultra-Fin 9mm',
-      'Mouvement Quartz Japonais',
-      'Cadran Blanc Laqué',
+      'Design Ultra-Fin — 9mm d\'épaisseur seulement',
+      'Mouvement Quartz Japonais haute précision',
+      'Cadran Blanc Laqué avec aiguilles dorées',
       'Boîtier Acier Argenté 38mm',
-      'Bracelet Mesh Acier',
-      'Résistance à l\'eau 30M',
+      'Bracelet Mesh Acier avec fermoir double sécurité',
+      'Résistance à l\'eau 30M (3 ATM)',
     ],
     images: [
       'https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?auto=format&fit=crop&w=800&q=80',
@@ -138,6 +214,25 @@ export const products: Product[] = [
     inStock: true,
     rating: 4.6,
     reviews: 156,
+    faq: [
+      {
+        question: 'La Médina Blanc convient-elle aussi aux femmes ?',
+        answer: "Absolument. Avec son boîtier de 38mm et son design unisexe épuré, la Médina Blanc s'adapte aussi bien au poignet féminin que masculin. C'est l'une des montres les plus appréciées par les femmes qui préfèrent les tailles normales aux mini-modèles.",
+      },
+      {
+        question: 'Le bracelet mesh est-il confortable pour un port toute la journée ?',
+        answer: "Oui. Le bracelet mesh en acier maillé est léger, ajustable finement à la taille de votre poignet, et ne tire pas les poils. Beaucoup de clients le décrivent comme le bracelet le plus confortable qu'ils aient porté.",
+      },
+      {
+        question: 'Puis-je changer le bracelet de la Médina Blanc ?',
+        answer: "Oui. La Médina Blanc utilise une attache standard de 18mm. Vous pouvez la remplacer par un bracelet cuir, caoutchouc, ou NATO selon vos envies. C'est une des montres les plus faciles à personnaliser.",
+      },
+    ],
+    seo: {
+      title: 'Médina Blanc — Montre Minimaliste Femme Homme | Maison du Prestige',
+      description: 'Achetez la Médina Blanc : montre minimaliste ultra-fine, cadran blanc, bracelet mesh acier. Unisexe. Livraison gratuite au Maroc. Paiement à la livraison.',
+      keywords: ['montre minimaliste Maroc', 'montre femme blanche Maroc', 'montre fine Maroc'],
+    },
   },
   {
     id: '6',
@@ -148,13 +243,13 @@ export const products: Product[] = [
     originalPrice: 1990,
     description: 'Maîtrisez les profondeurs',
     longDescription:
-      "Née sur les côtes d'Agadir, l'Agadir Diver est conçue pour les amateurs de sports nautiques. Avec une étanchéité à 200 mètres, un cadran bleu abyssal lumineux et une lunette céramique unidirectionnelle, elle est aussi à l'aise sous l'eau que sur terre.",
+      "Née sur les côtes d'Agadir, là où l'Atlantique rencontre le continent africain dans un fracas de vagues et de lumière, l'Agadir Diver est une montre de plongée professionnelle pensée pour les amateurs de sports nautiques — et pour tous ceux qui apprécient la robustesse d'un outil conçu pour les conditions extrêmes.\n\nSon étanchéité à 200 mètres de profondeur la place bien au-delà des besoins de la plongée récréative standard (40m recommandés). Elle résiste aux variations de pression rapides, à l'eau de mer corrosive, et même aux chocs accidentels. La couronne vissée à 4h garantit l'étanchéité même dans les conditions les plus exigeantes.\n\nLa lunette céramique unidirectionnelle, avec ses graduations luminescentes, permet de mesurer avec précision les temps d'immersion. Le cadran bleu abyssal, traité Super-LumiNova sur les aiguilles et les index, assure une lisibilité parfaite même dans les profondeurs sombres de l'océan.\n\nLe bracelet en acier oyster, avec sa sécurité de plongée intégrée et son fermoir de sécurité à double verrou, garantit que rien ne se détache lors d'une plongée — même sous forte pression. Il peut également être ajusté rapidement à une combinaison de plongée.\n\nL'Agadir Diver : conçue pour l'extrême, parfaite pour le quotidien.",
     features: [
-      'Résistance à l\'eau 200M',
-      'Lunette Céramique Unidirectionnelle',
-      'Cadran Bleu Luminescent',
-      'Boîtier Acier 316L 44mm',
-      'Bracelet Acier Oyster',
+      'Étanchéité professionnelle à 200M (20 ATM)',
+      'Lunette Céramique Unidirectionnelle — quasi inrayable',
+      'Cadran Bleu Abyssal Luminescent (Super-LumiNova)',
+      'Boîtier Acier 316L anti-corrosion 44mm',
+      'Bracelet Acier Oyster avec sécurité de plongée',
       'Verre Saphir Double Anti-Reflet',
     ],
     images: [
@@ -166,6 +261,25 @@ export const products: Product[] = [
     inStock: true,
     rating: 4.8,
     reviews: 94,
+    faq: [
+      {
+        question: 'L\'Agadir Diver est-elle vraiment adaptée à la plongée ?',
+        answer: "Oui. Avec une étanchéité à 200M (20 ATM), elle est certifiée pour la plongée récréative. La lunette unidirectionnelle permet de mesurer les temps d'immersion avec sécurité. Elle dépasse largement les normes ISO 6425 pour montres de plongée.",
+      },
+      {
+        question: 'La lunette en céramique peut-elle se rayer ?',
+        answer: "La céramique est l'un des matériaux les plus durs utilisés en horlogerie (9H sur l'échelle de Mohs, presque aussi dur que le diamant). Elle résiste aux rayures du quotidien bien mieux que l'acier ou l'aluminium. Quasi indestructible.",
+      },
+      {
+        question: 'Comment est la lisibilité sous l\'eau ?',
+        answer: "Excellente. Les index et aiguilles sont traités au Super-LumiNova, un composé photoluminescent qui absorbe la lumière et la restitue dans l'obscurité. La lisibilité est maximale même en profondeur — c'est une exigence des normes de plongée.",
+      },
+    ],
+    seo: {
+      title: 'Agadir Diver — Montre Plongée Sport 200M | Maison du Prestige',
+      description: 'Achetez l\'Agadir Diver : montre de plongée étanche 200M, lunette céramique, cadran luminescent. Livraison gratuite au Maroc. Paiement à la livraison.',
+      keywords: ['montre plongée Maroc', 'montre sport étanche Maroc', 'montre diver Maroc'],
+    },
   },
   {
     id: '7',
@@ -175,14 +289,14 @@ export const products: Product[] = [
     price: 2190,
     description: 'L\'âme millénaire de Fès à votre poignet',
     longDescription:
-      "La Fès Heritage rend hommage à la plus ancienne ville universitaire du monde. Son cadran champagne avec indices arabes dorés, son boîtier en acier satiné et son bracelet cuir bordeaux lui confèrent un caractère unique, entre passé glorieux et présent raffiné.",
+      "Fès, fondée en 789 après J.-C., est l'une des plus anciennes villes universitaires du monde et le cœur culturel du Maroc. La Fès Heritage est un hommage respectueux à cette cité millénaire, à ses medersas gothiques, à ses artisans et à ses traditions intellectuelles et horlogères ancestrales.\n\nSon mouvement automatique Miyota Calibre 8215, d'une fiabilité et d'une précision éprouvées, se remonte automatiquement par les mouvements naturels du poignet — une technologie qui semble faire écho aux rouages de l'histoire. La réserve de marche de 42 heures garantit que la montre continue à fonctionner même les jours où vous ne la portez pas.\n\nLe cadran champagne guilloché, avec ses reflets changeants selon l'angle d'incidence de la lumière, évoque le zellige marocain dans toute sa complexité géométrique. Les indices arabes plaqués or sont une déclaration identitaire forte et un rappel élégant des chiffres qui ont voyagé de Bagdad à l'Europe via Fès et les grandes universités islamiques.\n\nLe fond transparent en verre saphir révèle le cœur du mécanisme : ce ballet de roues, de ressorts et d'engrenages qui font de l'horlogerie mécanique un art autant qu'une science. Une fenêtre ouverte sur plusieurs siècles de tradition horlogère.\n\nLa Fès Heritage : porter Fès au poignet, c'est porter le monde.",
     features: [
-      'Mouvement Automatique Miyota',
-      'Cadran Champagne Guilloché',
+      'Mouvement Automatique Miyota Calibre 8215',
+      'Cadran Champagne Guilloché — reflets changeants',
       'Indices Arabes Plaqués Or',
       'Boîtier Acier Satiné 40mm',
-      'Bracelet Cuir Bordeaux',
-      'Fond Transparent Saphir',
+      'Bracelet Cuir Bordeaux cousu main',
+      'Fond Transparent Saphir — mouvement visible',
     ],
     images: [
       'https://images.unsplash.com/photo-1585123388867-3bfe6dd4bdbf?auto=format&fit=crop&w=800&q=80',
@@ -193,6 +307,25 @@ export const products: Product[] = [
     inStock: true,
     rating: 4.9,
     reviews: 71,
+    faq: [
+      {
+        question: 'Dois-je remonter la Fès Heritage à la main ?',
+        answer: "Non. Le mouvement automatique se remonte par les mouvements naturels de votre poignet. Si vous ne la portez pas pendant plus de 42 heures, elle s'arrêtera. Il suffira de lui donner quelques tours de couronne pour la relancer, puis elle continuera seule.",
+      },
+      {
+        question: 'Qu\'est-ce que le fond transparent apporte concrètement ?',
+        answer: "Le fond en verre saphir vous permet d'observer le mouvement mécanique en action — un spectacle fascinant pour les amateurs d'horlogerie. C'est aussi un gage de transparence du fabricant sur la qualité de son calibre.",
+      },
+      {
+        question: 'Les indices arabes ont-ils une signification historique ?',
+        answer: "Oui. C'est un hommage à la contribution arabo-islamique à la science médiévale. Les chiffres que nous appelons 'arabes' ont voyagé de Bagdad à l'Europe via Fès et Cordoue. Cette montre honore cet héritage intellectuel millénaire.",
+      },
+    ],
+    seo: {
+      title: 'Fès Heritage — Montre Automatique Homme Classique | Maison du Prestige',
+      description: "Achetez la Fès Heritage : montre automatique Miyota, cadran guilloché, indices arabes or. Hommage à Fès. Livraison gratuite au Maroc. Paiement à la livraison.",
+      keywords: ['montre automatique homme Maroc', 'montre classique luxe Maroc', 'montre Fès Maroc'],
+    },
   },
   {
     id: '8',
@@ -202,14 +335,14 @@ export const products: Product[] = [
     price: 1490,
     description: 'La grâce de la ville rose',
     longDescription:
-      "Inspirée des jardins de Marrakech, la Marrakech Rose est notre pièce féminine par excellence. Son boîtier or rose, son cadran nacré avec index sertis de cristaux et son bracelet cuir rose poudré en font un bijou autant qu'une montre.",
+      "Marrakech, la ville rose, est une explosion de couleurs, de parfums et de sensations. Ses jardins de roses, ses riads florissants, ses couchers de soleil incendiaires sur les toits de la médina — tout cela se retrouve dans la Marrakech Rose, notre création féminine la plus poétique et la plus appréciée.\n\nSon boîtier en acier plaqué or rose 5 microns, d'un diamètre délicat de 36mm, est la taille idéale pour un poignet féminin élégant. Le cadran en nacre véritable — cette matière organique aux reflets irisés qui changent à chaque angle de lumière — capture l'essence chatoyante de la ville ocre. Chaque plaque de nacre est unique : aucun cadran n'est exactement identique à un autre.\n\nLes index sertis de cristaux haute précision captent et dispersent la lumière avec éclat, transformant chaque geste en un jeu de lumière subtil. Le bracelet en cuir rose poudré, avec sa texture légèrement grainée et ses coutures contrastées, est à la fois pratique et romantique.\n\nLa Marrakech Rose est bien plus qu'une montre — c'est un bijou avec une fonction. Elle est idéale pour les mariages, les cérémonies de famille, les sorties élégantes, ou simplement pour illuminer une tenue du quotidien.\n\nLivraison gratuite partout au Maroc, paiement à la livraison. Offrez Marrakech.",
     features: [
-      'Mouvement Quartz Suisse',
-      'Boîtier Acier Plaqué Or Rose 36mm',
-      'Cadran Nacré',
-      'Index Sertis Cristaux',
-      'Bracelet Cuir Rose Poudré',
-      'Résistance à l\'eau 30M',
+      'Mouvement Quartz Suisse de précision',
+      'Boîtier Acier Plaqué Or Rose 5 microns — 36mm',
+      'Cadran Nacre Véritable — chaque pièce unique',
+      'Index Sertis Cristaux Haute Précision',
+      'Bracelet Cuir Rose Poudré coutures contrastées',
+      'Résistance à l\'eau 30M (3 ATM)',
     ],
     images: [
       'https://images.unsplash.com/photo-1495121553079-4c453f44aba5?auto=format&fit=crop&w=800&q=80',
@@ -220,6 +353,25 @@ export const products: Product[] = [
     inStock: true,
     rating: 4.7,
     reviews: 48,
+    faq: [
+      {
+        question: 'La nacre du cadran est-elle naturelle ?',
+        answer: "Oui. Le cadran est réalisé en nacre véritable (Mother of Pearl), une matière organique issue des coquillages. Chaque plaque de nacre présente des variations de couleur uniques — ce qui signifie qu'aucun cadran n'est exactement identique à un autre. C'est la beauté du naturel.",
+      },
+      {
+        question: 'La Marrakech Rose convient-elle pour un mariage ou une cérémonie ?',
+        answer: "La Marrakech Rose a été spécialement conçue pour les grandes occasions. Son design féminin lumineux en fait le complément idéal d'une robe de mariée, de soirée ou d'une tenue traditionnelle. Beaucoup de nos clientes la portent lors de leur mariage et continuent à la porter après.",
+      },
+      {
+        question: 'Quelle est la taille du boîtier — convient-elle aux petits poignets ?',
+        answer: "Avec son boîtier de 36mm et son profil fin, la Marrakech Rose est parfaite pour les petits à moyens poignets. C'est la taille la plus populaire dans la bijouterie-horlogerie féminine. Elle ne sera jamais trop grande ni trop petite.",
+      },
+    ],
+    seo: {
+      title: 'Marrakech Rose — Montre Femme Or Rose Nacre | Maison du Prestige',
+      description: 'Achetez la Marrakech Rose : montre femme or rose, cadran nacre, cristaux. Parfaite pour mariages et occasions spéciales. Livraison gratuite au Maroc.',
+      keywords: ['montre femme or rose Maroc', 'montre femme nacre Maroc', 'montre femme mariage Maroc'],
+    },
   },
 ]
 

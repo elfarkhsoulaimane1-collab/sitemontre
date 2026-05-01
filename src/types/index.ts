@@ -22,6 +22,11 @@ export interface RichDescriptionImageBlock {
 
 export type RichDescriptionBlock = RichDescriptionTextBlock | RichDescriptionImageBlock
 
+export interface ProductFaqItem {
+  question: string
+  answer: string
+}
+
 export interface Product {
   id: string
   slug: string
@@ -41,6 +46,7 @@ export interface Product {
   rating: number
   reviews: number
   seo?: ProductSeo
+  faq?: ProductFaqItem[]
 }
 
 export interface ProductSeo {

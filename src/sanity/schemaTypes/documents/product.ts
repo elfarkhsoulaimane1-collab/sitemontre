@@ -214,6 +214,23 @@ export const productType = defineType({
       description: 'Numéro d\'ordre d\'affichage (1 = premier). Laissez vide pour trier par date de création.',
     }),
     defineField({
+      name: 'faq',
+      title: 'FAQ produit',
+      type: 'array',
+      group: 'info',
+      description: 'Questions fréquentes spécifiques à ce produit (2–4 recommandées).',
+      of: [{
+        type: 'object',
+        name: 'faqItem',
+        title: 'Question / Réponse',
+        fields: [
+          defineField({ name: 'question', title: 'Question', type: 'string', validation: R => R.required() }),
+          defineField({ name: 'answer',   title: 'Réponse',  type: 'text', rows: 3, validation: R => R.required() }),
+        ],
+        preview: { select: { title: 'question' } },
+      }],
+    }),
+    defineField({
       name: 'seo',
       title: 'SEO',
       type: 'seo',

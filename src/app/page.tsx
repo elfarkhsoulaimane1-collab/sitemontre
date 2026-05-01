@@ -47,16 +47,16 @@ export default async function HomePage() {
   const blogPosts       = (allPosts ?? []).slice(0, 3)
   const homepageReviews = cmsTestimonials?.length ? cmsTestimonials : FALLBACK_TESTIMONIALS
 
-  const heroTitle        = cms?.heroTitle        ?? 'Portez le Temps'
-  const heroTitleAccent  = cms?.heroTitleAccent  ?? 'avec Intention'
+  const heroTitle        = cms?.heroTitle        ?? 'Montres de luxe originales'
+  const heroTitleAccent  = cms?.heroTitleAccent  ?? 'au Maroc'
   const heroSubtitle     = cms?.heroSubtitle     ?? 'Montres premium inspirées des terres et cultures du Maroc. Chaque pièce est une déclaration.'
   const heroImage        = cms?.heroImage        ?? 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=80'
   const heroVideo        = typeof cms?.heroVideo === 'string'
     ? cms.heroVideo
     : cms?.heroVideo?.asset?.url
-  const heroCtaPrimary   = cms?.heroCtaPrimary   ?? 'Voir la Collection'
-  const heroCtaSecondary = cms?.heroCtaSecondary ?? 'Nos Bestsellers'
-  const heroTrustSignals = cms?.heroTrustSignals ?? ['🚚 Livraison Gratuite', '💳 Paiement à la Livraison', '↩ Retours 7 Jours']
+  const heroCtaPrimary   = cms?.heroCtaPrimary   ?? 'Acheter maintenant'
+  const heroCtaSecondary = cms?.heroCtaSecondary ?? 'Voir la collection'
+  const heroTrustSignals = cms?.heroTrustSignals ?? ['Livraison rapide partout au Maroc', 'Paiement à la livraison', 'Produits 100% originaux', 'Stock limité']
 
   const trustItems = cms?.trustItems ?? [
     { icon: '🚚', title: 'Livraison Gratuite',         subtitle: 'Partout au Maroc'   },

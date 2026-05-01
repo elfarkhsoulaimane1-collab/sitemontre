@@ -5,7 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import { PortableText } from '@portabletext/react'
-import { Product, Review, RichDescriptionBlock, RichDescriptionImageBlock } from '@/types'
+import { Product, ProductFaqItem, Review, RichDescriptionBlock, RichDescriptionImageBlock } from '@/types'
 import { trackPurchase, trackViewContent, trackInitiateCheckout } from '@/lib/tracking'
 import { imageUrl } from '@/sanity/lib/image'
 import ProductImageWatermark from '@/components/ProductImageWatermark'
@@ -19,6 +19,7 @@ interface Props {
   reviews:         Review[]
   whatsappNumber?: string
   sanityEnabled?:  boolean
+  faq?:            ProductFaqItem[]
 }
 
 interface OrderFormValues {
@@ -348,6 +349,7 @@ export default function ProductDetailClient({
   related,
   whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '212600000000',
   sanityEnabled  = false,
+  faq            = [],
 }: Props) {
   const [activeImg, setActiveImg] = useState(0)
   const [imgError,  setImgError]  = useState<Record<number, boolean>>({})
@@ -761,6 +763,28 @@ export default function ProductDetailClient({
                     ? <RichDescription blocks={product.richDescription} />
                     : <p className="text-neutral-400 text-[14px] leading-[1.9]">{product.longDescription}</p>
                   }
+                </div>
+              )}
+
+              {/* FAQ */}
+              {faq.length > 0 && (
+                <div className="pt-1 border-t border-neutral-800">
+                  <h3 className="text-[10px] uppercase tracking-[0.35em] text-neutral-500 mb-5 pt-5 flex items-center gap-4">
+                    <span>Questions fréquentes</span>
+                    <span className="flex-1 h-px bg-neutral-800" />
+                  </h3>
+                  <dl className="space-y-6">
+                    {faq.map((item, i) => (
+                      <div key={i}>
+                        <dt className="text-[13px] font-semibold text-white mb-2 leading-snug">
+                          {item.question}
+                        </dt>
+                        <dd className="text-[13px] text-neutral-400 leading-[1.85] pl-3 border-l border-neutral-800">
+                          {item.answer}
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
                 </div>
               )}
 

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { products as localProducts } from '@/data/products'
+import { PRODUCT_STATIC_FAQS } from '@/data/product-faqs'
 import { sanityFetch, isSanityConfigured } from '@/sanity/lib/fetch'
 import { imageUrl } from '@/sanity/lib/image'
 import {
@@ -10,7 +11,7 @@ import {
   REVIEWS_BY_PRODUCT_QUERY,
   SITE_SETTINGS_QUERY,
 } from '@/sanity/lib/queries'
-import { Product, Review, SiteSettings } from '@/types'
+import { Product, ProductFaqItem, Review, SiteSettings } from '@/types'
 import JsonLd from '@/components/JsonLd'
 import ProductDetailClient from './ProductDetailClient'
 
@@ -148,17 +149,23 @@ export default async function ProductPage({ params }: Props) {
     ],
   }
 
+  // Use || (not ??) so empty strings fall through to the next candidate
+  const productDesc = product.longDescription || product.description || undefined
+  const productImages = product.images.map((img) => imageUrl(img, 800)).filter(Boolean)
+
   const productSchema = {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: product.name,
-    description: product.longDescription ?? product.description,
-    image: product.images.map((img) => imageUrl(img, 800)).filter(Boolean),
+    url: `https://www.maisonduprestige.com/product/${product.slug}`,
+    sku: product.slug,
+    ...(productDesc         && { description: productDesc }),
+    ...(productImages.length > 0 && { image: productImages }),
     brand: { '@type': 'Brand', name: product.brand },
     offers: {
       '@type': 'Offer',
-      price: product.price,
-      priceCurrency: 'MAD',
+      // Omit price when 0 — the site shows "Prix sur demande" in that case
+      ...(product.price > 0 && { price: product.price, priceCurrency: 'MAD' }),
       availability: product.inStock
         ? 'https://schema.org/InStock'
         : 'https://schema.org/OutOfStock',
@@ -183,25 +190,45 @@ export default async function ProductPage({ params }: Props) {
         returnFees: 'https://schema.org/FreeReturn',
       },
     },
-    aggregateRating: product.reviews > 0 ? {
-      '@type': 'AggregateRating',
-      ratingValue: product.rating,
-      reviewCount: product.reviews,
-      bestRating: 5,
-      worstRating: 1,
-    } : undefined,
+    ...(product.reviews > 0 && {
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: product.rating,
+        reviewCount: product.reviews,
+        bestRating: 5,
+        worstRating: 1,
+      },
+    }),
   }
+
+  // Merge FAQ: Sanity content takes priority, then static map, then product.faq fallback
+  const faq: ProductFaqItem[] =
+    (product.faq?.length ? product.faq : null) ??
+    PRODUCT_STATIC_FAQS[product.slug] ??
+    []
+
+  const faqSchema = faq.length > 0 ? {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map(({ question, answer }) => ({
+      '@type': 'Question',
+      name: question,
+      acceptedAnswer: { '@type': 'Answer', text: answer },
+    })),
+  } : null
 
   return (
     <>
       <JsonLd data={breadcrumbSchema} />
       <JsonLd data={productSchema} />
+      {faqSchema && <JsonLd data={faqSchema} />}
       <ProductDetailClient
         product={product}
         related={related}
         reviews={reviews}
         whatsappNumber={whatsappNumber}
         sanityEnabled={isSanityConfigured()}
+        faq={faq}
       />
     </>
   )

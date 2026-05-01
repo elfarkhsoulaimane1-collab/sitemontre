@@ -46,7 +46,7 @@ export default async function BlogPostPage({ params }: Props) {
     '@type': 'BlogPosting',
     headline: post.title,
     description: post.excerpt ?? undefined,
-    image: img ?? undefined,
+    image: img || undefined,
     author: post.author
       ? { '@type': 'Person', name: post.author }
       : { '@type': 'Organization', name: 'Maison du Prestige', url: 'https://www.maisonduprestige.com' },

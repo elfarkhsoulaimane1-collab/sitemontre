@@ -80,7 +80,10 @@ const organizationSchema = {
   '@type': 'Organization',
   name: 'Maison du Prestige',
   url: 'https://www.maisonduprestige.com',
-  logo: 'https://www.maisonduprestige.com/logo.png',
+  logo: {
+    '@type': 'ImageObject',
+    url: 'https://www.maisonduprestige.com/logo.png',
+  },
   contactPoint: {
     '@type': 'ContactPoint',
     contactType: 'customer service',

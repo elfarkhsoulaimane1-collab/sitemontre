@@ -22,6 +22,7 @@ const PRODUCT_FIELDS = /* groq */ `
   inStock,
   rating,
   reviews,
+  faq[]{ question, answer },
   "seo": seo {
     title,
     description,

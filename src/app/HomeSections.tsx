@@ -607,10 +607,89 @@ export default function HomeSections({ data }: { data: HomeData }) {
         </div>
       </section>
 
-      {/* SEO text */}
-      <section aria-label="À propos de Maison du Prestige" className="py-16 px-4 sm:px-6 border-t border-neutral-900">
-        <div className="max-w-3xl mx-auto text-center">
-          <p className="text-sm md:text-base text-neutral-500 leading-relaxed">{seoText}</p>
+      {/* ══════════════════════════════════════════════════════
+          § 10  WHY CHOOSE — SEO CONTENT
+      ══════════════════════════════════════════════════════ */}
+      <section aria-label="Pourquoi choisir Maison du Prestige" className="bg-stone-50 py-20 lg:py-32 border-t border-stone-200">
+        <div className="max-w-5xl mx-auto px-6 sm:px-10 lg:px-16">
+
+          <Reveal className="text-center mb-14">
+            <p className="text-[9px] uppercase tracking-[0.55em] text-neutral-400 mb-3">Votre confiance, notre priorité</p>
+            <h2 className="font-serif text-[clamp(26px,4vw,48px)] font-bold text-neutral-900 leading-tight tracking-[-0.025em] mb-6">
+              Pourquoi choisir Maison du Prestige ?
+            </h2>
+            <p className="text-neutral-600 text-[15px] leading-relaxed max-w-3xl mx-auto">{seoText}</p>
+          </Reveal>
+
+          {/* Trust badges */}
+          <Grid className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-14">
+            {[
+              { icon: '🚚', title: 'Livraison rapide', subtitle: 'Partout au Maroc en 2–4 jours' },
+              { icon: '💵', title: 'Paiement à la livraison', subtitle: 'Payez à la réception, sans risque' },
+              { icon: '✅', title: 'Produits 100% originaux', subtitle: 'Authenticité garantie ou remboursé' },
+              { icon: '⚡', title: 'Stock limité', subtitle: 'Pièces exclusives en quantité réduite' },
+            ].map(({ icon, title, subtitle }) => (
+              <Cell key={title}>
+                <div className="bg-white border border-stone-200 p-6 text-center shadow-luxury h-full">
+                  <span className="text-2xl mb-3 block" aria-hidden="true">{icon}</span>
+                  <p className="text-neutral-900 font-semibold text-sm mb-1">{title}</p>
+                  <p className="text-neutral-500 text-[11px] leading-relaxed">{subtitle}</p>
+                </div>
+              </Cell>
+            ))}
+          </Grid>
+
+          {/* SEO rich text — two columns */}
+          <Reveal className="mb-12">
+            <div className="grid md:grid-cols-2 gap-8 text-[14px] text-neutral-600 leading-relaxed">
+              <div>
+                <h3 className="font-serif text-lg text-neutral-900 mb-3">Montres de luxe pour homme au Maroc</h3>
+                <p>
+                  Trouvez la montre homme idéale parmi notre sélection de{' '}
+                  <Link href="/collection?category=luxury" className="text-gold hover:underline underline-offset-2">montres de luxe originales</Link>{' '}
+                  et de{' '}
+                  <Link href="/collection?category=classic" className="text-gold hover:underline underline-offset-2">montres classiques</Link>.
+                  {' '}Chaque pièce est choisie pour son design, sa durabilité et son élégance, avec livraison gratuite partout au Maroc et paiement à la livraison.
+                </p>
+              </div>
+              <div>
+                <h3 className="font-serif text-lg text-neutral-900 mb-3">Montres originales pour femme au Maroc</h3>
+                <p>
+                  Offrez-vous ou offrez une{' '}
+                  <Link href="/collection?category=minimalist" className="text-gold hover:underline underline-offset-2">montre femme originale</Link>{' '}
+                  d'une élégance incomparable. Nos modèles{' '}
+                  <Link href="/collection?category=sport" className="text-gold hover:underline underline-offset-2">sport</Link>{' '}
+                  et minimalistes s'adaptent à toutes les occasions. Aucun risque — vous payez uniquement à la réception.
+                </p>
+              </div>
+            </div>
+          </Reveal>
+
+          {/* Featured product quick-links */}
+          {featuredProducts.length >= 3 && (
+            <Reveal className="flex flex-wrap gap-3 justify-center mb-10">
+              {featuredProducts.slice(0, 3).map((p) => (
+                <Link
+                  key={p.id}
+                  href={`/product/${p.slug}`}
+                  className="text-[11px] text-neutral-500 border border-stone-300 px-4 py-2 hover:border-gold hover:text-gold transition-colors duration-200"
+                >
+                  {p.name}
+                </Link>
+              ))}
+            </Reveal>
+          )}
+
+          {/* CTAs */}
+          <Reveal className="flex flex-wrap gap-4 justify-center">
+            <Link href="/collection" className="btn-primary text-[11px] px-8 py-4">
+              Acheter maintenant
+            </Link>
+            <Link href="/collection" className="btn-ghost text-[11px] px-8 py-4">
+              Voir collection
+            </Link>
+          </Reveal>
+
         </div>
       </section>
     </>
