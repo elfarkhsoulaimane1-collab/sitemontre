@@ -7,9 +7,11 @@ interface Props {
 }
 
 const CORE_NAV: NavLink[] = [
-  { href: '/',           label: 'Accueil'    },
-  { href: '/collection', label: 'Collection' },
-  { href: '/blog',       label: 'Blog'       },
+  { href: '/',              label: 'Accueil'    },
+  { href: '/collection',    label: 'Collection' },
+  { href: '/blog',          label: 'Blog'       },
+  { href: '/pages/about',   label: 'À propos'   },
+  { href: '/pages/contact', label: 'Contact'    },
 ]
 
 const DEFAULT_COMMITMENTS = [

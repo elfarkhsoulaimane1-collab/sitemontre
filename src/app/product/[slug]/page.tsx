@@ -149,9 +149,9 @@ export default async function ProductPage({ params }: Props) {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Accueil',    item: 'https://www.maisonduprestige.com/' },
-      { '@type': 'ListItem', position: 2, name: 'Collection', item: 'https://www.maisonduprestige.com/collection' },
-      { '@type': 'ListItem', position: 3, name: product.name, item: `https://www.maisonduprestige.com/product/${product.slug}` },
+      { '@type': 'ListItem', position: 1, name: 'Accueil',    item: 'https://maisonduprestige.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Collection', item: 'https://maisonduprestige.com/collection' },
+      { '@type': 'ListItem', position: 3, name: product.name, item: `https://maisonduprestige.com/product/${product.slug}` },
     ],
   }
 
@@ -163,7 +163,7 @@ export default async function ProductPage({ params }: Props) {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: product.name,
-    url: `https://www.maisonduprestige.com/product/${product.slug}`,
+    url: `https://maisonduprestige.com/product/${product.slug}`,
     sku: product.slug,
     ...(productDesc         && { description: productDesc }),
     ...(productImages.length > 0 && { image: productImages }),
@@ -178,7 +178,7 @@ export default async function ProductPage({ params }: Props) {
         ? 'https://schema.org/InStock'
         : 'https://schema.org/OutOfStock',
       seller: { '@type': 'Organization', name: 'Maison du Prestige' },
-      url: `https://www.maisonduprestige.com/product/${product.slug}`,
+      url: `https://maisonduprestige.com/product/${product.slug}`,
       shippingDetails: {
         '@type': 'OfferShippingDetails',
         shippingRate: { '@type': 'MonetaryAmount', value: '0', currency: 'MAD' },

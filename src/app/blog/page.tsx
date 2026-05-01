@@ -34,9 +34,9 @@ export default async function BlogPage() {
           ou femme idéale selon votre style et votre budget. Que vous cherchiez une montre de luxe, un chronographe
           sportif ou un modèle élégant à offrir, nos articles vous accompagnent à chaque étape. Profitez de la
           livraison gratuite partout au Maroc et du paiement à la livraison — découvrez notre{' '}
-          <a href="/collection?category=montres-hommes" className="text-gold hover:underline">collection montres homme</a>
+          <a href="/collection/montres-hommes" className="text-gold hover:underline">collection montres homme au Maroc</a>
           {' '}et notre{' '}
-          <a href="/collection?category=montres-femmes" className="text-gold hover:underline">collection montres femme</a>.
+          <a href="/collection/montres-femmes" className="text-gold hover:underline">collection montres femme au Maroc</a>.
         </p>
       </div>
 
@@ -108,17 +108,17 @@ function PostCardItem({ post }: { post: PostCard }) {
       {/* Collection links */}
       <div className="px-6 py-3 border-t border-stone-100 flex flex-wrap gap-2">
         <Link
-          href="/collection?category=montres-hommes"
+          href="/collection/montres-hommes"
           className="text-[10px] uppercase tracking-[0.15em] text-neutral-400 hover:text-gold transition-colors duration-200"
         >
-          Montres Hommes
+          Montres Homme Maroc
         </Link>
         <span className="text-stone-200 text-[10px]">·</span>
         <Link
-          href="/collection?category=montres-femmes"
+          href="/collection/montres-femmes"
           className="text-[10px] uppercase tracking-[0.15em] text-neutral-400 hover:text-gold transition-colors duration-200"
         >
-          Montres Femmes
+          Montres Femme Maroc
         </Link>
       </div>
     </article>

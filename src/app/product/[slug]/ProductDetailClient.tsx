@@ -374,6 +374,8 @@ export default function ProductDetailClient({
     ? Math.round((1 - product.price / product.originalPrice) * 100)
     : null
 
+  const isHomme = new Set(['luxury', 'classic', 'sport', 'montres-hommes', 'homme']).has(product.category)
+
   const mainImg = imageUrl(product.images?.[activeImg], 900)
 
   const waDirect = encodeURIComponent(
@@ -466,7 +468,7 @@ export default function ProductDetailClient({
 
           <div className="text-center">
             <Link href="/collection" className="text-neutral-600 text-xs uppercase tracking-widest hover:text-gold transition-colors">
-              Continuer mes achats →
+              Découvrir nos autres montres
             </Link>
           </div>
         </div>
@@ -682,6 +684,19 @@ export default function ProductDetailClient({
 
               {/* Short description */}
               <p className="text-[15px] text-neutral-400 leading-[1.85]">{product.description}</p>
+              <p className="text-[13px] text-neutral-500 leading-relaxed">
+                Parcourez notre sélection de{' '}
+                <Link
+                  href={isHomme ? '/collection/montres-hommes' : '/collection/montres-femmes'}
+                  className="text-gold/80 hover:text-gold transition-colors underline underline-offset-2"
+                >
+                  {isHomme ? 'montres homme au Maroc' : 'montres femme au Maroc'}
+                </Link>{' '}
+                ou découvrez{' '}
+                <Link href="/collection" className="text-gold/80 hover:text-gold transition-colors underline underline-offset-2">
+                  toutes nos montres
+                </Link>.
+              </p>
 
               {/* Stock urgency */}
               <div className="space-y-2">
@@ -900,7 +915,10 @@ export default function ProductDetailClient({
               Conseils pour bien choisir votre montre
             </h2>
             <p className="text-neutral-400 text-[14px] leading-[1.85] mb-7">
-              Découvrez nos guides pour choisir une montre élégante au Maroc et trouver le modèle adapté à votre style.
+              Découvrez nos guides pour choisir une montre élégante au Maroc et trouver le modèle adapté à votre style.{' '}
+              <Link href="/pages/about" className="text-gold/70 hover:text-gold underline underline-offset-2 transition-colors">
+                En savoir plus sur Maison du Prestige
+              </Link>.
             </p>
             <div className="flex flex-wrap gap-3">
               <Link
@@ -913,19 +931,19 @@ export default function ProductDetailClient({
                 </svg>
               </Link>
               <Link
-                href="/collection?category=montres-hommes"
+                href="/collection/montres-hommes"
                 className="inline-flex items-center gap-2 border border-neutral-700 text-neutral-300 hover:border-gold hover:text-gold text-[11px] uppercase tracking-[0.2em] px-5 py-3 transition-all duration-200"
               >
-                Montres hommes
+                Montres homme Maroc
                 <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
               </Link>
               <Link
-                href="/collection?category=montres-femmes"
+                href="/collection/montres-femmes"
                 className="inline-flex items-center gap-2 border border-neutral-700 text-neutral-300 hover:border-gold hover:text-gold text-[11px] uppercase tracking-[0.2em] px-5 py-3 transition-all duration-200"
               >
-                Montres femmes
+                Montres femme Maroc
                 <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
@@ -950,7 +968,7 @@ export default function ProductDetailClient({
               </div>
               <Link href="/collection"
                 className="group flex-shrink-0 flex items-center gap-3 text-neutral-500 text-[10px] uppercase tracking-[0.4em] hover:text-gold transition-colors pb-1">
-                Tout voir
+                Voir toutes les montres
                 <span className="block w-5 h-px bg-neutral-700 group-hover:bg-gold group-hover:w-8 transition-all duration-500" />
               </Link>
             </div>

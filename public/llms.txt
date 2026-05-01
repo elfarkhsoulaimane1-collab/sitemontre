@@ -12,15 +12,15 @@
 
 ## Pages principales
 
-- [Accueil](https://www.maisonduprestige.com/)
-- [Collection](https://www.maisonduprestige.com/collection)
-- [Montres hommes](https://www.maisonduprestige.com/collection/montres-hommes)
-- [Montres femmes](https://www.maisonduprestige.com/collection/montres-femmes)
-- [Blog montres Maroc](https://www.maisonduprestige.com/blog)
-- [À propos](https://www.maisonduprestige.com/pages/about)
-- [Contact](https://www.maisonduprestige.com/pages/contact)
-- [Politique de livraison](https://www.maisonduprestige.com/pages/politique-de-livraison)
-- [Politique de retours](https://www.maisonduprestige.com/pages/politique-de-retours)
+- [Accueil](https://maisonduprestige.com/)
+- [Collection](https://maisonduprestige.com/collection)
+- [Montres hommes](https://maisonduprestige.com/collection/montres-hommes)
+- [Montres femmes](https://maisonduprestige.com/collection/montres-femmes)
+- [Blog montres Maroc](https://maisonduprestige.com/blog)
+- [À propos](https://maisonduprestige.com/pages/about)
+- [Contact](https://maisonduprestige.com/pages/contact)
+- [Politique de livraison](https://maisonduprestige.com/pages/politique-de-livraison)
+- [Politique de retours](https://maisonduprestige.com/pages/politique-de-retours)
 
 ## À propos
 

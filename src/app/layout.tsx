@@ -26,7 +26,7 @@ const inter = Inter({
 })
 
 const BASE_METADATA: Metadata = {
-  metadataBase: new URL('https://www.maisonduprestige.com'),
+  metadataBase: new URL('https://maisonduprestige.com'),
   title: {
     default: 'Montres Maroc – Homme & Femme | Maison du Prestige',
     template: '%s | Maison du Prestige',
@@ -41,6 +41,9 @@ const BASE_METADATA: Metadata = {
   },
   verification: {
     google: 'xuJiG0wzs2_nblXvBcWjgpV-phd8JJzPiX49cu9MZU0',
+  },
+  alternates: {
+    canonical: '/',
   },
 }
 
@@ -79,7 +82,7 @@ const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: 'Maison du Prestige',
-  url: 'https://www.maisonduprestige.com',
+  url: 'https://maisonduprestige.com',
   contactPoint: {
     '@type': 'ContactPoint',
     contactType: 'customer service',
@@ -92,7 +95,7 @@ const websiteSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   name: 'Maison du Prestige',
-  url: 'https://www.maisonduprestige.com',
+  url: 'https://maisonduprestige.com',
 }
 
 // Fetches siteSettings and renders the full chrome (Navbar + Footer + Analytics).

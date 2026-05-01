@@ -2,7 +2,7 @@ import { revalidatePath } from 'next/cache'
 import { NextRequest, NextResponse } from 'next/server'
 import { submitToIndexNow } from '@/lib/indexnow'
 
-const BASE = 'https://www.maisonduprestige.com'
+const BASE = 'https://maisonduprestige.com'
 
 export async function POST(req: NextRequest) {
   const secret = req.nextUrl.searchParams.get('secret')

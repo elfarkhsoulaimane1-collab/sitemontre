@@ -26,6 +26,17 @@ const nextConfig = {
 
   compress: true,
 
+  async redirects() {
+    return [
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'www.maisonduprestige.com' }],
+        destination: 'https://maisonduprestige.com/:path*',
+        permanent: true,
+      },
+    ]
+  },
+
   async headers() {
     return [
       {

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { submitToIndexNow } from '@/lib/indexnow'
 
-const BASE = 'https://www.maisonduprestige.com'
+const BASE = 'https://maisonduprestige.com'
 
 // POST /api/indexnow
 // Body: { paths: string[] }   — relative paths like ["/product/my-watch", "/collection"]

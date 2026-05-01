@@ -318,7 +318,7 @@ export default function HomeSections({ data }: { data: HomeData }) {
             <Slide dir="right" className="flex-shrink-0 pb-2">
               <Link href="/collection"
                 className="group flex items-center gap-3 text-neutral-400 text-[9px] uppercase tracking-[0.45em] hover:text-neutral-900 transition-colors duration-300">
-                Tout voir
+                Voir toutes nos montres
                 <span className="block w-6 h-px bg-stone-300 group-hover:bg-neutral-900 group-hover:w-12 transition-all duration-500 ease-out" />
               </Link>
             </Slide>
@@ -577,7 +577,7 @@ export default function HomeSections({ data }: { data: HomeData }) {
               </Link>
               <Link href="/collection"
                 className="group text-neutral-500 text-[10px] uppercase tracking-[0.35em] hover:text-gold transition-colors duration-300 flex items-center gap-2.5">
-                Voir la collection
+                Découvrir la collection de montres
                 <span className="text-gold group-hover:translate-x-1 transition-transform duration-300">→</span>
               </Link>
             </div>
@@ -686,7 +686,7 @@ export default function HomeSections({ data }: { data: HomeData }) {
               Acheter maintenant
             </Link>
             <Link href="/collection" className="btn-ghost text-[11px] px-8 py-4">
-              Voir collection
+              Voir toute la collection de montres au Maroc
             </Link>
           </Reveal>
 

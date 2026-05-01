@@ -4,7 +4,7 @@
 
 Maison du Prestige est une boutique e-commerce marocaine spécialisée dans la vente de montres premium et de luxe. Elle s'adresse aux clients marocains qui recherchent des montres authentiques de marques internationales à des prix accessibles, avec un service de livraison et de paiement adapté au marché local.
 
-Site : https://www.maisonduprestige.com
+Site : https://maisonduprestige.com
 Langue principale : Français (arabe et darija disponibles via WhatsApp)
 Devise : MAD (dirham marocain)
 Pays : Maroc
@@ -15,15 +15,15 @@ Pays : Maroc
 
 | Page | URL | Description |
 |------|-----|-------------|
-| Accueil | https://www.maisonduprestige.com/ | Page d'accueil avec produits vedettes et promotions |
-| Collection | https://www.maisonduprestige.com/collection | Catalogue complet filtrable par catégorie |
-| Montres hommes | https://www.maisonduprestige.com/collection/montres-hommes | Sélection montres pour hommes |
-| Montres femmes | https://www.maisonduprestige.com/collection/montres-femmes | Sélection montres pour femmes |
-| Blog | https://www.maisonduprestige.com/blog | Conseils, guides et tendances montres au Maroc |
-| À propos | https://www.maisonduprestige.com/pages/about | Histoire et mission de la marque |
-| Contact | https://www.maisonduprestige.com/pages/contact | WhatsApp, email, informations de contact |
-| Panier | https://www.maisonduprestige.com/cart | Panier d'achat |
-| Commande | https://www.maisonduprestige.com/checkout | Formulaire de commande COD |
+| Accueil | https://maisonduprestige.com/ | Page d'accueil avec produits vedettes et promotions |
+| Collection | https://maisonduprestige.com/collection | Catalogue complet filtrable par catégorie |
+| Montres hommes | https://maisonduprestige.com/collection/montres-hommes | Sélection montres pour hommes |
+| Montres femmes | https://maisonduprestige.com/collection/montres-femmes | Sélection montres pour femmes |
+| Blog | https://maisonduprestige.com/blog | Conseils, guides et tendances montres au Maroc |
+| À propos | https://maisonduprestige.com/pages/about | Histoire et mission de la marque |
+| Contact | https://maisonduprestige.com/pages/contact | WhatsApp, email, informations de contact |
+| Panier | https://maisonduprestige.com/cart | Panier d'achat |
+| Commande | https://maisonduprestige.com/checkout | Formulaire de commande COD |
 
 ---
 
@@ -31,11 +31,11 @@ Pays : Maroc
 
 ### Montres hommes
 Montres sport, chronographes, classiques et habillées pour hommes. Marques : Emporio Armani, Hugo Boss, Guess, Tommy Hilfiger, Michael Kors.
-URL : https://www.maisonduprestige.com/collection/montres-hommes
+URL : https://maisonduprestige.com/collection/montres-hommes
 
 ### Montres femmes
 Montres élégantes, dorées, argentées et fashion pour femmes. Marques : Michael Kors, Guess, Tommy Hilfiger, Emporio Armani.
-URL : https://www.maisonduprestige.com/collection/montres-femmes
+URL : https://maisonduprestige.com/collection/montres-femmes
 
 ---
 
@@ -101,5 +101,5 @@ Chaque produit inclut : nom, marque, prix en MAD, disponibilité en stock, descr
 - CMS : Sanity v4
 - Hébergement : Vercel (prévu)
 - Structured data : Schema.org JSON-LD (Product, BreadcrumbList, FAQPage, BlogPosting, Organization, WebSite)
-- Sitemap : https://www.maisonduprestige.com/sitemap.xml
-- Robots : https://www.maisonduprestige.com/robots.txt
+- Sitemap : https://maisonduprestige.com/sitemap.xml
+- Robots : https://maisonduprestige.com/robots.txt

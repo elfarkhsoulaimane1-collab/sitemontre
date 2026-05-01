@@ -11,9 +11,11 @@ interface Props {
 }
 
 const CORE_NAV: NavLink[] = [
-  { href: '/',           label: 'Accueil'    },
-  { href: '/collection', label: 'Collection' },
-  { href: '/blog',       label: 'Blog'       },
+  { href: '/',              label: 'Accueil'    },
+  { href: '/collection',    label: 'Collection' },
+  { href: '/blog',          label: 'Blog'       },
+  { href: '/pages/about',   label: 'À propos'   },
+  { href: '/pages/contact', label: 'Contact'    },
 ]
 
 export default function Navbar({ settings, cmsPages = [] }: Props) {
@@ -165,7 +167,7 @@ export default function Navbar({ settings, cmsPages = [] }: Props) {
               onClick={() => setOpen(false)}
               className="flex items-center justify-center w-full bg-gold text-black font-black text-[11px] uppercase tracking-[0.25em] py-4 hover:brightness-105 active:scale-[0.98] transition-all duration-200"
             >
-              Voir la collection
+              Découvrir nos montres premium au Maroc
             </Link>
           </div>
         </nav>

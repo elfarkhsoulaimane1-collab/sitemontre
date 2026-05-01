@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
 import { sanityFetch } from '@/sanity/lib/fetch'
 
-const BASE = 'https://www.maisonduprestige.com'
+const BASE = 'https://maisonduprestige.com'
 
 interface SitemapEntry { slug: string; _updatedAt: string }
 

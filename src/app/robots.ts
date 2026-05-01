@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/admin/', '/studio/', '/cart', '/api/'],
       },
     ],
-    sitemap: 'https://www.maisonduprestige.com/sitemap.xml',
+    sitemap: 'https://maisonduprestige.com/sitemap.xml',
   }
 }

@@ -23,9 +23,9 @@ const breadcrumbSchema = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Accueil',    item: 'https://www.maisonduprestige.com/' },
-    { '@type': 'ListItem', position: 2, name: 'Collection', item: 'https://www.maisonduprestige.com/collection' },
-    { '@type': 'ListItem', position: 3, name: 'Montres Homme', item: 'https://www.maisonduprestige.com/collection/montres-hommes' },
+    { '@type': 'ListItem', position: 1, name: 'Accueil',    item: 'https://maisonduprestige.com/' },
+    { '@type': 'ListItem', position: 2, name: 'Collection', item: 'https://maisonduprestige.com/collection' },
+    { '@type': 'ListItem', position: 3, name: 'Montres Homme', item: 'https://maisonduprestige.com/collection/montres-hommes' },
   ],
 }
 
@@ -73,11 +73,20 @@ export default async function MontresHommesPage() {
             ))}
           </div>
 
-          <div className="mt-14 text-center">
+          <div className="mt-14 flex flex-wrap gap-4 justify-center">
             <Link href="/collection" className="btn-outline text-xs">
-              Voir toute la collection
+              Découvrir toutes les montres homme au Maroc
+            </Link>
+            <Link href="/collection/montres-femmes" className="btn-outline text-xs">
+              Voir la collection montres femme au Maroc
             </Link>
           </div>
+          <p className="mt-8 text-center text-stone-500 text-xs leading-relaxed max-w-lg mx-auto">
+            Vous avez une question sur un modèle ?{' '}
+            <Link href="/pages/contact" className="text-gold hover:underline underline-offset-2">
+              Contactez notre équipe
+            </Link>{' '}— réponse garantie sous 2 heures.
+          </p>
         </div>
       </div>
     </>

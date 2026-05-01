@@ -60,7 +60,7 @@ export default async function CollectionPage({ searchParams }: Props) {
     '@type': 'CollectionPage',
     name: PAGE_TITLES[initialCategory] ?? activeCollection?.label ?? 'Notre Collection',
     ...(activeCollection?.description && { description: activeCollection.description }),
-    url: `https://www.maisonduprestige.com/collection?category=${initialCategory}`,
+    url: `https://maisonduprestige.com/collection?category=${initialCategory}`,
   }
 
   const visibleProducts = products.filter(
@@ -71,19 +71,19 @@ export default async function CollectionPage({ searchParams }: Props) {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
     name: PAGE_TITLES[initialCategory] ?? activeCollection?.label ?? 'Collection Montres',
-    url: `https://www.maisonduprestige.com/collection?category=${initialCategory}`,
+    url: `https://maisonduprestige.com/collection?category=${initialCategory}`,
     numberOfItems: visibleProducts.length,
     itemListElement: visibleProducts.map((p, index) => ({
       '@type': 'ListItem',
       position: index + 1,
-      url: `https://www.maisonduprestige.com/product/${p.slug}`,
+      url: `https://maisonduprestige.com/product/${p.slug}`,
       name: p.name,
       ...(p.images?.[0] && { image: imageUrl(p.images[0], 400) }),
       ...(p.price > 0 && {
         item: {
           '@type': 'Product',
           name: p.name,
-          url: `https://www.maisonduprestige.com/product/${p.slug}`,
+          url: `https://maisonduprestige.com/product/${p.slug}`,
           ...(p.images?.[0] && { image: imageUrl(p.images[0], 400) }),
           offers: {
             '@type': 'Offer',

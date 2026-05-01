@@ -48,13 +48,17 @@ export default async function BlogPostPage({ params }: Props) {
     year:  'numeric',
   })
 
+  const postText = post.title + ' ' + (post.excerpt ?? '')
+  const isFemmePost = /femme|féminin|dame/i.test(postText)
+  const isHommePost = /homme|masculin/i.test(postText)
+
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://www.maisonduprestige.com/' },
-      { '@type': 'ListItem', position: 2, name: 'Blog',    item: 'https://www.maisonduprestige.com/blog' },
-      { '@type': 'ListItem', position: 3, name: post.title, item: `https://www.maisonduprestige.com/blog/${slug}` },
+      { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://maisonduprestige.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Blog',    item: 'https://maisonduprestige.com/blog' },
+      { '@type': 'ListItem', position: 3, name: post.title, item: `https://maisonduprestige.com/blog/${slug}` },
     ],
   }
 
@@ -66,16 +70,16 @@ export default async function BlogPostPage({ params }: Props) {
     image: img || undefined,
     author: post.author
       ? { '@type': 'Person', name: post.author }
-      : { '@type': 'Organization', name: 'Maison du Prestige', url: 'https://www.maisonduprestige.com' },
+      : { '@type': 'Organization', name: 'Maison du Prestige', url: 'https://maisonduprestige.com' },
     publisher: {
       '@type': 'Organization',
       name: 'Maison du Prestige',
-      url: 'https://www.maisonduprestige.com',
+      url: 'https://maisonduprestige.com',
     },
     datePublished: post.publishedAt,
     dateModified: post._updatedAt ?? post.publishedAt,
-    url: `https://www.maisonduprestige.com/blog/${slug}`,
-    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://www.maisonduprestige.com/blog/${slug}` },
+    url: `https://maisonduprestige.com/blog/${slug}`,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maisonduprestige.com/blog/${slug}` },
   }
 
   return (
@@ -146,13 +150,44 @@ export default async function BlogPostPage({ params }: Props) {
           <p className="text-neutral-400 text-sm italic">Contenu non disponible.</p>
         )}
 
+        {/* Internal links */}
+        <div className="mt-10 pt-8 border-t border-stone-200">
+          <p className="text-[10px] uppercase tracking-[0.35em] text-neutral-400 mb-4">À découvrir aussi</p>
+          <ul className="space-y-2">
+            {(isFemmePost || !isHommePost) && (
+              <li>
+                <Link href="/collection/montres-femmes" className="text-sm text-gold hover:underline underline-offset-2">
+                  Montres femme au Maroc — livraison gratuite, paiement à la livraison
+                </Link>
+              </li>
+            )}
+            {(isHommePost || !isFemmePost) && (
+              <li>
+                <Link href="/collection/montres-hommes" className="text-sm text-gold hover:underline underline-offset-2">
+                  Montres homme au Maroc — livraison gratuite, paiement à la livraison
+                </Link>
+              </li>
+            )}
+            <li>
+              <Link href="/collection" className="text-sm text-gold hover:underline underline-offset-2">
+                Toute la collection Maison du Prestige
+              </Link>
+            </li>
+            <li>
+              <Link href="/blog" className="text-sm text-neutral-400 hover:text-neutral-700 transition-colors underline-offset-2">
+                Tous les articles du blog
+              </Link>
+            </li>
+          </ul>
+        </div>
+
         {/* Footer */}
         <div className="mt-16 pt-8 border-t border-stone-200 flex items-center justify-between flex-wrap gap-4">
           <Link href="/blog" className="btn-ghost text-xs">
             ← Retour au blog
           </Link>
           <Link href="/collection" className="btn-primary text-xs">
-            Voir la collection
+            Découvrir la collection de montres au Maroc
           </Link>
         </div>
       </article>

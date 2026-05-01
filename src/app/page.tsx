@@ -135,7 +135,7 @@ export default async function HomePage() {
         '@type': 'Store',
         name: 'Maison du Prestige',
         description: 'Montres premium inspirées du Maroc. Livraison gratuite, paiement à la livraison.',
-        url: 'https://www.maisonduprestige.com',
+        url: 'https://maisonduprestige.com',
         currenciesAccepted: 'MAD',
         paymentAccepted: 'Cash',
         areaServed: 'MA',

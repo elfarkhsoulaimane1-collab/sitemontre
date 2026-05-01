@@ -1,6 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { useMemo, useState } from 'react'
 import ProductCard from '@/components/ProductCard'
 import { Product, CollectionData } from '@/types'
@@ -157,6 +158,31 @@ export default function CollectionClient({ products, collections, initialCategor
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center">
             <p className="text-stone-500 text-xs md:text-sm leading-relaxed">
               {bottomDescription}
+            </p>
+          </div>
+        </section>
+      )}
+
+      {/* Cross-category internal links */}
+      {(activeCategory === 'montres-hommes' || activeCategory === 'montres-femmes') && (
+        <section className="bg-stone-50 border-t border-stone-200">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center">
+            <p className="text-stone-500 text-sm leading-relaxed">
+              {activeCategory === 'montres-hommes' ? (
+                <>
+                  Vous cherchez un cadeau élégant ?{' '}
+                  <Link href="/collection/montres-femmes" className="text-gold font-medium hover:underline underline-offset-2">
+                    Découvrez notre collection de montres femme au Maroc
+                  </Link>.
+                </>
+              ) : (
+                <>
+                  Vous préférez un modèle sport ou business ?{' '}
+                  <Link href="/collection/montres-hommes" className="text-gold font-medium hover:underline underline-offset-2">
+                    Découvrez notre collection de montres homme au Maroc
+                  </Link>.
+                </>
+              )}
             </p>
           </div>
         </section>

@@ -1,4 +1,4 @@
-const HOST = 'www.maisonduprestige.com'
+const HOST = 'maisonduprestige.com'
 const KEY  = '619b19515c0145e4b1b73a11351b24ec'
 const KEY_LOCATION = `https://${HOST}/${KEY}.txt`
 const ENDPOINT = 'https://api.indexnow.org/indexnow'
