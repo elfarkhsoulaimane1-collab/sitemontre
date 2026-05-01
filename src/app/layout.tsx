@@ -26,7 +26,7 @@ const inter = Inter({
 })
 
 const BASE_METADATA: Metadata = {
-  metadataBase: new URL('https://maisonduprestige.com'),
+  metadataBase: new URL('https://www.maisonduprestige.com'),
   title: {
     default: 'Montres Maroc – Homme & Femme | Maison du Prestige',
     template: '%s | Maison du Prestige',

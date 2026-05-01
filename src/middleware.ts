@@ -93,18 +93,6 @@ function isInternalOriginRequest(req: NextRequest): boolean {
 
 // ---------------------------------------------------------------------------
 export async function middleware(req: NextRequest) {
-  // ── Canonical domain redirect: www → non-www, http → https ──────────────
-  const host  = req.headers.get('host') ?? ''
-  const proto = req.headers.get('x-forwarded-proto')
-  const isWww  = host.startsWith('www.')
-  const isHttp = proto === 'http'
-  if (isWww || isHttp) {
-    const canonical = req.nextUrl.clone()
-    canonical.protocol = 'https:'
-    canonical.host = host.replace(/^www\./, '')
-    return NextResponse.redirect(canonical, { status: 308 })
-  }
-
   const { pathname } = req.nextUrl
   const ip = clientIp(req)
 
