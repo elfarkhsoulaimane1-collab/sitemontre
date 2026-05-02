@@ -164,7 +164,7 @@ export default async function ProductPage({ params }: Props) {
     '@type': 'Product',
     name: product.name,
     url: `https://maisonduprestige.com/product/${product.slug}`,
-    sku: product.slug,
+    sku: product.slug || product.id,
     ...(productDesc         && { description: productDesc }),
     ...(productImages.length > 0 && { image: productImages }),
     brand: { '@type': 'Brand', name: product.brand },
@@ -186,7 +186,7 @@ export default async function ProductPage({ params }: Props) {
         deliveryTime: {
           '@type': 'ShippingDeliveryTime',
           handlingTime: { '@type': 'QuantitativeValue', minValue: 0, maxValue: 1, unitCode: 'DAY' },
-          transitTime: { '@type': 'QuantitativeValue', minValue: 2, maxValue: 4, unitCode: 'DAY' },
+          transitTime: { '@type': 'QuantitativeValue', minValue: 1, maxValue: 3, unitCode: 'DAY' },
         },
       },
       hasMerchantReturnPolicy: {
