@@ -78,13 +78,25 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
+const PHONE = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER
+  ? `+${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER}`
+  : '+212718743726'
+
 const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: 'Maison du Prestige',
-  url: 'https://maisonduprestige.com',
+  url: 'https://www.maisonduprestige.com',
+  telephone: PHONE,
+  priceRange: '$$$',
+  image: 'https://www.maisonduprestige.com/og-image.svg',
+  address: {
+    '@type': 'PostalAddress',
+    addressCountry: 'MA',
+  },
   contactPoint: {
     '@type': 'ContactPoint',
+    telephone: PHONE,
     contactType: 'customer service',
     availableLanguage: ['French', 'Arabic'],
   },
