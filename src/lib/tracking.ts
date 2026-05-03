@@ -117,7 +117,7 @@ export function trackInitiateCheckout({ productId, productName, value, currency 
 export function trackPurchase({ orderId, productId, productName, value, currency = 'MAD' }: PurchasePayload) {
   if (!isBrowser()) return
 
-  const numericValue = Number(value)
+  const numericValue = parseFloat(String(value).replace(/[^0-9.]/g, ''))
   const safeValue = Number.isFinite(numericValue) && numericValue > 0 ? numericValue : 1
 
   const purchasePayload = {
