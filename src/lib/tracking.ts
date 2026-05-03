@@ -128,9 +128,18 @@ export function trackPurchase({ orderId, productId, productName, value, currency
     currency:     'MAD',
   }
 
+  const fbPayload = {
+    content_ids:  [productId],
+    content_name: productName,
+    content_type: 'product',
+    value:        Math.round((safeValue / 10) * 100) / 100,
+    currency:     'USD',
+  }
+
   console.log('META_PURCHASE_PAYLOAD', purchasePayload)
+  console.log('META_PURCHASE_FB_PAYLOAD', fbPayload)
   console.log('META_PURCHASE_FIRED', { fbqReady: typeof window.fbq })
-  window.fbq?.('track', 'Purchase', purchasePayload)
+  window.fbq?.('track', 'Purchase', fbPayload)
   console.log('META_PURCHASE_FIRED', 'fbq Purchase call complete')
 
   window.ttq?.track('PlaceAnOrder', {

@@ -50,7 +50,7 @@ const nextConfig = {
             key: 'Content-Security-Policy',
             value: [
               "base-uri 'self'",
-              "form-action 'self'",
+              "form-action 'self' https://www.facebook.com https://web.facebook.com",
               "frame-ancestors 'self'",
             ].join('; '),
           },
