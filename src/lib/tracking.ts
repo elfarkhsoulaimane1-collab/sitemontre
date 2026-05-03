@@ -117,6 +117,7 @@ export function trackInitiateCheckout({ productId, productName, value, currency 
 export function trackPurchase({ orderId, productId, productName, value, currency = 'MAD' }: PurchasePayload) {
   if (!isBrowser()) return
 
+  console.log('META_PURCHASE_FIRED', { fbqReady: typeof window.fbq, productId, productName, value, currency })
   window.fbq?.('track', 'Purchase', {
     content_ids:  [productId],
     content_name: productName,
@@ -124,6 +125,7 @@ export function trackPurchase({ orderId, productId, productName, value, currency
     value,
     currency,
   })
+  console.log('META_PURCHASE_FIRED', 'fbq Purchase call complete')
 
   window.ttq?.track('PlaceAnOrder', {
     content_id:   productId,
