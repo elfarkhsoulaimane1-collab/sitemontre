@@ -117,28 +117,34 @@ export function trackInitiateCheckout({ productId, productName, value, currency 
 export function trackPurchase({ orderId, productId, productName, value, currency = 'MAD' }: PurchasePayload) {
   if (!isBrowser()) return
 
-  console.log('META_PURCHASE_FIRED', { fbqReady: typeof window.fbq, productId, productName, value, currency })
-  window.fbq?.('track', 'Purchase', {
+  const numericValue = Number(value)
+  const safeValue = Number.isFinite(numericValue) && numericValue > 0 ? numericValue : 1
+
+  const purchasePayload = {
     content_ids:  [productId],
     content_name: productName,
     content_type: 'product',
-    value,
-    currency,
-  })
+    value:        safeValue,
+    currency:     'MAD',
+  }
+
+  console.log('META_PURCHASE_PAYLOAD', purchasePayload)
+  console.log('META_PURCHASE_FIRED', { fbqReady: typeof window.fbq })
+  window.fbq?.('track', 'Purchase', purchasePayload)
   console.log('META_PURCHASE_FIRED', 'fbq Purchase call complete')
 
   window.ttq?.track('PlaceAnOrder', {
     content_id:   productId,
     content_name: productName,
-    value,
-    currency,
+    value:        safeValue,
+    currency:     'MAD',
   })
 
   window.gtag?.('event', 'purchase', {
     transaction_id: orderId,
-    value,
-    currency,
-    items: [{ item_id: productId, item_name: productName, price: value, quantity: 1 }],
+    value:          safeValue,
+    currency:       'MAD',
+    items: [{ item_id: productId, item_name: productName, price: safeValue, quantity: 1 }],
   })
 
   // Google Ads conversion — resolved from runtime window var or build-time env
@@ -147,8 +153,8 @@ export function trackPurchase({ orderId, productId, productName, value, currency
     window.gtag?.('event', 'conversion', {
       send_to:        `${gadsId}/purchase`,
       transaction_id: orderId,
-      value,
-      currency,
+      value:          safeValue,
+      currency:       'MAD',
     })
   }
 }
