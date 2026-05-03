@@ -2,6 +2,7 @@ import { NextRequest, NextResponse, after } from 'next/server'
 import { createClient } from 'next-sanity'
 import { verifySession } from '@/lib/session'
 import { isBlockedUrl } from '@/lib/ssrf'
+import { sendOrderNotificationEmail } from '@/lib/orderEmail'
 
 // Read env vars inside functions, not at module level.
 // NEXT_PUBLIC_* vars inlined at build time can be empty strings when read as
@@ -153,42 +154,62 @@ export async function POST(req: NextRequest) {
     )
   }
 
-  // ── Webhook runs after the response is sent ───────────────────────────────
-  const webhookUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL
-  if (webhookUrl) {
-    const webhookPayload = {
-      orderRef:  orderRef.trim(),
-      createdAt: new Date().toISOString(),
-      firstName: firstName.trim(),
-      lastName:  lastName.trim(),
-      phone:     phone.trim(),
-      city:      city.trim(),
-      address:   address.trim(),
-      notes:     typeof notes === 'string' ? notes.trim() : '',
-      items:     safeItems.map(i => `${i.productName} ×${i.quantity}`).join(', '),
-      subtotal:  Number(subtotal ?? 0),
-      shipping:  Number(shipping ?? 0),
-      total:     Number(total),
-    }
-    after(async () => {
+  // ── Post-response tasks (webhook + email) ────────────────────────────────
+  const createdAt    = new Date().toISOString()
+  const itemsDisplay = safeItems.map(i => `${i.productName} ×${i.quantity}`).join(', ')
+  const webhookUrl   = process.env.GOOGLE_SHEETS_WEBHOOK_URL
+
+  after(async () => {
+    // Google Sheets webhook
+    if (webhookUrl) {
       if (isBlockedUrl(webhookUrl)) {
         console.error('[ORDER] Sheets webhook URL blocked by SSRF guard')
-        return
+      } else {
+        try {
+          const res = await fetch(webhookUrl, {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              orderRef:  orderRef.trim(),
+              createdAt,
+              firstName: firstName.trim(),
+              lastName:  lastName.trim(),
+              phone:     phone.trim(),
+              city:      city.trim(),
+              address:   address.trim(),
+              notes:     typeof notes === 'string' ? notes.trim() : '',
+              items:     itemsDisplay,
+              subtotal:  Number(subtotal ?? 0),
+              shipping:  Number(shipping ?? 0),
+              total:     Number(total),
+            }),
+            redirect: 'follow',
+            signal:  AbortSignal.timeout(8_000),
+          })
+          if (!res.ok) console.error('[ORDER] Sheets webhook failed:', res.status)
+        } catch (err) {
+          console.error('[ORDER] Sheets webhook error:', err instanceof Error ? err.message : String(err))
+        }
       }
-      try {
-        const res = await fetch(webhookUrl, {
-          method:  'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body:    JSON.stringify(webhookPayload),
-          redirect: 'follow',
-          signal:  AbortSignal.timeout(8_000),
-        })
-        if (!res.ok) console.error('[ORDER] Sheets webhook failed:', res.status)
-      } catch (err) {
-        console.error('[ORDER] Sheets webhook error:', err instanceof Error ? err.message : String(err))
-      }
-    })
-  }
+    }
+
+    // Email notification
+    try {
+      await sendOrderNotificationEmail({
+        orderRef:  orderRef.trim(),
+        firstName: firstName.trim(),
+        lastName:  lastName.trim(),
+        phone:     phone.trim(),
+        city:      city.trim(),
+        address:   address.trim(),
+        items:     itemsDisplay,
+        total:     Number(total),
+        createdAt,
+      })
+    } catch (err) {
+      console.error('[ORDER] Email notification error:', err instanceof Error ? err.message : String(err))
+    }
+  })
 
   return NextResponse.json({ id: orderId, orderRef: orderRef.trim() }, { status: 201 })
 }
