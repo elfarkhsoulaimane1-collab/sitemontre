@@ -5,16 +5,16 @@
 // is set. Missing vars are safe: no script is injected, no runtime error.
 //
 // Add to .env.local (or Vercel → Settings → Environment Variables):
-//   NEXT_PUBLIC_CLARITY_ID=        ← Microsoft Clarity project ID
-//   NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX ← Google Analytics 4 measurement ID
-//   NEXT_PUBLIC_GADS_ID=AW-XXXXXXX ← Google Ads conversion ID (optional)
-//   NEXT_PUBLIC_META_PIXEL_ID=     ← Meta Pixel ID (optional)
-//   NEXT_PUBLIC_TIKTOK_PIXEL_ID=   ← TikTok Pixel ID (optional)
+//   NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX      ← Google Analytics 4 measurement ID
+//   NEXT_PUBLIC_CLARITY_ID=XXXXXXXXXX   ← Microsoft Clarity project ID
+//   NEXT_PUBLIC_GADS_ID=AW-XXXXXXXXX    ← Google Ads conversion ID (optional)
+//   NEXT_PUBLIC_META_PIXEL_ID=          ← Meta Pixel ID (optional)
+//   NEXT_PUBLIC_TIKTOK_PIXEL_ID=        ← TikTok Pixel ID (optional)
 // ---------------------------------------------------------------------------
 
 import Script from 'next/script'
-import { usePathname } from 'next/navigation'
-import { useEffect, useRef } from 'react'
+import { usePathname, useSearchParams } from 'next/navigation'
+import { useEffect, useRef, Suspense } from 'react'
 import { trackPageView } from '@/lib/tracking'
 
 interface Props {
@@ -24,32 +24,55 @@ interface Props {
   googleAdsId?:       string
 }
 
-// Re-fire PageView on every client-side navigation.
-// Uses lastTracked ref (initialized to current pathname) instead of a simple
-// mounted flag so that if Analytics unmounts and remounts due to a Suspense
-// refetch the next real navigation is never silently dropped.
-function RouteChangeTracker() {
-  const pathname    = usePathname()
-  const lastTracked = useRef(pathname)
+// ---------------------------------------------------------------------------
+// Route-change tracker.
+// Wrapped in <Suspense> by the parent because useSearchParams() requires it.
+// Fires on every pathname + search change, including the initial render.
+// Sends GA4 page_view manually (config uses send_page_view:false to avoid
+// the automatic event on init, which would duplicate on client navigation).
+// ---------------------------------------------------------------------------
+function RouteChangeTracker({ gaId }: { gaId: string }) {
+  const pathname     = usePathname()
+  const searchParams = useSearchParams()
+  const search       = searchParams?.toString() ? `?${searchParams.toString()}` : ''
+  const fullPath     = pathname + search
+  const lastTracked  = useRef<string>('')
+
   useEffect(() => {
-    if (lastTracked.current === pathname) return
-    lastTracked.current = pathname
+    if (lastTracked.current === fullPath) return
+    lastTracked.current = fullPath
+
+    // GA4 manual page_view — only when gtag is available.
+    // gtag is defined in the afterInteractive inline script below;
+    // window.gtag may not exist yet on the very first render if the browser
+    // hasn't executed the inline script. Optional chaining silently no-ops.
+    if (gaId) {
+      window.gtag?.('event', 'page_view', {
+        page_path:     fullPath,
+        page_location: window.location.href,
+        page_title:    document.title,
+      })
+    }
+
+    // Meta Pixel PageView + TikTok page()
     trackPageView()
-  }, [pathname])
+  }, [fullPath, gaId])
+
   return null
 }
 
+// ---------------------------------------------------------------------------
 export default function Analytics({
   metaPixelId,
   tiktokPixelId,
   googleAnalyticsId,
   googleAdsId,
 }: Props) {
+  // sanitizeId prevents script injection via a compromised CMS value —
+  // legitimate pixel/measurement IDs are alphanumeric + hyphens/underscores.
   const sanitizeId = (id: string) => id.replace(/[^A-Za-z0-9_\-]/g, '')
 
-  // Sanity values take priority; env vars are the fallback.
-  // sanitizeId strips anything outside [A-Za-z0-9_-] to prevent script injection
-  // via a compromised CMS value — legitimate pixel IDs are alphanumeric only.
+  // Sanity CMS values take priority; env vars are the fallback.
   const META_PIXEL_ID   = sanitizeId(metaPixelId       || process.env.NEXT_PUBLIC_META_PIXEL_ID   || '')
   const TIKTOK_PIXEL_ID = sanitizeId(tiktokPixelId     || process.env.NEXT_PUBLIC_TIKTOK_PIXEL_ID || '')
   const GA_ID           = sanitizeId(googleAnalyticsId || process.env.NEXT_PUBLIC_GA_ID           || '')
@@ -58,9 +81,14 @@ export default function Analytics({
 
   return (
     <>
-      <RouteChangeTracker />
+      {/* Route tracker — Suspense required by useSearchParams */}
+      <Suspense fallback={null}>
+        <RouteChangeTracker gaId={GA_ID} />
+      </Suspense>
 
-      {/* ── Microsoft Clarity ───────────────────────────────────────────── */}
+      {/* ── Microsoft Clarity ─────────────────────────────────────────────
+          Lazy-loaded after page is fully interactive.
+          Set NEXT_PUBLIC_CLARITY_ID to enable.                           */}
       {CLARITY_ID && (
         <Script
           id="ms-clarity"
@@ -77,7 +105,8 @@ export default function Analytics({
         />
       )}
 
-      {/* ── Meta Pixel ──────────────────────────────────────────────────── */}
+      {/* ── Meta Pixel ────────────────────────────────────────────────────
+          Set NEXT_PUBLIC_META_PIXEL_ID to enable.                        */}
       {META_PIXEL_ID && (
         <Script
           id="meta-pixel"
@@ -96,7 +125,8 @@ fbq('track','PageView');
         />
       )}
 
-      {/* ── TikTok Pixel ────────────────────────────────────────────────── */}
+      {/* ── TikTok Pixel ──────────────────────────────────────────────────
+          Set NEXT_PUBLIC_TIKTOK_PIXEL_ID to enable.                      */}
       {TIKTOK_PIXEL_ID && (
         <Script
           id="tiktok-pixel"
@@ -119,24 +149,29 @@ ttq.load('${TIKTOK_PIXEL_ID}');ttq.page();
         />
       )}
 
-      {/* ── Google (GA4 + Ads) — one gtag.js load, one init ───────────── */}
+      {/* ── Google Analytics 4 + Ads ──────────────────────────────────────
+          Loads gtag.js then initialises each configured property.
+          send_page_view:false — RouteChangeTracker sends page_view manually
+          so route changes in App Router are tracked correctly.
+          Set NEXT_PUBLIC_GA_ID (and/or NEXT_PUBLIC_GADS_ID) to enable.   */}
       {(GA_ID || GADS_ID) && (
         <>
           <Script
+            id="gtag-script"
             src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID || GADS_ID}`}
             strategy="afterInteractive"
           />
           <Script
-            id="google-tags"
+            id="gtag-init"
             strategy="afterInteractive"
             dangerouslySetInnerHTML={{
               __html: [
                 'window.dataLayer=window.dataLayer||[];',
-                'function gtag(){dataLayer.push(arguments);}',
-                'gtag(\'js\',new Date());',
-                GA_ID   ? `gtag('config','${GA_ID}',{send_page_view:true});`  : '',
-                GADS_ID ? `gtag('config','${GADS_ID}');`                      : '',
-                GADS_ID ? `window._gadsId='${GADS_ID}';`                     : '',
+                'function gtag(){dataLayer.push(arguments)}',
+                'gtag("js",new Date());',
+                GA_ID   ? `gtag("config","${GA_ID}",{send_page_view:false});`  : '',
+                GADS_ID ? `gtag("config","${GADS_ID}");`                       : '',
+                GADS_ID ? `window._gadsId="${GADS_ID}";`                       : '',
               ].filter(Boolean).join('\n'),
             }}
           />
