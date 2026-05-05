@@ -1,21 +1,23 @@
 // ---------------------------------------------------------------------------
-// Tracking utility — Meta Pixel, TikTok Pixel, Google Analytics
+// Tracking utility — Meta Pixel, TikTok Pixel, Google Analytics, MS Clarity
 //
 // Set these env vars in .env.local:
 //   NEXT_PUBLIC_META_PIXEL_ID=your_id
 //   NEXT_PUBLIC_TIKTOK_PIXEL_ID=your_id
 //   NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
 //   NEXT_PUBLIC_GADS_ID=AW-XXXXXXXXXX
+//   NEXT_PUBLIC_CLARITY_ID=your_id
 // ---------------------------------------------------------------------------
 
 declare global {
   interface Window {
-    fbq?: (cmd: string, event: string, params?: Record<string, unknown>) => void
+    fbq?:     (cmd: string, event: string, params?: Record<string, unknown>) => void
     ttq?: {
       page:  ()                                                          => void
       track: (event: string, params?: Record<string, unknown>)          => void
     }
-    gtag?: (cmd: string, action: string, params?: Record<string, unknown>) => void
+    gtag?:    (cmd: string, action: string, params?: Record<string, unknown>) => void
+    clarity?: (cmd: string, ...args: unknown[]) => void
     dataLayer?: unknown[]
     _gadsId?: string
   }
@@ -37,6 +39,13 @@ export interface ViewContentPayload {
 }
 
 export interface InitiateCheckoutPayload {
+  productId:   string
+  productName: string
+  value:       number
+  currency?:   string
+}
+
+export interface AddToCartPayload {
   productId:   string
   productName: string
   value:       number
@@ -84,6 +93,35 @@ export function trackViewContent({ productId, productName, value, currency = 'MA
   })
 }
 
+// Alias used in product pages
+export const trackViewProduct = trackViewContent
+
+// ── Add to cart ───────────────────────────────────────────────────────────────
+export function trackAddToCart({ productId, productName, value, currency = 'MAD' }: AddToCartPayload) {
+  if (!isBrowser()) return
+
+  window.fbq?.('track', 'AddToCart', {
+    content_ids:  [productId],
+    content_name: productName,
+    content_type: 'product',
+    value,
+    currency,
+  })
+
+  window.ttq?.track('AddToCart', {
+    content_id:   productId,
+    content_name: productName,
+    value,
+    currency,
+  })
+
+  window.gtag?.('event', 'add_to_cart', {
+    currency,
+    value,
+    items: [{ item_id: productId, item_name: productName, price: value, quantity: 1 }],
+  })
+}
+
 // ── Initiate checkout ────────────────────────────────────────────────────────
 // Fire on first interaction with the order form — signals high intent.
 export function trackInitiateCheckout({ productId, productName, value, currency = 'MAD' }: InitiateCheckoutPayload) {
@@ -110,6 +148,27 @@ export function trackInitiateCheckout({ productId, productName, value, currency 
     value,
     items: [{ item_id: productId, item_name: productName, price: value, quantity: 1 }],
   })
+}
+
+// Alias used in product pages
+export const trackBeginCheckout = trackInitiateCheckout
+
+// ── WhatsApp click ───────────────────────────────────────────────────────────
+export function trackWhatsAppClick() {
+  if (!isBrowser()) return
+
+  window.gtag?.('event', 'whatsapp_click', { event_category: 'engagement' })
+  window.fbq?.('trackCustom', 'WhatsAppClick')
+  window.ttq?.track('ClickButton')
+  window.clarity?.('event', 'whatsapp_click')
+}
+
+// ── CTA click ────────────────────────────────────────────────────────────────
+export function trackCTAClick(label: string) {
+  if (!isBrowser()) return
+
+  window.gtag?.('event', 'cta_click', { event_category: 'engagement', event_label: label })
+  window.clarity?.('event', `cta_${label}`)
 }
 
 // ── Purchase ─────────────────────────────────────────────────────────────────
@@ -155,6 +214,8 @@ export function trackPurchase({ orderId, productId, productName, value, currency
     currency:       'MAD',
     items: [{ item_id: productId, item_name: productName, price: safeValue, quantity: 1 }],
   })
+
+  window.clarity?.('event', 'purchase')
 
   // Google Ads conversion — resolved from runtime window var or build-time env
   const gadsId = window._gadsId || process.env.NEXT_PUBLIC_GADS_ID

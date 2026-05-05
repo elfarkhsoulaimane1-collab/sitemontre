@@ -6,7 +6,7 @@ import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import { PortableText } from '@portabletext/react'
 import { Product, ProductFaqItem, Review, RichDescriptionBlock, RichDescriptionImageBlock } from '@/types'
-import { trackPurchase, trackViewContent, trackInitiateCheckout } from '@/lib/tracking'
+import { trackPurchase, trackViewContent, trackInitiateCheckout, trackWhatsAppClick, trackCTAClick } from '@/lib/tracking'
 import { imageUrl } from '@/sanity/lib/image'
 import ProductImageWatermark from '@/components/ProductImageWatermark'
 
@@ -245,7 +245,7 @@ function OrderForm({ product, formRef, onSuccess }: {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <Field label="Prénom" error={errors.firstName}>
               <input type="text" name="firstName" value={form.firstName} onChange={handleChange}
-                placeholder="Mohammed" autoComplete="given-name"
+                placeholder="Mohammed" autoComplete="given-name" data-clarity-mask="true"
                 className={`w-full min-w-0 bg-neutral-900 border text-neutral-100 placeholder-neutral-600 px-4 py-4 text-sm focus:outline-none focus:border-amber-400 focus:bg-neutral-800 transition-colors duration-150 ${
                   errors.firstName ? 'border-red-500' : 'border-neutral-700 hover:border-neutral-500'
                 }`}
@@ -253,7 +253,7 @@ function OrderForm({ product, formRef, onSuccess }: {
             </Field>
             <Field label="Nom" error={errors.lastName}>
               <input type="text" name="lastName" value={form.lastName} onChange={handleChange}
-                placeholder="El Fassi" autoComplete="family-name"
+                placeholder="El Fassi" autoComplete="family-name" data-clarity-mask="true"
                 className={`w-full min-w-0 bg-neutral-900 border text-neutral-100 placeholder-neutral-600 px-4 py-4 text-sm focus:outline-none focus:border-amber-400 focus:bg-neutral-800 transition-colors duration-150 ${
                   errors.lastName ? 'border-red-500' : 'border-neutral-700 hover:border-neutral-500'
                 }`}
@@ -265,7 +265,7 @@ function OrderForm({ product, formRef, onSuccess }: {
             <div className="relative">
               <span className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500 text-sm pointer-events-none select-none">+212</span>
               <input type="tel" name="phone" value={form.phone} onChange={handleChange}
-                placeholder="06 12 34 56 78" autoComplete="tel"
+                placeholder="06 12 34 56 78" autoComplete="tel" data-clarity-mask="true"
                 className={`w-full bg-neutral-900 border text-neutral-100 placeholder-neutral-600 pl-[3.75rem] pr-4 py-4 text-sm focus:outline-none focus:border-amber-400 focus:bg-neutral-800 transition-colors duration-150 ${
                   errors.phone ? 'border-red-500' : 'border-neutral-700 hover:border-neutral-500'
                 }`}
@@ -285,7 +285,7 @@ function OrderForm({ product, formRef, onSuccess }: {
           <Field label="Adresse de livraison" error={errors.address} hint="Rue, quartier, immeuble, numéro d'appartement">
             <textarea name="address" value={form.address} onChange={handleChange}
               placeholder="Ex : 12 Rue Ibn Battouta, Appt 3, Maarif"
-              rows={3} autoComplete="street-address"
+              rows={3} autoComplete="street-address" data-clarity-mask="true"
               className={`w-full bg-neutral-900 border text-neutral-100 placeholder-neutral-600 px-4 py-4 text-sm focus:outline-none focus:border-amber-400 focus:bg-neutral-800 transition-colors duration-150 resize-none ${
                 errors.address ? 'border-red-500' : 'border-neutral-700 hover:border-neutral-500'
               }`}
@@ -304,6 +304,7 @@ function OrderForm({ product, formRef, onSuccess }: {
             <button
               type="submit"
               disabled={submitting}
+              onClick={() => trackCTAClick('commander_maintenant')}
               className={`w-full py-8 font-black text-lg uppercase tracking-[0.1em] transition-all duration-200 flex flex-col items-center justify-center gap-1.5 ${
                 submitting
                   ? 'bg-neutral-800 text-neutral-500 cursor-not-allowed'
@@ -737,6 +738,7 @@ export default function ProductDetailClient({
               <a
                 href={`https://wa.me/${whatsappNumber}?text=${waDirect}`}
                 target="_blank" rel="noopener noreferrer"
+                onClick={() => trackWhatsAppClick()}
                 className="w-full py-4 font-bold text-sm uppercase tracking-[0.12em] bg-[#25D366] text-white hover:bg-[#1ebe5b] active:scale-[0.99] transition-all duration-200 flex items-center justify-center gap-2.5"
               >
                 <WhatsAppIcon /> Commander sur WhatsApp
@@ -883,6 +885,7 @@ export default function ProductDetailClient({
             <a
               href={`https://wa.me/${whatsappNumber}?text=${waDirect}`}
               target="_blank" rel="noopener noreferrer"
+              onClick={() => trackWhatsAppClick()}
               className="w-full sm:w-auto flex items-center justify-center gap-2.5 bg-[#25D366] text-white font-bold text-[11px] uppercase tracking-[0.2em] px-6 py-3.5 hover:bg-[#1ebe5b] transition-colors"
             >
               <WhatsAppIcon /> Contacter sur WhatsApp
@@ -999,7 +1002,7 @@ export default function ProductDetailClient({
           </div>
           {/* Primary CTA */}
           <button
-            onClick={() => formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
+            onClick={() => { formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }); trackCTAClick('sticky_cta') }}
             className="flex-shrink-0 flex flex-col items-center justify-center px-5 bg-amber-400 text-black font-black text-[11px] uppercase tracking-wide hover:bg-amber-300 active:scale-[0.97] transition-all leading-tight py-2"
           >
             <span>Commander maintenant</span>
@@ -1009,6 +1012,7 @@ export default function ProductDetailClient({
           <a
             href={`https://wa.me/${whatsappNumber}?text=${waDirect}`}
             target="_blank" rel="noopener noreferrer"
+            onClick={() => trackWhatsAppClick()}
             className="flex-shrink-0 w-12 flex items-center justify-center bg-[#25D366] text-white hover:bg-[#1ebe5b] transition-colors"
             aria-label="Commander sur WhatsApp"
           >

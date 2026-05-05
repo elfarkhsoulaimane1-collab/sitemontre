@@ -1,5 +1,17 @@
 'use client'
 
+// ---------------------------------------------------------------------------
+// Analytics — loads third-party scripts only when the corresponding env var
+// is set. Missing vars are safe: no script is injected, no runtime error.
+//
+// Add to .env.local (or Vercel → Settings → Environment Variables):
+//   NEXT_PUBLIC_CLARITY_ID=        ← Microsoft Clarity project ID
+//   NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX ← Google Analytics 4 measurement ID
+//   NEXT_PUBLIC_GADS_ID=AW-XXXXXXX ← Google Ads conversion ID (optional)
+//   NEXT_PUBLIC_META_PIXEL_ID=     ← Meta Pixel ID (optional)
+//   NEXT_PUBLIC_TIKTOK_PIXEL_ID=   ← TikTok Pixel ID (optional)
+// ---------------------------------------------------------------------------
+
 import Script from 'next/script'
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef } from 'react'
@@ -42,10 +54,28 @@ export default function Analytics({
   const TIKTOK_PIXEL_ID = sanitizeId(tiktokPixelId     || process.env.NEXT_PUBLIC_TIKTOK_PIXEL_ID || '')
   const GA_ID           = sanitizeId(googleAnalyticsId || process.env.NEXT_PUBLIC_GA_ID           || '')
   const GADS_ID         = sanitizeId(googleAdsId       || process.env.NEXT_PUBLIC_GADS_ID         || '')
+  const CLARITY_ID      = sanitizeId(process.env.NEXT_PUBLIC_CLARITY_ID || '')
 
   return (
     <>
       <RouteChangeTracker />
+
+      {/* ── Microsoft Clarity ───────────────────────────────────────────── */}
+      {CLARITY_ID && (
+        <Script
+          id="ms-clarity"
+          strategy="lazyOnload"
+          dangerouslySetInnerHTML={{
+            __html: `
+(function(c,l,a,r,i,t,y){
+  c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+  t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+  y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+})(window,document,"clarity","script","${CLARITY_ID}");
+            `.trim(),
+          }}
+        />
+      )}
 
       {/* ── Meta Pixel ──────────────────────────────────────────────────── */}
       {META_PIXEL_ID && (
