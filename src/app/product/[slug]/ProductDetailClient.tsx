@@ -356,8 +356,21 @@ export default function ProductDetailClient({
 
   const stockLeft = (seedFrom(product.id) % 5) + 3
 
-  const formRef = useRef<HTMLDivElement>(null)
+  const formRef    = useRef<HTMLDivElement>(null)
+  const scrollRef  = useRef<HTMLDivElement>(null)
   const [stickyBar, setStickyBar] = useState(false)
+
+  function scrollToImg(i: number) {
+    setActiveImg(i)
+    scrollRef.current?.scrollTo({ left: scrollRef.current.clientWidth * i, behavior: 'smooth' })
+  }
+
+  function handleCarouselScroll() {
+    const el = scrollRef.current
+    if (!el || el.clientWidth === 0) return
+    const idx = Math.round(el.scrollLeft / el.clientWidth)
+    if (idx !== activeImg) setActiveImg(idx)
+  }
 
   useEffect(() => {
     const obs = new IntersectionObserver(([e]) => setStickyBar(!e.isIntersecting), { threshold: 0 })
@@ -501,23 +514,43 @@ export default function ProductDetailClient({
             {/* ── GALLERY ───────────────────────────────────────────────────── */}
             <div className="md:sticky md:top-6 md:self-start w-full overflow-hidden">
 
-              {/* Main image */}
+              {/* Main image — swipeable carousel */}
               <div className="relative aspect-[4/5] bg-neutral-900 overflow-hidden">
-                {!imgError[activeImg] && mainImg ? (
-                  <Image
-                    src={mainImg}
-                    alt={`${product.name} — vue ${activeImg + 1}`}
-                    fill priority
-                    className="object-cover transition-opacity duration-500"
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    onError={() => setImgError(p => ({ ...p, [activeImg]: true }))}
-                  />
-                ) : (
-                  <div className="absolute inset-0 flex items-center justify-center bg-neutral-900">
-                    <WatchIcon />
-                  </div>
-                )}
 
+                {/* Scroll-snap track */}
+                <div
+                  ref={scrollRef}
+                  onScroll={handleCarouselScroll}
+                  className="absolute inset-0 flex overflow-x-auto snap-x snap-mandatory"
+                  style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                >
+                  {product.images.map((img, i) => {
+                    const slideSrc = imageUrl(img, 900)
+                    return (
+                      <div key={i} className="relative flex-shrink-0 w-full h-full snap-center overflow-hidden">
+                        {!imgError[i] && slideSrc ? (
+                          <Image
+                            src={slideSrc}
+                            alt={`${product.name} — vue ${i + 1}`}
+                            fill
+                            priority={i === 0}
+                            loading={i === 0 ? 'eager' : 'lazy'}
+                            className="object-cover"
+                            sizes="(max-width: 768px) 100vw, 50vw"
+                            onError={() => setImgError(p => ({ ...p, [i]: true }))}
+                          />
+                        ) : (
+                          <div className="absolute inset-0 flex items-center justify-center bg-neutral-900">
+                            <WatchIcon />
+                          </div>
+                        )}
+                        <ProductImageWatermark />
+                      </div>
+                    )
+                  })}
+                </div>
+
+                {/* Gradient overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
 
                 {/* Badge */}
@@ -540,13 +573,13 @@ export default function ProductDetailClient({
                 {/* Live viewers */}
                 <ViewersBadge seed={product.id} />
 
-                {/* Dot nav */}
+                {/* Dot nav — centered at bottom, syncs with swipe */}
                 {product.images.length > 1 && (
-                  <div className="absolute bottom-4 right-4 z-10 flex gap-1.5">
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 flex gap-1.5">
                     {product.images.map((_, i) => (
                       <button
                         key={i}
-                        onClick={() => setActiveImg(i)}
+                        onClick={() => scrollToImg(i)}
                         aria-label={`Image ${i + 1}`}
                         className={`rounded-full transition-all duration-300 ${
                           activeImg === i ? 'w-6 h-1.5 bg-gold' : 'w-1.5 h-1.5 bg-white/30 hover:bg-white/60'
@@ -555,8 +588,6 @@ export default function ProductDetailClient({
                     ))}
                   </div>
                 )}
-
-                <ProductImageWatermark />
               </div>
 
               {/* Thumbnails */}
